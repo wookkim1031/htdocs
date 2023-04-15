@@ -1,5 +1,7 @@
 <?php
 
+$is_invalid = false;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $mysqli = require __DIR__ . "/database.php";
@@ -14,9 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($user) {
 
         if(password_verify($_POST["password"], $user["password_hash"])) {
-            die ("Login successful");
+
+            session_start();
+            
+            $_SESSION["user_id"] = $user["id"];
+
+            header("Location: index.php");
+            exit;
         }
     }
+
+    $is_invalid = true;
 }
 
 ?>
@@ -25,11 +35,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title> Login </title>
+
+    <?php if ($is_invalid) : ?>
+         <em>Invalid login</em>
+    <?php endif; ?>
 </head>
 <body>
     <form method="post">
         <label for="email">email</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" 
+               value="<?= htmlspecialchars($_POST["email"] ?? "")   ?>">
+        
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
