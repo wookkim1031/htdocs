@@ -8,9 +8,9 @@ if(isset($_POST['save'])) {
         $search = $_POST['search'];
         $mysqli = require __DIR__ . "/database.php";
         $stmt= $mysqli->prepare("SELECT * from books
-                                WHERE title");
-        $stmt->execute();
-        $books_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?");
+        $stmt->execute(["%$search%", "%$search%", "%$search%"]);
+        $books_details = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }
 ?>
@@ -31,6 +31,7 @@ if(isset($_POST['save'])) {
                 <button type="submit" name="save">Submit</button>
             </div>
         </form>
+
         <table>
             <thead>
                 <tr>
@@ -38,25 +39,28 @@ if(isset($_POST['save'])) {
                     <th>author</th>
                     <th>year</th>
                     <th>publisher</th>
+                    <th>status</th>
                 </tr>
             </thead>
             <tbody>
                 <?php 
+                if (isset($_POST['save']) && !empty($_POST['search'])) {
                     if(!$books_details) {
                         echo '<tr> No data found </tr>';
                     } else {
-                        foreach($books_details as $key=>$value) {
+                        foreach($books_details as $book) {
                             ?>
                             <tr>
-                                <td><?php echo $value['title'];?></td>
-                                <td><?php echo $value['author'];?></td>
-                                <td><?php echo $value['year'];?></td>
-                                <td><?php echo $value['publisher'];?></td>
+                                <td><?php echo $book['title'];?></td>
+                                <td><?php echo $book['author'];?></td>
+                                <td><?php echo $book['year'];?></td>
+                                <td><?php echo $book['publisher'];?></td>
+                                <td><?php echo $book['status'];?></td>
                             </tr>
-
                             <?php   
                         }
                     }
+                }
                 ?>
             </tbody>
         </table>
