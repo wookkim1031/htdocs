@@ -8,7 +8,7 @@ if(isset($_POST['save'])) {
         $search = $_POST['search'];
         $mysqli = require __DIR__ . "/database.php";
         $stmt= $mysqli->prepare("SELECT * from books
-                                WHERE title like '%$search' or author like '%$search'");
+                                WHERE title");
         $stmt->execute();
         $books_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
