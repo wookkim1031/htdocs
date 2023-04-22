@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 $host = "localhost";
 $username = "root"; //only recommended when developing locally 
 $password = "";
-$dbname = "login_db";
+$dbname = "bib";
 
 $mysqli = new mysqli(hostname: $host, 
                      username: $username, 
