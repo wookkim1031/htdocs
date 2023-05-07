@@ -8,6 +8,8 @@ body {
 
 table {
     border-collapse:collapse;
+    white-space:pre;
+    
 }
 
 thead {

@@ -23,6 +23,7 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
 <body>
     <?php if(isset($user)): ?>
 
+        <?php include 'navbar.php' ?>
         <p>Hello <?= htmlspecialchars($user["name"]) ?> </p>
         <p><a href="profile.php">Profile</a></p>
         <p><a href="logout.php">Log out</a></p>

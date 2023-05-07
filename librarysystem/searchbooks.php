@@ -4,14 +4,14 @@ $searchErr= '';
 $books_details='';
 
 if(isset($_POST['save'])) {
-    if(!empty($_POST['search'])) {
-        $search = $_POST['search'];
+        $title = !empty($_POST['title']) ? $_POST['title'] : '';
+        $author = !empty($_POST['author']) ? $_POST['author'] : '';
+        $year = !empty($_POST['year']) ? $_POST['year'] : '';
         $mysqli = require __DIR__ . "/database.php";
         $stmt= $mysqli->prepare("SELECT * from books
                                 WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?");
-        $stmt->execute(["%$search%", "%$search%", "%$search%"]);
+        $stmt->execute(["%$title%", "%$author", "%$year"]);
         $books_details = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    }
 }
 ?>
 
@@ -25,7 +25,16 @@ if(isset($_POST['save'])) {
         <div> Search</div>
         <form action="#" method='POST'>
             <div>
-                <input type="text" name="search" placeholder="search here">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" placeholder="search by title">
+            </div>
+            <div>
+                <label for="author">Author:</label>
+                <input type="text" name="author" id="author" placeholder="search by author">
+            </div>
+            <div>
+                <label for="year">Year:</label>
+                <input type="text" name="year" id="year" placeholder="search by year">
             </div>
             <div>
                 <button type="submit" name="save">Submit</button>
@@ -44,7 +53,7 @@ if(isset($_POST['save'])) {
             </thead>
             <tbody>
                 <?php 
-                if (isset($_POST['save']) && !empty($_POST['search'])) {
+                if (isset($_POST['save']) && (!empty($_POST['title']) || !empty($_POST['author']) || !empty($_POST['year']))) {
                     if(!$books_details) {
                         echo '<tr> No data found </tr>';
                     } else {
