@@ -1,6 +1,6 @@
 <?php
     $results_per_page = 20; //number of results per page
-    $mysqli = require __DIR__ . "/database.php";
+    $mysqli = require __DIR__ . "/../database.php";
 
     if(isset($_GET['page'])) {
         $page = $_GET["page"];

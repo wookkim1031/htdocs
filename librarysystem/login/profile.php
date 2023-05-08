@@ -4,7 +4,7 @@ session_start();
 
 if (isset($_SESSION["user_id"])) { //check for the user_id
     
-    $mysqli = require __DIR__ . "/database.php"; //get the databsae to get the connection
+    $mysqli = require __DIR__ . "/../database.php"; //get the databsae to get the connection
 
     $sql = "SELECT * FROM users
             WHERE  id = {$_SESSION["user_id"]}";
@@ -21,12 +21,8 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
     <title> Home</title>
 </head>
 <body>
-
-    <?php
-
-    foreach($result as $row) {
-    }
-    ?>  
+    <h1>Welcome, <?php echo $user['name']; ?>!</h1>
+    <p>Your email address is <?php echo $user['email']; ?></p>
 
     <form method="post">
         <div>

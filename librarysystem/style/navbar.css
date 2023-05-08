@@ -37,9 +37,11 @@ header {
     gap: 2rem;
 }
 
-.navbar .logo a{
-    font-size: 2rem;
-    font-weight:bold;
+.navbar .links a {
+    font-size: 1.3rem;
+}
+.navbar .logo a img{    
+    width: 120px;
 }
 
 .navbar .toggle_btn {
@@ -104,5 +106,12 @@ header {
 
     .dropdown_menu{
         display:block;
+    }
+}
+
+@media (max-width: 576px) {
+    .dropdown_menu {
+        left: 2rem; 
+        width: unset;
     }
 }

@@ -1,7 +1,7 @@
 <?php 
     $per_page = 15;
 
-    $mysqli = require __DIR__ . "/database.php";
+    $mysqli = require __DIR__ . "/../database.php";
 
     if(isset($_GET['page'])){
         $page = $_GET["page"];

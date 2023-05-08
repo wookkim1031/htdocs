@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box;
+}
+
+table {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+tbody {
+    width: 70%;
+    display: block;
+    background-color: rgb(10, 118, 212);
+}
+
+.book-block{
+    display: grid;
+    background:green;
+    padding: 4%;
+}
+
+td img {
+    width: 150px;
+}
+
+
+
+.book_title {
+    color: red;
+    font-size: 1.5rem;
+    background: aqua;
+}
+
+.book_author {
+    background:rgb(214, 127, 21);
+    font-size:1rem;
+    color:rgb(124, 124, 124);
+}
+
+/*search bar*/
+.search_bar {
+    width: 100%;
+    background: rgb(7, 91, 15);
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3%;
+}
+
+/*Form bar*/
+::placeholder{
+    color: black;
+}
+
+.form_bar div input{
+    border: 0;
+    outline: none; 
+    font-size: 20px;
+    color:#090909;
+    padding: 12px 90px;
+    background: transparent;
+
+}

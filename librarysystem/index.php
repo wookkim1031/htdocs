@@ -17,6 +17,7 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title> Home</title>
 </head>
@@ -24,13 +25,16 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
     <?php if(isset($user)): ?>
 
         <?php include 'navbar.php' ?>
+        <?php include 'searchfunctions/searchbooks_index.php' ?>
+        <!--
         <p>Hello <?= htmlspecialchars($user["name"]) ?> </p>
         <p><a href="profile.php">Profile</a></p>
         <p><a href="logout.php">Log out</a></p>
         <p><a href="books.php"></a></p>
+    -->
     <?php else: ?>
         
-        <p><a href="login.php">Login in</a> or <a href="signup.php">signup</a></p>
+        <p><a href="login/login.php">Login in</a> or <a href="login/signup.php">signup</a></p>
     
     <?php endif; ?>
 </body>

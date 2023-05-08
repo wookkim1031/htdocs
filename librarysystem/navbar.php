@@ -3,31 +3,34 @@
     <head>
         <title> Home</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" type="text/css" href="style/home.css">
+        <link rel="stylesheet" type="text/css" href="style/navbar.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     </head>
     <body>
         <header>
             <div class="navbar">   
-                <div class="logo"> <a href="index.php">Bibilothek</a> </div>
+                <div class="logo"> <a href="index.php"> <img src="../librarysystem/image/IMSA-LOGO.png" alt="logo"> </a> </div>
                 <ul class="links">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="login.php">login</a></li>
-                    <li><a href="searchbooks.php">search Books</a></li>
-                    <li><a href="profile.php">profile</a></li>
+                    <li><a href="login/login.php">login</a></li>
+                    <li><a href="data/magazines.php">magazines</a></li>
+                    <li><a href="searchfunctions/searchbooks.php">search Books</a></li>
+                    <li><a href="searchfunctions/search_magazines.php">search magazines</a></li>
+                    <li><a href="login/profile.php">profile</a></li>
                 </ul>
 
                 <a href="#" class="action_btn">Get Started</a>
                     <div class="toggle_btn">
-                        <i class="fa-solid fa-bars"></i>
+                        <i class="fa-solid fa-bars"></i> 
                     </div>
             </div>
 
             <div class="dropdown_menu">
             <li><a href="index.php">Home</a></li>
-                    <li><a href="login.php">login</a></li>
-                    <li><a href="searchbooks.php">search Books</a></li>
-                    <li><a href="profile.php">profile</a></li>
+                    <li><a href="login/login.php">login</a></li>
+                    <li><a href="searchfunctions/searchbooks.php">search Books</a></li>
+                    <li><a href="searchfunctions/search_magazines.php">search magazines</a></li>
+                    <li><a href="login/profile.php">profile</a></li>
                     <li><a href="#" class="action_btn"> Get Started</a></li>
             </div>
         </header>
