@@ -12,14 +12,19 @@
                 <div class="logo"> <a href="index.php"> <img src="../librarysystem/image/IMSA-LOGO.png" alt="logo"> </a> </div>
                 <ul class="links">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="login/login.php">login</a></li>
+                    <li><a href="books.php">books</a></li>
                     <li><a href="data/magazines.php">magazines</a></li>
-                    <li><a href="searchfunctions/searchbooks.php">search Books</a></li>
-                    <li><a href="searchfunctions/search_magazines.php">search magazines</a></li>
+                    <li><a href="searchbooks.php">search Books</a></li>
+                    <li><a href="search_magazines.php">search magazines</a></li>
                     <li><a href="login/profile.php">profile</a></li>
                 </ul>
 
-                <a href="#" class="action_btn">Get Started</a>
+                <ul>
+                    <li class = "nav-item">
+                    <a class ="nav-link " href="login/login.php">login</a>
+                    <a href="login/logout.php">logout</a>
+                    </li>
+                </ul>
                     <div class="toggle_btn">
                         <i class="fa-solid fa-bars"></i> 
                     </div>

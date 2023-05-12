@@ -23,9 +23,8 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
 </head>
 <body>
     <?php if(isset($user)): ?>
-
         <?php include 'navbar.php' ?>
-        <?php include 'searchfunctions/searchbooks_index.php' ?>
+        <?php include 'searchbooks_index.php' ?>
         <!--
         <p>Hello <?= htmlspecialchars($user["name"]) ?> </p>
         <p><a href="profile.php">Profile</a></p>

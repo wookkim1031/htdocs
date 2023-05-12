@@ -4,7 +4,7 @@ $books_details = '';
 
 if (isset($_POST['save'])) {
     $search = !empty($_POST['search']) ? $_POST['search'] : '';
-    $mysqli = require __DIR__ . "/../database.php";
+    $mysqli = require __DIR__ . "/database.php";
     $stmt = $mysqli->prepare("SELECT * FROM books LEFT JOIN status ON books.status = status.id WHERE title LIKE ? OR author LIKE ? OR year LIKE ? OR publisher LIKE ?");
     $stmt->execute(["%$search%", "%$search%", "%$search%", "%$search%"]);
     $books_details = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -22,7 +22,7 @@ if (isset($_POST['save'])) {
 <body>
     <div class="container">
         <form action="#" method='POST' class="search-bar">
-                <input type="text" name="search" id="search" placeholder="search by title, author, year or publisher">
+                <input class  = "search-input" type="text" name="search" id="search" placeholder="search by title, author, year or publisher">
                 <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
         </form>
     </div>
