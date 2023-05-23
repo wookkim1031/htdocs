@@ -1,0 +1,123 @@
+body {
+    background-color: #f2f2f2;
+}
+
+.introduction {
+    display: grid;
+    width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.introduction h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.introduction p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.introduction h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.introduction a {
+    color: #0066cc;
+}
+
+.introduction a:hover {
+    text-decoration: underline;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+footer p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Contact information styles */
+.contact-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.contact-details {
+    flex: 1 1 33.33%;
+    max-width: 33.33%;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+.contact-details img {
+    width: 300px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.contact-details h2,
+.contact-details h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.contact-details p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.contact-details ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.contact-details ul li {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.contact-details p.office {
+    margin-top: 10px;
+}
+
+/* Privacy policy link styles */
+footer a.privacy-policy {
+    font-size: 12px;
+}
+
+@media (max-width: 576px) {
+    .contact-details {
+        max-width: 100%;
+    }
+
+    .contact-details img {
+        width: 80px;
+    }
+}

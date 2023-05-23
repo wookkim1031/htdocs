@@ -12,13 +12,170 @@ table {
 
 tbody tr {
     display: block;
-    padding: 3%;
-    background-color: bisque;
+    padding: 2%;
+    background: rgba(122, 122, 122, 0.1);
     border:solid;
 }
 
-
+tbody td {
+    padding-left: 2rem;
+}
 
 td img {
     width: 150px;
+}
+
+/*books--details bearbeiten*/
+
+.book-type {
+    font-family: 'PT Serif', serif;
+    font-weight: 700;
+}
+
+.book-title {
+    font-size: 20px;
+    font-family: 'PT Serif', serif;
+}
+
+.book-author {
+    font-family: 'PT Serif', serif;
+}
+
+.book-status {
+    color: rgb(60, 157, 53);
+    padding: 1%;
+    font-size: 16px;
+}
+
+.book-status-not {
+    color: rgb(163, 60, 41);
+    padding: 1%;
+    font-size: 16px;
+}
+
+/* popup */
+
+.popup {
+    width: 900px;
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 0 60px 60px;
+    color: #333;
+    visibility: hidden;
+    transition: transform 0.3s;
+}
+
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+.popup img {
+    width: 100px;
+    margin-top: -50px;
+    
+    box-shadow: 0 2px 5px rgba(0,0,0,0);
+}
+
+.book-title-popup {
+    font-size: 38px;
+    font-weight: 500;
+    margin: 30px 0 10px;
+    border-bottom: 1px solid gray;
+}
+
+.popup button {
+    width: 100%;
+    margin-top: 50px;
+    padding: 10px 0 ;
+    background: #6fd649;
+    color: #fff;
+    border: 0; 
+    outline: none;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+}
+
+.btn {
+    padding: 10px 60px;
+    background: #9d9d9d;
+    border: 0;
+    outline: none; 
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.popup-container table {
+    display: flex;
+}
+
+.popup-container table tr {
+    display:grid;
+}
+
+.popup-side-title th {
+    padding: 1rem;
+}
+
+.popup-detail td{
+    padding: 1rem;
+}
+
+.popup-side-title div{
+    font-weight: 600;
+}
+
+/* page numbers */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pagination a {
+    display: inline-block;
+
+    padding: 8px 12px;
+    margin-right: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  
+  .pagination a.curPage {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* alphabet navigation*/
+  .alphabet-navigation {
+    margin-bottom: 20px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alphabet-navigation a {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+}
+
+.alphabet-navigation a.selected {
+    background-color: #333;
+    color: #fff;
 }

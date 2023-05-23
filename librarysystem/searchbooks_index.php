@@ -17,12 +17,14 @@ if (isset($_POST['save'])) {
 <link rel="stylesheet" type="text/css" href="style/search_books_index.css">
 <head>
     <title>Search</title> 
+    <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
 </head>
 
 <body>
+    
     <div class="container">
         <form action="#" method='POST' class="search-bar">
-                <input class  = "search-input" type="text" name="search" id="search" placeholder="search by title, author, year or publisher">
+                <input class  = "search-input" type="text" name="search" id="search" placeholder="z.B. Bücher, Magazines">
                 <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
         </form>
     </div>

@@ -17,6 +17,7 @@ if(isset($_POST['save'])) {
 <link rel="stylesheet" type="text/css" href="style/search_magazines.css">
 <head>
     <title>magazines</title>
+    <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
 </head>
 <?php include 'navbar.php' ?> 
 <body>
