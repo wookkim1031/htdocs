@@ -4,6 +4,22 @@
     box-sizing: border-box;
 }
 
+.a-z {
+    text-align: left;
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+
+  .a-z h2 {
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+
+  .a-z p {
+    font-size: 20px;
+  }
+  
+
 .container {
     display: flex; 
     align-items: center;

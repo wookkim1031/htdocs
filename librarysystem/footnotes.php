@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <footer>
+    <div class="content">
             <div class="contact-info">
                 <div class="contact-details">
                     <h2>Institut Director</h2>
@@ -13,7 +14,7 @@
                     <ul>
                         <li>Tel.: 0241 80-89359</li>
                         <li>Fax: 0241 80-82501 oder +49 241 80-3389359</li>
-                        <li>ltiemann@ukaachende</li>
+                        <li>ltiemann@ukaachen.de</li>
                     </ul>
                 </div>
                 <div class="contact-details">
@@ -28,4 +29,5 @@
             </div>
             <p>&copy; <?php echo date("Y"); ?> Medizinische Statistik. All rights reserved. | <a href="https://www.ukaachen.de/datenschutzerklaerung/">Privacy Policy</a></p>
         </footer>
+        </div>
 </html>

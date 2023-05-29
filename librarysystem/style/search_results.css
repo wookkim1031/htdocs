@@ -1,0 +1,47 @@
+.results-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.books-column {
+    width: 50%;
+}
+
+.magazines-column {
+    width: 50%;
+}
+
+.books-column table,
+.magazines-column table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.books-column table th,
+.magazines-column table th,
+.books-column table td,
+.magazines-column table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.books-column table th {
+    background-color: #ddd;
+}
+
+.books-column h2,
+.magazines-column h2 {
+    margin-bottom: 10px;
+}
+
+.no-data-found {
+    font-style: italic;
+    color: gray;
+}

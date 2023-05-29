@@ -43,6 +43,11 @@ $count = $result->num_rows;
 
 <body>
     <?php include 'navbar.php' ?>
+    <div class="a-z">
+        <h2>A-Z Datenbanken</h2>
+        <p>Suche das Buch in dem Datenbank</p>
+    </div>
+    
         <div class="alphabet-navigation">
             <?php
             $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM magazines ORDER BY alphabet ASC";
@@ -97,6 +102,8 @@ $count = $result->num_rows;
         }
         ?>
     </div>
-    <?php include 'footnotes.php' ?>
+    <div id="footnotes">
+        <?php include 'footnotes.php' ?>
+    </div>
 </body>
 </html>

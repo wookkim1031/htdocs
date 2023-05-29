@@ -1,37 +1,42 @@
 <?php
-
+    if (isset($_GET['error'])) {
+        $error = $_GET['error'];
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Signup </title>
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="style/signup.css">
 </head>
 <body>
-    <h1>Signup</h1>
-    
-    <form action="process-signup.php" method="post" novalidate>
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name">
-        </div>
-        <div>
-            <label for="email">email</label>
-            <input type="email" id="email" name="email">
-        </div>
+    <div class="container">
+        <h1>Sign Up</h1>
 
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-        </div>
-
-        <div>
-            <label for="password_confirmation">Repeat password</label>
-            <input type="password" id="password_confirmation" name="password_confirmation">
-        </div>
-
-        <button>Sign up</button>
-    </form>
-    
+        <?php if (isset($error)): ?>
+            <p class="error-message"><?php echo $error; ?></p>
+        <?php endif; ?>
+        
+        <form action="process-signup.php" method="post" novalidate>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
 </body>
 </html>

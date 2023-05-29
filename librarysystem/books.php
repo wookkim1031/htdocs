@@ -1,5 +1,5 @@
 <?php
-$results_per_page = 20; //number of results per page
+$results_per_page = 20; // number of results per page
 $mysqli = require __DIR__ . "/database.php";
 
 if (isset($_GET['page'])) {
@@ -8,6 +8,10 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 $start = ($page - 1) * $results_per_page;
+
+$min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
+$max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
+
 if (isset($_GET['alphabet'])) {
     $alphabet = $_GET['alphabet'];
     $sql = "SELECT books.*, mediatypes.type AS type, status.status, location.name AS location, location.room AS room
@@ -15,20 +19,36 @@ if (isset($_GET['alphabet'])) {
         JOIN mediatypes ON books.type = mediatypes.id
         JOIN status ON status.id = books.status 
         JOIN location ON location.id = books.location
-        WHERE title LIKE '" . $alphabet . "%'
-        ORDER BY title ASC 
+        WHERE title LIKE '" . $alphabet . "%'";
+
+    if (!empty($min_year)) {
+        $sql .= " AND year >= " . $min_year;
+    }
+    if (!empty($max_year)) {
+        $sql .= " AND year <= " . $max_year;
+    }
+
+    $sql .= " ORDER BY title ASC 
         LIMIT $start, $results_per_page";
 } else {
     $sql = "SELECT books.*, mediatypes.type AS type, status.status, location.name AS location, location.room AS room
         FROM books
         JOIN mediatypes ON books.type = mediatypes.id
         JOIN status ON status.id = books.status 
-        JOIN location ON location.id = books.location
-        ORDER BY title ASC 
+        JOIN location ON location.id = books.location";
+
+    if (!empty($min_year)) {
+        $sql .= " WHERE year >= " . $min_year;
+    }
+    if (!empty($max_year)) {
+        $sql .= " AND year <= " . $max_year;
+    }
+
+    $sql .= " ORDER BY title ASC 
         LIMIT $start, $results_per_page";
 }
-$result = $mysqli->query($sql);
 
+$result = $mysqli->query($sql);
 $count = $result->num_rows;
 ?>
 
@@ -41,22 +61,67 @@ $count = $result->num_rows;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style/books.css">
+    <link rel="stylesheet" type="text/css" href="style/footnotes.css">
 </head>
 <body>
     <?php include 'navbar.php' ?>
+    <div class="a-z">
+        <h2>A-Z Datenbanken</h2>
+        <p>Suche das Buch in dem Datenbank</p>
+    </div>
+    
     <div class="alphabet-navigation">
     <?php 
-        $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM books ORDER BY alphabet ASC";
+        $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM books ORDER BY CASE WHEN LEFT(title, 1) REGEXP '^[0-9]' THEN 1 ELSE 0 END, alphabet ASC";
         $result_alphabets = $mysqli->query($sql_alphabets);
+
+        $numberAlphabets = []; // Array to store number alphabets
+        $letterAlphabets = []; // Array to store letter alphabets
 
         while ($row_alphabet = $result_alphabets->fetch_assoc()) {
             $alphabet = $row_alphabet['alphabet'];
+
+            if (ctype_alpha($alphabet)) {
+                $letterAlphabets[] = $alphabet;
+            } else {
+                $numberAlphabets[] = $alphabet;
+            }
+        }
+
+        $numberAlphabets = array_unique($numberAlphabets);
+        sort($letterAlphabets);
+
+        echo "<a href='?page=1&alphabet=#'";
+        if (isset($_GET['alphabet']) && $_GET['alphabet'] == '#') echo " class='selected'";
+        echo ">#</a>";
+
+        foreach ($letterAlphabets as $alphabet) {
             echo "<a href='?page=1&alphabet=" . $alphabet . "'";
             if (isset($_GET['alphabet']) && $_GET['alphabet'] == $alphabet) echo " class='selected'";
             echo ">" . $alphabet . "</a>";
         }
+
+
     ?>
     </div>
+
+    
+
+    <div class="filter-section">
+        <span class="show-filter" onclick="toggleFilter()">Year Filter</span>
+        <div class="year-filter">
+            <form action="" method="get">
+                <label for="min_year">Minimum Year:</label>
+                <input type="number" id="min_year" name="min_year" value="<?php echo $min_year; ?>">
+                
+                <label for="max_year">Maximum Year:</label>
+                <input type="number" id="max_year" name="max_year" value="<?php echo $max_year; ?>">
+                
+                <button type="submit">Filter</button>
+            </form>
+        </div>
+    </div>
+
     <div class="found-books-count">
             <?php echo $count . " Database found"; ?>
         </div>
@@ -134,37 +199,11 @@ $count = $result->num_rows;
     </div>
     </tbody>
     </table>
+
+    <?php include 'footnotes.php' ?>
     <script src="./js/books.js"></script>
 
-    <?php
-$sql = "SELECT COUNT(ID) AS total FROM books";
-$result = $mysqli -> query($sql);
-$row = $result->fetch_assoc();
-$total_pages = ceil($row["total"] / $results_per_page);
+    <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Top</button>
 
-$visible_pages = min(5, $total_pages); // Set the maximum number of visible page numbers
-
-$current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Get the current page number
-
-$half_visible = floor($visible_pages / 2);
-$start_page = max(1, $current_page - $half_visible);
-$end_page = min($total_pages, $start_page + $visible_pages - 1);
-?>
-
-<div class="pagination">
-  <?php if ($current_page > 1): ?>
-    <a href="?page=<?php echo ($current_page - 1); ?>">Previous</a>
-  <?php endif; ?>
-
-  <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
-    <a href="?page=<?php echo $i; ?>" <?php echo ($i == $current_page) ? "class='curPage'" : ""; ?>>
-      <?php echo $i; ?>
-    </a>
-  <?php endfor; ?>
-
-  <?php if ($current_page < $total_pages): ?>
-    <a href="?page=<?php echo ($current_page + 1); ?>">Next</a>
-  <?php endif; ?>
-</div>
 </body>
 </html>

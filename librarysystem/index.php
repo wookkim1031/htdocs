@@ -37,7 +37,9 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
             <h3>Magazine Suche </h3>
                 <p>A filterable and searchable list of databases and other online resources. The Magazines are divided in pages and using alphabet A-Z, you can find the books convinently.</p>
         </div>
+        <div id="footnotes">
         <?php include 'footnotes.php' ?>
+        </div>
     <?php else: ?>
         
         <?php include 'login.php' ?>

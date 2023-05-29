@@ -1,11 +1,19 @@
 <?php
 
+$error = null;
+
 if(empty($_POST["name"])) { // if name is empty
     die("Name is required");
 }
 
-if(! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-    die("Validate email is required");
+if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+    die("Valid email is required");
+}
+
+$emailDomain = explode("@", $_POST["email"])[1]; // Extract the domain from the email address
+
+if ($emailDomain !== "ukaachen.de") {
+    $error = "Emails from ukaachen.de domain are only allowed";
 }
 
 if(! preg_match("/[a-z]/i", $_POST["password"])) {
@@ -18,6 +26,11 @@ if(! preg_match("/[0-9]/", $_POST["password"])) {
 
 if ($_POST["password"] !== $_POST["password_confirmation"]) {
     die("Passwords must match");
+}
+
+if ($error) {
+    header("Location: signup.php?error=" . urlencode($error));
+    exit;
 }
 
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -45,3 +58,5 @@ if($stmt->execute()) {
 } else {
     die($mysqli->error . " ". $mysqli->errno);
 }
+
+?>

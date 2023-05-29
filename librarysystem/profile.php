@@ -1,37 +1,39 @@
-<?php 
-
+<?php
 session_start();
 
-if (isset($_SESSION["user_id"])) { //check for the user_id
+if (isset($_SESSION["user_id"])) {
+    $mysqli = require __DIR__ . "/database.php";
     
-    $mysqli = require __DIR__ . "/database.php"; //get the databsae to get the connection
+    $user_id = $_SESSION["user_id"]; // Store user ID in a variable
 
-    $sql = "SELECT * FROM users
-            WHERE  id = {$_SESSION["user_id"]}";
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
     
-    $result = $mysqli->query($sql);
-
+    $result = $stmt->get_result();
     $user = $result->fetch_assoc();
+    $stmt->close();
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Home</title>
+    <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="style/profile.css">
 </head>
 <body>
-
     <div class="profile-container">
         <h2>Profile</h2>
         <div class="profile-picture"></div>
         <div class="profile-details">
-            <p><strong>Name:</strong> <?php echo $user['name']; ?></h1></p>
-            <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
-            <p><strong>Location:</strong> New York City</p>
-            <p><strong>Interests:</strong> Travel, Photography, Music</p>
-            <p><a href="#">Edit Profile</a></p>
+            <?php if (isset($user)): ?>
+                <p><strong>Name:</strong> <?php echo $user['name']; ?></p>
+                <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
+                <p><a href="#">Edit Profile</a></p>
+            <?php else: ?>
+                <p>User not found.</p>
+            <?php endif; ?>
         </div>
     </div>
 </body>

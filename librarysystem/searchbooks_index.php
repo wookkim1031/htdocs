@@ -19,11 +19,10 @@ if (isset($_POST['save'])) {
     <title>Search</title> 
     <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
 </head>
-
 <body>
     
     <div class="container">
-        <form action="#" method='POST' class="search-bar">
+        <form action="search_results.php" method='POST' class="search-bar">
                 <input class  = "search-input" type="text" name="search" id="search" placeholder="z.B. Bücher, Magazines">
                 <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
         </form>
@@ -31,13 +30,7 @@ if (isset($_POST['save'])) {
 
     <table>
         <thead>
-            <tr>
-                <th>title</th>
-                <th>author</th>
-                <th>year</th>
-                <th>publisher</th>
-                <th>status</th>
-            </tr>
+            
         </thead>
         <tbody>
             <?php
