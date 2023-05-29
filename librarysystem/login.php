@@ -45,10 +45,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="login-container">
         <h1> <img src="/librarysystem/image/IMSA-LOGO.png" alt="icon"></h1>
         <h2>Login Medizin Statistik</h2>
+        
+        <div class="description-box">
+            <p>This is the Anmeldung for Medizin Statistik library. In order to login, you need to provide a ukaachen.de email.</p>
+        </div>
+
         <form method="post" class="login-form">
-            <input type="email" name="email" id="email" 
-               value="<?= htmlspecialchars($_POST["email"] ?? "")   ?>" required>
-            <input type="password" name="password" id= "password" placeholder="Password" required>
+            <label for="uname"><b>Username</b></label>
+             <input type="email" name="email" id="email" value="<?= htmlspecialchars($_POST["email"] ?? "")   ?>" required> 
+             <label for="pword"><b>Password</b></label>
+            <input type="password" name="password" id= "password" placeholder="Password" required> 
                 <!-- error message -->
                 <?php if ($is_invalid) : ?>
                     <em>Invalid login</em>

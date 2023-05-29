@@ -6,7 +6,7 @@
   
   /* Body styles */
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'PT Serif', serif;
     background-color: #f1f1f1;
   }
 
@@ -17,7 +17,8 @@
   }
   
   body h1 img {
-    width: 40px;
+    width: 80px;
+    margin-bottom: 10px;
   }
 
   /* Container styles */
@@ -37,9 +38,27 @@
     color: #333;
   }
   
+  /* description form*/
+    .description-box {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
+    .description-box p {
+        color: #333;
+        text-align: center;
+    }
+
   .login-form {
     display: flex;
     flex-direction: column;
+  }
+
+  form label {
+    font-size: 20px;
   }
   
   input[type="email"],
@@ -48,17 +67,17 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    font-size:15px;
   }
   
   input[type="email"]:focus,
   input[type="password"]:focus {
     outline: none;
-    border-color: #4e9cdf;
   }
   
   input[type="submit"] {
     padding: 10px;
-    background-color: #4e9cdf;
+    background-color: #4580b4;
     color: #fff;
     border: none;
     border-radius: 3px;
