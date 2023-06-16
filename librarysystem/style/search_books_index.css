@@ -13,19 +13,14 @@
     justify-content: center;
 }
 
-.container .search_Title {
-    font-size: 25px;
-    padding-left: 3%;
-}
-
 .search-bar {
     width: 100%;
     max-width: 1000px;
     background: rgb(255, 255, 255);
     display:flex;
     align-items: center;
-    border-radius: 20px;
-    padding: 10px 10px;
+    border-radius: 10px;
+    padding: 0 10px;
 }
 
 .search-bar input {

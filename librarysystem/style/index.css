@@ -30,7 +30,7 @@ body {
 }
 
 .introduction a {
-    color: #0066cc;
+    font-size: 16px;
 }
 
 .introduction a:hover {

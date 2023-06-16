@@ -28,6 +28,6 @@
                 </div>
             </div>
             <p>&copy; <?php echo date("Y"); ?> Medizinische Statistik. All rights reserved. | <a href="https://www.ukaachen.de/datenschutzerklaerung/">Privacy Policy</a></p>
-        </footer>
         </div>
+    </footer>
 </html>

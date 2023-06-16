@@ -29,7 +29,9 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
         <?php include 'searchbooks_index.php' ?>
         <div class="introduction">
             <h2>Bibilothek von Institut für Medizinische Statistik</h2>
-                <p>Die Medizinische Statistik-Bibliotheken haben eine neue Suchplattform eingerichtet - Search Our Collections. Mit diesem Tool können Sie unsere Print- und Online-Sammlungen - vor allem Bücher, Zeitschriften und Artikel - durchsuchen, anfordern und darauf zugreifen. Im Folgenden finden Sie weitere Informationen, die Ihnen helfen, die gewünschten Materialien zu finden und zu erhalten.</p>
+                <p>Die Medizinische Statistik-Bibliotheken haben eine neue Suchplattform eingerichtet - Search Our Collections. Mit diesem Tool können Sie unsere Print- und Online-Sammlungen - vor allem Bücher, Zeitschriften und Artikel - durchsuchen, anfordern und darauf zugreifen. Im Folgenden finden Sie weitere Informationen, die Ihnen helfen, die gewünschten Materialien zu finden und zu erhalten.
+                    Die Website des Instituts erreichen Sie über <a href="https://www.ukaachen.de/kliniken-institute/institut-fuer-medizinische-statistik/institut/">hier.</a>
+                </p>
             <h3>Default Suche </h3>
                 <p>Die Default-Suche befindet sich unter der Navigationsleiste auf der Startseite. Diese bietet eine schnelle Suche nach allen Magazinen und Büchern. </p>
             <h3>Buchsuche </h3>

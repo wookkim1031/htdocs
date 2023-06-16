@@ -21,19 +21,28 @@ if (isset($_SESSION["user_id"])) {
 <head>
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="style/profile.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for icons -->
 </head>
 <body>
     <div class="profile-container">
-        <h2>Profile</h2>
-        <div class="profile-picture"></div>
-        <div class="profile-details">
-            <?php if (isset($user)): ?>
-                <p><strong>Name:</strong> <?php echo $user['name']; ?></p>
-                <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
-                <p><a href="#">Edit Profile</a></p>
-            <?php else: ?>
-                <p>User not found.</p>
-            <?php endif; ?>
+        <div class="cover-photo">
+            <a href="index.php"><img src="/librarysystem/image/IMSA-LOGO.png" alt="logo"> Home </a>
+            <h2>  Bibilothek für Medizin Statistik </h2> 
+        </div>
+        <div class="profile-header">
+            <div class="profile-picture"></div>
+            <h2><?php echo $user['name']; ?></h2>
+            <p><?php echo $user['email']; ?></p>
+        </div>
+        <div class="profile-tabs">
+            <ul>
+                <li><a href="#"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Lend Books</a></li>
+            </ul>
+        </div>
+        <div class="profile-content">
+            <h3>About</h3>
+            <p>Add your about information here.</p>
         </div>
     </div>
 </body>

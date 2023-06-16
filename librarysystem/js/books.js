@@ -1,15 +1,17 @@
-let popup = document.getElementById("popup");
 
-function openPopup() {
+
+function openPopup(id) {
+    var popup= document.getElementById('popup-' +id);
     popup.classList.add("open-popup");
 }
 
-function closePopup() {
+function closePopup(id) {
+    var popup= document.getElementById('popup-' + id);
     popup.classList.remove("open-popup");
 }
 
-function toggleFilter() {
-    var filterSection = document.querySelector('.year-filter');
+function toggleFilter(filter) {
+    var filterSection = document.querySelector('.' + filter +'-filter');
     filterSection.style.display = filterSection.style.display === 'none' ? 'block' : 'none';
 }
 // JavaScript function to scroll to the top of the page

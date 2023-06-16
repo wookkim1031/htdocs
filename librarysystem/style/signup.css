@@ -106,7 +106,7 @@ button[type="submit"]:hover {
     font-size: 14px;
 }
 
-  /* Form footer styles */
+  /* Form footer section */
   .form-footer {
     margin-top: 15px;
     text-align: center;
@@ -122,3 +122,26 @@ button[type="submit"]:hover {
     text-decoration: underline;
   }
   
+  /* need help section */
+
+  .contact-box {
+    display: none;
+    margin-top: 20px;
+    }
+
+    .contact-box.show {
+        display: block;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .contact-box h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .contact-box p {
+        margin-bottom: 5px;
+    }

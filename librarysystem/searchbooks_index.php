@@ -29,9 +29,6 @@ if (isset($_POST['save'])) {
     </div>
 
     <table>
-        <thead>
-            
-        </thead>
         <tbody>
             <?php
             if (isset($_POST['save']) && !empty($_POST['search'])) {

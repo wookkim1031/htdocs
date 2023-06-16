@@ -1,27 +1,37 @@
 <?php
-$per_page = 15;
 
 $mysqli = require __DIR__ . "/database.php";
 
-if (isset($_GET['page'])) {
-    $page = $_GET["page"];
-} else {
-    $page = 1;
-}
-$start = ($page - 1) * $per_page;
+
+$min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
+$max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
 
 if (isset($_GET['alphabet'])) {
     $alphabet = $_GET['alphabet'];
     $sql = "SELECT *
             FROM magazines 
-            WHERE title LIKE '" . $alphabet . "%'
-            ORDER BY title ASC
-            LIMIT $start," . $per_page;
+            WHERE title LIKE '" . $alphabet . "%'";
+
+            if (!empty($min_year)) {
+                $sql .= " AND jahrgang >= " . $min_year;
+            }
+            if (!empty($max_year)) {
+                $sql .= " AND jahrgang <= " . $max_year;
+            }
+
+    $sql .=   "ORDER BY title ASC";
 } else {
     $sql = "SELECT *
-            FROM magazines 
-            ORDER BY title ASC
-            LIMIT $start," . $per_page;
+            FROM magazines ";
+
+if (!empty($min_year)) {
+    $sql .= " WHERE jahrgang >= " . $min_year;
+}
+if (!empty($max_year)) {
+    $sql .= " AND jahrgang <= " . $max_year;
+}
+
+$sql .= " ORDER BY title ASC ";
 }
 $result = $mysqli->query($sql);
 
@@ -62,8 +72,23 @@ $count = $result->num_rows;
             ?>
         </div>
         <div class="found-books-count">
-            <?php echo $count . " Database found"; ?>
+        <?php echo "Zeige Ergebnisse für ". $count . " sortiert nach Relevanz"; ?>
         </div>
+
+        <div class="filter-section">
+        <span class="show-filter" onclick="toggleFilter()">Year Filter</span>
+        <div class="year-filter">
+            <form action="" method="get">
+                <label for="min_year">Minimum Year:</label>
+                <input type="number" id="min_year" name="min_year" value="<?php echo $min_year; ?>">
+                
+                <label for="max_year">Maximum Year:</label>
+                <input type="number" id="max_year" name="max_year" value="<?php echo $max_year; ?>">
+                
+                <button type="submit">Filter</button>
+            </form>
+        </div>
+    </div>
     <table>
         <div class="container">
             <tbody>
@@ -88,20 +113,7 @@ $count = $result->num_rows;
             </tbody>
         </div>
     </table>
-    <div class="pagination">
-        <?php
-        $sql = "SELECT COUNT(ID) AS total FROM magazines";
-        $result = $mysqli->query($sql);
-        $row = $result->fetch_assoc();
-        $total_pages = ceil($row["total"] / $per_page);
-
-        for ($i = 1; $i <= $total_pages; $i++) {
-            echo "<a href='?page=" . $i . "'";
-            if (isset($_GET['page']) && $i == $page) echo " class='curPage'";
-            echo ">" . $i . "</a>";
-        }
-        ?>
-    </div>
+    <script src="./js/books.js"></script>
     <div id="footnotes">
         <?php include 'footnotes.php' ?>
     </div>

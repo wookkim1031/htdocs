@@ -39,8 +39,31 @@ li {
     list-style: none;
 }
 
+.logout-button li {
+    float: left;
+}
+
 .logout-button a{
-    color: #e6e6e6;
+    color:#e6e6e6;
+    background-color: #1c1c1c;
+    padding: 19.5px;
+}
+.logout-button a:hover{
+    background-color: #e6e6e6;
+    color:#1c1c1c;
+}
+
+.logout-button li a {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Add specific styles for the 'Account' list item if needed */
+}
+
+.logout-button img {
+    max-width: 25px;
+    padding-bottom: 5px;
 }
 
 .logout-button li a:hover{

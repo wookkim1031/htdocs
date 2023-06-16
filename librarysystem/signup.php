@@ -8,6 +8,7 @@
 <html>
 <head>
     <title>Sign Up</title>
+    <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
     <link rel="stylesheet" type="text/css" href="style/signup.css">
 </head>
 <body>
@@ -45,8 +46,18 @@
         </form>
 
         <div class="form-footer">
-            <a href="#">Need Help?</a>
+            <a href="#" onclick="toggleContactBox()">Need Help?</a>
             <a href="login.php">Already have an account?</a>
+        </div>
+
+        <div id="contact-box" class="contact-box">
+            <h3>Fragen Sie uns!</h3>
+            <p>Sie haben Fragen rund um die Bibilothek oder Schwierigkeit über Signin? </p>
+            <p> Schreiben Sie uns eine email. Wir antworten Ihnen schnell wie möglich.</p>
+            <h3>Kontakt Information</h3>
+            <h4>Bergrath, Arne</h4>
+            <h4>Systemadministrator/in</h4>
+            <p>email: abergrath@ukaachen.de</p>
         </div>
     </div>
 

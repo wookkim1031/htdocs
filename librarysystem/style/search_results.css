@@ -36,6 +36,10 @@
     background-color: #ddd;
 }
 
+.magazines-column table th {
+    background-color: #ddd;
+}
+
 .books-column h2,
 .magazines-column h2 {
     margin-bottom: 10px;
