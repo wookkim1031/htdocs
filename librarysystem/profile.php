@@ -44,6 +44,7 @@ if (isset($_SESSION["user_id"])) {
             <h3>About</h3>
             <p>Add your about information here.</p>
         </div>
+        <?php include 'saved_items.php' ?>
     </div>
 </body>
 </html>

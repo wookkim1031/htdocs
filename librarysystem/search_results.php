@@ -31,17 +31,31 @@ if (isset($_POST['save_item_id'])) {
     $item_id = $_POST['save_item_id'];
     $user_id = $_SESSION['user_id']; // Get the user ID from the session
 
-    // Save the item with the given item_id and user_id to the database
-    $stmt = $mysqli->prepare("INSERT INTO saved_items (user_id, item_id) VALUES (?, ?)");
-    $stmt->bind_param("ii", $user_id, $item_id);
+    // Retrieve the title from the 'books' table based on the 'item_id'
+    $stmt = $mysqli->prepare("SELECT id, title FROM books WHERE id = ?");
+    $stmt->bind_param("i", $item_id);
     $stmt->execute();
-    $stmt->close();
+    $result = $stmt->get_result();
+    $book = $result->fetch_assoc();
+    $title = $book['title'];
+    
 
-    // Redirect to the saved_items.php page after saving the item
-    header("Location: saved_items.php");
+    if($book) {
+            // Save the item with the given item_id and user_id to the database
+            $stmt = $mysqli->prepare("INSERT INTO saved_items (user_id, book_id, title) VALUES (?, ?, ?)");
+            $stmt->bind_param("iis", $user_id, $item_id, $title);
+            $stmt->execute();
+            $stmt->close();
+            
+            // Redirect to the saved_items.php page after saving the item
+            header("Location: saved_items.php?book_id=" . urlencode($book['id']));
     exit();
+    } else {
+        echo "Book not found";
+    }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -93,10 +107,10 @@ if (isset($_POST['save_item_id'])) {
                                     <td><?php echo $book['publisher']; ?></td>
                                     <td><?php echo $book['status']; ?></td>
                                     <td>
-                                        <form action="search_results.php" method="POST">
-                                        <input type="hidden" name="save_item_id" value="<?php echo $book['id']; ?>">
+                                    <form action="saved_items.php" method="GET">
+                                        <input type="hidden" name="book_id" value="<?php echo $book['id']; ?>">
                                         <button type="submit" name="save">Save</button>
-                                        </form>
+                                    </form>
                                     </td>
                                 </tr>
                             <?php

@@ -197,6 +197,30 @@ td img {
   margin-top: 10px;
 }
 
+.filter-input {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filter-select {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filter-button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
 /* Found books count */
 .found-books-count {
   
@@ -221,7 +245,9 @@ td img {
   margin-left: 50px;
 }
 
-.year-filter {
+.year-filter,
+.status-filter,
+.mediatypes-filter {
   display: none;
 }
 
@@ -248,6 +274,48 @@ td img {
 .show-filter img:hover{
   transform: rotate(360deg);
 }
+
+/*status filter*/
+.status-filter {
+  margin-top: 10px;
+}
+
+.status-filter label {
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+}
+
+.status-filter input[type="radio"] {
+  display: none;
+}
+
+.status-filter input[type="radio"] + label:before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d02323;
+  border-radius: 50%;
+}
+
+.status-filter input[type="radio"] + label:before {
+  background-color: #ccc;
+}
+
+.status-filter input[type="radio"]:checked + label:before {
+  background-color: #6fd649;
+}
+
+.status-filter input[type="radio"] + label span {
+  vertical-align: middle;
+  margin-left: 30px;
+}
+
 
 
 
@@ -276,4 +344,53 @@ td img {
 
 .footnotes {
   margin-top: 200px;
+}
+
+/*loading screen*/
+.circle-loading {
+  --size: 40px;
+  --color: currentColor;
+  --animation-timing-function: linear;
+  --animation-duration: 1s;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background-color: var(--color);
+  opacity: 0;
+  transform: scale(0);
+  animation: var(--animation-timing-function) var(--animation-duration) infinite circle-grow-1-animation;
+}
+
+@keyframes circle-grow-1-animation {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#non-loading-screen {
+
+  pointer-events: none;
 }

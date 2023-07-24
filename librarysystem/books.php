@@ -24,6 +24,14 @@ if (isset($_GET['alphabet'])) {
     if (!empty($max_year)) {
         $sql .= " AND year <= " . $max_year;
     }
+    if (!empty($_GET['status'])) {
+        $status = $_GET['status'];
+        $sql .= " AND status.id = " . $status;
+    }
+    if (!empty($_GET['mediatypes'])) {
+        $mediatypes = $_GET['mediatypes'];
+        $sql .= " AND mediatypes.id = " .$mediatypes;
+    }
 
     $sql .= " ORDER BY title ASC ";
 } else {
@@ -44,6 +52,14 @@ if (isset($_GET['alphabet'])) {
     if (!empty($max_year)) {
         $sql .= " AND year <= " . $max_year;
     }
+    if (!empty($_GET['status'])) {
+        $status = $_GET['status'];
+        $sql .= " AND status.id = " . $status;
+    }
+    if (!empty($_GET['mediatypes'])) {
+        $mediatypes = $_GET['mediatypes'];
+        $sql .= " AND mediatypes.id = " .$mediatypes;
+    }
 
     $sql .= " ORDER BY title ASC";
 }
@@ -53,6 +69,12 @@ $count = $result->num_rows;
 
 $sql_locations = "SELECT * FROM location";
 $result_locations = $mysqli->query($sql_locations);
+
+$sql_status = "SELECT * FROM status";
+$result_status = $mysqli->query($sql_status);
+
+$sql_mediatypes = "SELECT * FROM mediatypes";
+$result_mediatypes = $mysqli->query($sql_mediatypes);
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +90,10 @@ $result_locations = $mysqli->query($sql_locations);
 </head>
 <body>
     <?php include 'navbar.php' ?>
+    <div id="loading-screen">
+            <div class="circle-loading"></div>
+    </div>
+    <div id="non-loading-screen">
     <div class="a-z">
         <h2>A-Z Datenbanken</h2>
         <p>Suche das Buch in dem Datenbank</p>
@@ -78,8 +104,8 @@ $result_locations = $mysqli->query($sql_locations);
         $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM books ORDER BY CASE WHEN LEFT(title, 1) REGEXP '^[0-9]' THEN 1 ELSE 0 END, alphabet ASC";
         $result_alphabets = $mysqli->query($sql_alphabets);
 
-        $numberAlphabets = []; // Array to store number alphabets
-        $letterAlphabets = []; // Array to store letter alphabets
+        $numberAlphabets = []; 
+        $letterAlphabets = [];
 
         while ($row_alphabet = $result_alphabets->fetch_assoc()) {
             $alphabet = $row_alphabet['alphabet'];
@@ -116,34 +142,81 @@ $result_locations = $mysqli->query($sql_locations);
                 <div>
                     <button class="show-filter" onclick="toggleFilter('year')">Year Filter <img src="/librarysystem/image/angleright.svg" alt="arrow"> </button>
                     <div class="year-filter">
-                        <form action="" method="get">
-                            <label for="min_year">Min Jahr:</label>
-                            <input type="number" id="min_year" name="min_year" value="<?php echo $min_year; ?>">
-                            <br>
-                            <label for="max_year">Max Jahr:</label>
-                            <input type="number" id="max_year" name="max_year" value="<?php echo $max_year; ?>">
-                            <br>
-                            <button type="submit">Apply</button>
-                        </form>
+                    <form action="" method="get" name="yearFilterForm">
+                        <label for="min_year">Min Jahr:</label>
+                        <input type="number" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
+                        <br>
+                        <label for="max_year">Max Jahr:</label>
+                        <input type="number" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
+                        <br>
+                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                        <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                        <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
+                        <button type="submit" class="filter-button">Apply</button>
+                    </form>
+                    </div>
+                </div>
+                <div>
+                    <button class="show-filter" onclick="toggleFilter('status')">Status Filter <img src="/librarysystem/image/angleright.svg" alt="arrow"> </button>
+                    <div class="status-filter">
+                    <form action="" method="get" name="filterForm">
+                    <?php 
+                        $isStatusSelected = isset($_GET['status']);
+                        while ($row_status = $result_status->fetch_assoc()) {
+                        $checked = ($isStatusSelected && $_GET['status'] == $row_status['id']) ? 'checked' : '';
+                        ?>
+                        <label>
+                            <input type="radio" name="status" value="<?php echo $row_status['id']; ?>" <?php echo $checked; ?> onclick="this.form.submit();">
+                            <?php echo $row_status['status']; ?>
+                        </label>
+                    <?php } ?>
+                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                        <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
+                        <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
+                        <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                    </form>
                     </div>
                 </div>
                 <div>
                     <button class="show-filter" onclick="toggleFilter('location')">Location Filter <img src="/librarysystem/image/angleright.svg" alt="arrow1"> </button>
                     <div class="location-filter">
-                        <form action="" method="get">
-                            <label for="location">Location</label>
-                            <select name="location" id="location">
-                                <option value="">All</option>
-                                <?php 
-                                while ($row_location = $result_locations->fetch_assoc()) {
-                                    $selected = (isset($_GET['location']) && $_GET['location'] == $row_location['id']) ? "selected" : '';
-                                    echo "<option value='" . $row_location['id'] . "' " . $selected . ">" . $row_location['name'] . "</option>";
-                                }
-                                ?>
-                            </select>
-
-                            <button type="submit">Filter</button>
-                        </form>
+                    <form action="" method="get" name="locationFilterForm">
+                        <label for="location">Location</label>
+                        <select name="location" id="location" class="filter-select">
+                        <option value="">All</option>
+                        <?php 
+                        while ($row_location = $result_locations->fetch_assoc()) {
+                            $selected = (isset($_GET['location']) && $_GET['location'] == $row_location['id']) ? "selected" : '';
+                            echo "<option value='" . $row_location['id'] . "' " . $selected . ">" . $row_location['name'] . "</option>";
+                        }
+                        ?>
+                        </select>
+                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                        <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
+                        <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
+                        <button type="submit" class="filter-button">Filter</button>
+                    </form>
+                    </div>
+                </div>
+                <div>
+                    <button class="show-filter" onclick="toggleFilter('mediatypes')"> Media Filter <img src="/librarysystem/image/angleright.svg" alt="arrow1"> </button>
+                    <div class="mediatypes-filter">
+                    <form action="" method="get" name="mediaFilterForm">
+                        <label for="mediatypes">Mediatypes</label>
+                        <select name="mediatypes" id="mediatypes" class="filter-select">
+                        <option value="">All</option>
+                        <?php 
+                        while ($row_mediatypes = $result_mediatypes->fetch_assoc()) {
+                            $selected = (isset($_GET['mediatypes']) && $_GET['mediatypes'] == $row_mediatypes['id']) ? "selected" : '';
+                            echo "<option value='" . $row_mediatypes['id'] . "' " . $selected . ">" . $row_mediatypes['type'] . "</option>";
+                        }
+                        ?>
+                        </select>
+                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                        <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
+                        <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
+                        <button type="submit" class="filter-button">Filter</button>
+                    </form>
                     </div>
                 </div>
             </div>
@@ -151,7 +224,7 @@ $result_locations = $mysqli->query($sql_locations);
 
         <table id="tb">
             <div class="container-wrapper">
-            <div class="container">
+                <div class="container">
                 <tbody>
                     <?php 
                     while ($row = $result->fetch_assoc()) {
@@ -179,7 +252,7 @@ $result_locations = $mysqli->query($sql_locations);
                                         <?php if (($row['status']) == "verfügbar") { ?>
                                             <div class="book-status"> Verfügbar </div>
                                         <?php } else { ?>
-                                            <div class="book-status-not"> Nicht Verfügbar </div>
+                                            <div class="book-status-not"> Entliehen</div>
                                         <?php } ?>
                                         
 
@@ -233,6 +306,7 @@ $result_locations = $mysqli->query($sql_locations);
         <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Top</button>
         <div class="footnotes">
             <?php include 'footnotes.php' ?>
+        </div>
         </div>
     </body>
 </html>
