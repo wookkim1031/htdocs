@@ -107,14 +107,14 @@ td img {
   font-size: 38px;
   font-weight: 500;
   margin: 30px 0 10px;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgb(0, 0, 0);
 }
 
 .popup button {
   width: 100%;
   margin-top: 50px;
   padding: 10px 0;
-  background: #6fd649;
+  background: #737373;
   color: #fff;
   border: 0;
   outline: none;
@@ -238,7 +238,7 @@ td img {
   margin-left: 50px;
   margin-top: 20px;
   position:absolute;
-  border:#333 solid;
+
 }
 
 .year-filter-top h3 {
@@ -282,11 +282,17 @@ td img {
 
 .status-filter label {
   display: block;
-  margin-bottom: 5px;
-  cursor: pointer;
+  margin-bottom: 9px;
   position: relative;
-  padding-left: 30px;
+  padding-left: 35px;
 }
+
+.status-filter label:hover {
+  background-color: #f0f0f0;
+  color:#2823b9;
+  cursor:pointer;
+}
+
 
 .status-filter input[type="radio"] {
   display: none;

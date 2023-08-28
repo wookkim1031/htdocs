@@ -31,6 +31,9 @@ $count = $result->num_rows;
 
 $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM magazines ORDER BY alphabet ASC";
 $result_alphabets = $mysqli->query($sql_alphabets);
+
+$sql_locations = "SELECT * FROM magazines";
+$result_location = $mysqli->query($sql_locations);
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,14 +74,17 @@ $result_alphabets = $mysqli->query($sql_alphabets);
             <div class="filter-section">
                 <span class="show-filter" onclick="toggleFilter('standort')">Location Filter</span>
                 <div class="standort-filter">
-                    <form action="" method="get">
-                        <label for="standort">Location:</label>
-                        <select name="standort" id="standort">
-                            <option value="">All</option>
-                            <option value="location1" <?php echo isset($_GET['standort']) && $_GET['standort'] == 'location1' ? 'selected' : ''; ?>>Location 1</option>
-                            <option value="location2" <?php echo isset($_GET['standort']) && $_GET['standort'] == 'location2' ? 'selected' : ''; ?>>Location 2</option>
-                        </select>
-                        <button type="submit">Filter</button>
+                    <form action="" method="get" name="filterForm">
+                        <?php 
+                            $isLocationSelected = isset($_GET['standort']);
+                            while ($row_status = $result_location->fetch_assoc()) {
+                            $checked = ($isLocationSelected && $_GET['standort'] == $row_location['id']) ? 'checked' : '';
+                            ?>
+                            <label>
+                                <input type="radio" name="standort" value="<?php echo $row_location['id']; ?>" <?php echo $checked; ?> onclick="this.form.submit();">
+                                <?php echo $row_status['standort']; ?>
+                            </label>
+                        <?php } ?>
                     </form>
                 </div>
             </div>

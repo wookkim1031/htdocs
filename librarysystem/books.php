@@ -120,7 +120,13 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
         $numberAlphabets = array_unique($numberAlphabets);
         sort($letterAlphabets);
 
-        echo "<a href='?page=1&alphabet=#'";
+        function generateAlphabetURL($alphabet) {
+            $params = $_GET;
+            $params['alphabet'] = $alphabet;
+            return '?' . http_build_query($params);
+        }
+        
+        echo "<a href='" . generateAlphabetURL("#") . "'";
         if (isset($_GET['alphabet']) && $_GET['alphabet'] == '#') echo " class='selected'";
         echo ">#</a>";
 
@@ -152,7 +158,8 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
                         <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
                         <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
-                        <button type="submit" class="filter-button">Apply</button>
+                        <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
+                        <button type="submit" form="yearFilterForm" class="filter-button">Apply</button>
                     </form>
                     </div>
                 </div>
@@ -174,13 +181,14 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
                         <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
                         <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                        <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
                     </form>
                     </div>
                 </div>
                 <div>
                     <button class="show-filter" onclick="toggleFilter('location')">Location Filter <img src="/librarysystem/image/angleright.svg" alt="arrow1"> </button>
                     <div class="location-filter">
-                    <form action="" method="get" name="locationFilterForm">
+                    <form action="" method="get" id="locationFilterForm">
                         <label for="location">Location</label>
                         <select name="location" id="location" class="filter-select">
                         <option value="">All</option>
@@ -194,14 +202,15 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
                         <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
                         <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
-                        <button type="submit" class="filter-button">Filter</button>
+                        <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
+                        <button type="submit" form="locationFilterForm" class="filter-button">Filter</button>
                     </form>
                     </div>
                 </div>
                 <div>
                     <button class="show-filter" onclick="toggleFilter('mediatypes')"> Media Filter <img src="/librarysystem/image/angleright.svg" alt="arrow1"> </button>
                     <div class="mediatypes-filter">
-                    <form action="" method="get" name="mediaFilterForm">
+                    <form action="" method="get" id="mediaFilterForm">
                         <label for="mediatypes">Mediatypes</label>
                         <select name="mediatypes" id="mediatypes" class="filter-select">
                         <option value="">All</option>
@@ -213,9 +222,11 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         ?>
                         </select>
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                        <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                        <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
                         <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
                         <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
-                        <button type="submit" class="filter-button">Filter</button>
+                        <button type="submit" form="mediaFilterForm" class="filter-button">Filter</button>
                     </form>
                     </div>
                 </div>

@@ -16,14 +16,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($user) {
 
         if(password_verify($_POST["password"], $user["password_hash"])) {
+            
+            //user Role
+            $roleSql = sprintf("SELECT role_name FROM user_roles WHERE id = %d", $user["role_id"]);
+            $roleResult = $mysqli->query($roleSql);
+            $userRole = $roleResult->fetch_assoc()["role_name"];
 
             session_start();
 
             session_regenerate_id();
             
             $_SESSION["user_id"] = $user["id"];
-
-            header("Location: ../librarysystem");
+            if($userRole == "admin") {
+                header("Location: ../librarysystem");
+            } else {
+                header("Location: ../books");
+            }
+            
             exit;
         }
     }

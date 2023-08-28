@@ -6,7 +6,7 @@ body {
 .profile-container {
     width: 700px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 70px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -15,8 +15,8 @@ body {
     display:flex;
     justify-content: center;
     align-items: center;
-
 }
+
 
 .cover-photo img {
     height: 100px;
@@ -40,8 +40,8 @@ body {
     height: 150px;
     margin: 0 auto;
     border-radius: 50%;
-    background-image: url('profile-picture.jpg'); /* Replace with your profile picture */
-    background-size: cover;
+    background-image: url('../image/user-solid.svg'); /* Replace with your profile picture */
+    background-size:87.5%;
     background-position: center;
 }
 

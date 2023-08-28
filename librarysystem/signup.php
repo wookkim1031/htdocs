@@ -42,6 +42,7 @@
                 <label for="password_confirmation"><img src="/librarysystem/image/key-solid.svg" alt="key"> Confirm PASSWORD</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" required>
             </div>
+            <input type="hidden" name="default_role_id" value="2">
             <button type="submit">Sign Up</button>
         </form>
 

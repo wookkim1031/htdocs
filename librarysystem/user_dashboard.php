@@ -24,9 +24,9 @@ if (isset($_SESSION["user_id"])) {
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for icons -->
 </head>
 <body>
+    <?php include 'navbar.php' ?>
     <div class="profile-container">
         <div class="cover-photo">
-            <a href="index.php"><img src="/librarysystem/image/IMSA-LOGO.png" alt="logo"> Home </a>
             <h2>  Bibilothek für Medizin Statistik </h2> 
         </div>
         <div class="profile-header">
@@ -43,8 +43,12 @@ if (isset($_SESSION["user_id"])) {
         <div class="profile-content">
             <h3>About</h3>
             <p>Add your about information here.</p>
+            <form action="update_profile.php" method="post">
+                <label for="new_name">Update Name:</label>
+                <input type="text" id="new_name" name="new_name" value="<?php echo $user['name']; ?>">
+                <button type="submit">Save</button>
+            </form>
         </div>
-        <?php include 'saved_items.php' ?>
     </div>
 </body>
 </html>

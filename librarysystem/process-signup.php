@@ -37,8 +37,10 @@ $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $mysqli = require __DIR__ . "/database.php"; //to get the directory of the current file 
 
-$sql = "INSERT INTO users(name, email, password_hash)
-        VALUES(?,?,?)";
+$defaultRoleId = 1;
+
+$sql = "INSERT INTO users(name, email, password_hash, role_id)
+        VALUES(?,?,?,?)";
         
 $stmt = $mysqli->stmt_init();
 
@@ -46,14 +48,15 @@ if(!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli ->error);
 };
 
-$stmt->bind_param("sss",
+$stmt->bind_param("sssi",
                   $_POST["name"],
                   $_POST["email"],
-                  $password_hash);
+                  $password_hash,
+                  $defaultRoleId);
 
 if($stmt->execute()) {
     
-    header("Location: signup-success.html");
+    header("Location: index.php");
     exit;
 } else {
     die($mysqli->error . " ". $mysqli->errno);
