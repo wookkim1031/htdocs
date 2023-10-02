@@ -85,11 +85,11 @@ if (isset($_POST['save_item_id'])) {
             <table>
                 <thead>
                     <tr>
-                        <th>title</th>
-                        <th>author</th>
-                        <th>year</th>
-                        <th>publisher</th>
-                        <th>status</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Publisher</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,10 +127,10 @@ if (isset($_POST['save_item_id'])) {
             <table>
                 <thead>
                     <tr>
-                        <th>title</th>
-                        <th>jahrgang</th>
-                        <th>volumes</th>
-                        <th>standort</th>
+                        <th>Title</th>
+                        <th>Jahrgang</th>
+                        <th>Volumes</th>
+                        <th>Standort</th>
                     </tr>
                 </thead>
                 <tbody>

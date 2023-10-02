@@ -145,15 +145,17 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
         <div class="filter-top">
             <h3>Sortiere nach</h3>
             <div class="filter-section">
-                <div>
-                    <button class="show-filter" onclick="toggleFilter('year')">Year Filter <img src="/librarysystem/image/angleright.svg" alt="arrow"> </button>
+                <div class="list-choice">
+                    <div class="list-choice-title">
+                        <button class="show-filter" id="check-button" onclick="toggleFilter('year')">Select Year <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
+                    </div>    
                     <div class="year-filter">
-                    <form action="" method="get" name="yearFilterForm">
+                    <form action="" method="get" name="yearFilterForm" id="yearFilterForm">
                         <label for="min_year">Min Jahr:</label>
-                        <input type="number" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
+                        <input type="number" placeholder="Start Year" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
                         <br>
                         <label for="max_year">Max Jahr:</label>
-                        <input type="number" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
+                        <input type="number" placeholder="End Year" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
                         <br>
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
                         <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
@@ -164,7 +166,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>
                 </div>
                 <div>
-                    <button class="show-filter" onclick="toggleFilter('status')">Status Filter <img src="/librarysystem/image/angleright.svg" alt="arrow"> </button>
+                    <button class="show-filter" onclick="toggleFilter('status')">Status Filter <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
                     <div class="status-filter">
                     <form action="" method="get" name="filterForm">
                     <?php 
@@ -186,7 +188,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>
                 </div>
                 <div>
-                    <button class="show-filter" onclick="toggleFilter('location')">Location Filter <img src="/librarysystem/image/angleright.svg" alt="arrow1"> </button>
+                    <button class="show-filter" onclick="toggleFilter('location')">Location Filter <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
                     <div class="location-filter">
                     <form action="" method="get" id="locationFilterForm">
                         <label for="location">Location</label>
@@ -208,7 +210,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>
                 </div>
                 <div>
-                    <button class="show-filter" onclick="toggleFilter('mediatypes')"> Media Filter <img src="/librarysystem/image/angleright.svg" alt="arrow1"> </button>
+                    <button class="show-filter" onclick="toggleFilter('mediatypes')"> Media Filter <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
                     <div class="mediatypes-filter">
                     <form action="" method="get" id="mediaFilterForm">
                         <label for="mediatypes">Mediatypes</label>

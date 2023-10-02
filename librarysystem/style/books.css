@@ -198,10 +198,15 @@ td img {
 }
 
 .filter-input {
-  width: 200px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: 16px;
+  border:none;
+  outline:none;
+  border-bottom:  1px solid black;
+}
+
+.filter-input:focus{
+  border-bottom: 2px solid black;
+  transition: 0.4s;
 }
 
 .filter-select {
@@ -233,16 +238,20 @@ td img {
   margin-bottom: 50px;
 }
 
-/* Year filter */
 .filter-top {
   margin-left: 50px;
   margin-top: 20px;
   position:absolute;
-
 }
+
+/* Year filter */
 
 .year-filter-top h3 {
   margin-left: 50px;
+}
+
+.year-filter input {
+  margin-top: 5px;
 }
 
 .year-filter,
@@ -257,23 +266,24 @@ td img {
 
 .show-filter {
   display: inline-block;
-  background-color: #989898;
-  padding: 13px;
+  background-color: #b9b9b9;
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-size: 17px;
+  line-height: 1;
+  height: 46px;
   cursor: pointer;
 }
 
 .show-filter img{
-  width: 12.5px;
+  width: 14px;
+  font-size: 15px;
+  height: 10px;
+  margin-left: 15px;
   transition: transform .7s ease-in-out;
+  opacity: 0.8;
 }
 
-.show-filter:hover {
-  color:blue;
-}
-
-.show-filter img:hover{
-  transform: rotate(360deg);
-}
 
 /*status filter*/
 .status-filter {

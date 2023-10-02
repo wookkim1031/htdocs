@@ -17,6 +17,7 @@ function toggleFilter(filter) {
     }
 }
 
+
 function applyStatusFilter(statusId) {
     const url = new URL(window.location.href);
     url.searchParams.set('status', statusId);
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   });
+  
 // JavaScript function to scroll to the top of the page
 function scrollToTop() {
     document.body.scrollTop = 0; // For Safari
