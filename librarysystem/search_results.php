@@ -60,6 +60,7 @@ if (isset($_POST['save_item_id'])) {
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="style/search_books_index.css">
+<link rel="stylesheet" type="text/css" href="style/index.css">
 <link rel="stylesheet" type="text/css" href="style/search_results.css">
 
 <head>
@@ -72,16 +73,25 @@ if (isset($_POST['save_item_id'])) {
 
 <body>
 
-    <div class="container">
-        <form action="search_results.php" method='POST' class="search-bar">
-            <input class="search-input" type="text" name="search" id="search" placeholder="z.B. Bücher, Magazines">
-            <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
-        </form>
+   <div class="flexbox">
+        <div class="search-box">
+            <div class="search-title"> Bibilotheken durchensuchen </div>
+            <div class="search-form">
+                <form action="search_results.php" method='POST' class="search-bar">
+                        <input class="search-input" type="text" name="search" id="search" placeholder="Bücher, Magazines">
+                        <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
+                </form>
+            </div>
+            <br>
+                <a href="/librarysystem/books.php" class="underline">zur erweiterten Suche</a>
+            
+        </div>
     </div>
-
+    <div class="sort-info">Sortiert nach Relevanz</div>
+    <div class="sort-info2">Sie finden nicht, was Sie brauchen? <b>abergrath@ukaachen.de</b></div>
     <div class="results-container">
         <div class="column books-column">
-            <h2>Books</h2>
+            <h1>Books</h1>
             <table>
                 <thead>
                     <tr>
@@ -106,12 +116,12 @@ if (isset($_POST['save_item_id'])) {
                                     <td><?php echo $book['year']; ?></td>
                                     <td><?php echo $book['publisher']; ?></td>
                                     <td><?php echo $book['status']; ?></td>
-                                    <td>
+                                    <!-- <td>
                                     <form action="saved_items.php" method="GET">
                                         <input type="hidden" name="book_id" value="<?php echo $book['id']; ?>">
                                         <button type="submit" name="save">Save</button>
                                     </form>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             <?php
                             }
@@ -123,7 +133,7 @@ if (isset($_POST['save_item_id'])) {
         </div>
 
         <div class="column magazines-column">
-            <h2>Magazines</h2>
+            <h1>Magazines</h1>
             <table>
                 <thead>
                     <tr>
@@ -146,12 +156,12 @@ if (isset($_POST['save_item_id'])) {
                                     <td><?php echo $magazine['jahrgang']; ?></td>
                                     <td><?php echo $magazine['volumes']; ?></td>
                                     <td><?php echo $magazine['standort']; ?></td>
-                                    <td>
+                                    <!--<td>
                                         <form action="search_results.php" method="POST">
                                             <input type="hidden" name="save_item_id" value="<?php echo $magazine['ID']; ?>">
                                             <button type="submit">Save</button>
                                         </form>
-                                    </td>
+                                    </td>-->
                                 </tr>
                             <?php
                             }
@@ -161,6 +171,9 @@ if (isset($_POST['save_item_id'])) {
                 </tbody>
             </table>
         </div>
+    </div>
+    <div id="footnotes">
+        <?php include 'footnotes.php' ?>
     </div>
 
 </body>

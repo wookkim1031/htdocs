@@ -38,6 +38,8 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
                 <p>Eine filterbare und durchsuchbare Liste von Datenbanken und anderen Online-Ressourcen. Die Bücher sind in Seiten unterteilt und mit Hilfe des Alphabets A-Z können Sie die Bücher bequem finden.</p>
             <h3>Magazine Suche </h3>
                 <p>A filterable and searchable list of databases and other online resources. The Magazines are divided in pages and using alphabet A-Z, you can find the books convinently.</p>
+            <h3>Haben Sie Fragen?</h3>   
+                <p>Sie können an Bergrath Arne wenden. <b> abergrath@ukaachen.de</b></p>
         </div>
         <div id="footnotes">
         <?php include 'footnotes.php' ?>

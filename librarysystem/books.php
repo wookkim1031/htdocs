@@ -151,11 +151,17 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>    
                     <div class="year-filter">
                     <form action="" method="get" name="yearFilterForm" id="yearFilterForm">
-                        <label for="min_year">Min Jahr:</label>
-                        <input type="number" placeholder="Start Year" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
+                        <div class="year-label1">
+                            <label for="min_year">
+                                <input type="number" placeholder="Start Year" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
+                            </label>
+                        </div>
                         <br>
-                        <label for="max_year">Max Jahr:</label>
-                        <input type="number" placeholder="End Year" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
+                        <div class="year-label">
+                            <label for="max_year">
+                                <input type="number" placeholder="End Year" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
+                            </label>
+                        </div>
                         <br>
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
                         <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
@@ -166,7 +172,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>
                 </div>
                 <div>
-                    <button class="show-filter" onclick="toggleFilter('status')">Status Filter <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
+                    <button class="show-filter" onclick="toggleFilter('status')">Select Status <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
                     <div class="status-filter">
                     <form action="" method="get" name="filterForm">
                     <?php 
@@ -188,12 +194,13 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>
                 </div>
                 <div>
-                    <button class="show-filter" onclick="toggleFilter('location')">Location Filter <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
+                    <button class="show-filter" onclick="toggleFilter('location')">Select Location <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
                     <div class="location-filter">
                     <form action="" method="get" id="locationFilterForm">
-                        <label for="location">Location</label>
-                        <select name="location" id="location" class="filter-select">
-                        <option value="">All</option>
+                        <label for="location">
+                            <select name="location" id="location" class="filter-select">
+                        </label>
+                        <option value="">Option</option>
                         <?php 
                         while ($row_location = $result_locations->fetch_assoc()) {
                             $selected = (isset($_GET['location']) && $_GET['location'] == $row_location['id']) ? "selected" : '';
@@ -201,6 +208,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         }
                         ?>
                         </select>
+                        <br>
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
                         <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
                         <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
@@ -210,12 +218,13 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     </div>
                 </div>
                 <div>
-                    <button class="show-filter" onclick="toggleFilter('mediatypes')"> Media Filter <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
+                    <button class="show-filter" onclick="toggleFilter('mediatypes')">Select Media <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
                     <div class="mediatypes-filter">
                     <form action="" method="get" id="mediaFilterForm">
-                        <label for="mediatypes">Mediatypes</label>
-                        <select name="mediatypes" id="mediatypes" class="filter-select">
-                        <option value="">All</option>
+                        <label for="mediatypes">
+                            <select name="mediatypes" id="mediatypes" class="filter-select">
+                        </label>
+                        <option value="">Option</option>
                         <?php 
                         while ($row_mediatypes = $result_mediatypes->fetch_assoc()) {
                             $selected = (isset($_GET['mediatypes']) && $_GET['mediatypes'] == $row_mediatypes['id']) ? "selected" : '';
@@ -223,6 +232,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         }
                         ?>
                         </select>
+                        <br>
                         <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
                         <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
                         <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
@@ -231,6 +241,9 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                         <button type="submit" form="mediaFilterForm" class="filter-button">Filter</button>
                     </form>
                     </div>
+                </div>
+                <div>
+                    <button class="reset-button" type="button" id="resetFiltersButton">Reset Selections</button>
                 </div>
             </div>
         </div>
@@ -246,7 +259,7 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                                 <td> <img src="/librarysystem/image/book-solid.svg" alt="magazine"></td>
                                 <td>
                                     <div class="books-details">
-                                        <?php if (($row['type']) !== "unbekannt") { ?>
+                                        <?php if (($row['type']) !== "Unbekannt") { ?>
                                             <div class="book-type"> <?php echo $row['type']; ?> </div>
                                         <?php } ?>
                                         <div class="book-title"> <?php echo $row['title']; ?> </div>
@@ -257,12 +270,12 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                                             <div> <?php echo $row['year']; ?> </div>
                                         <?php } ?>
 
-                                        <?php if (($row['room']) !== "unbekannt") { ?> 
+                                        <?php if (($row['room']) !== "Unbekannt") { ?> 
                                             <div> <?php echo "Standort : ".$row['location'] ?> </div>
                                             <div> <?php echo ' Raum : '. $row['room']; ?> </div>
                                         <?php } ?>
                                         
-                                        <?php if (($row['status']) == "verfügbar") { ?>
+                                        <?php if (($row['status']) == "Verfügbar") { ?>
                                             <div class="book-status"> Verfügbar </div>
                                         <?php } else { ?>
                                             <div class="book-status-not"> Entliehen</div>

@@ -24,6 +24,7 @@
   }
   
   table {
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -194,10 +195,12 @@
   }
   
   .filter-select {
-    width: 200px;
+    width: 170px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin: 15px 0px;
+    font-size:15px;
   }
   
   .filter-button {
@@ -221,11 +224,12 @@
     margin-left: 50px;
     margin-top: 20px;
     position: absolute;
-    border: #333 solid;
+
   }
   
   .year-filter-top h3 {
     margin-left: 50px;
+    font-size: 25px;
   }
   
   .year-filter,
@@ -234,30 +238,87 @@
     display: none;
   }
   
-  .location-filter {
+  .standort-filter {
     display: none;
   }
   
   .show-filter {
     display: inline-block;
-    background-color: #989898;
-    padding: 13px;
-    cursor: pointer;
+    background-color:#fff;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    color: #000;
+    fill: #000;
+    outline: 0;
+    min-width: 140px;
+    line-height: 24px;
+    letter-spacing: -.0px;
+    font-weight:600;
+    font-size:16px;
+    height: 48px;
+    margin-top: 2px;
+    padding:0 17px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    transition: all .3s;
+    touch-action: manipulation;
   }
   
-  .show-filter img {
-    width: 12.5px;
-    transition: transform .7s ease-in-out;
+  .show-filter:focus {
+    color: #171e29;
   }
   
   .show-filter:hover {
-    color: blue;
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
   }
   
-  .show-filter img:hover {
-    transform: rotate(360deg);
+  .show-filter:active {
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
   }
   
+  .show-filter img{
+    width: 14px;
+    font-size: 15px;
+    height: 10px;
+    margin-left: 15px;
+    transition: transform .7s ease-in-out;
+    opacity: 0.8;
+  }
+
+  .filter-button {
+    background-color: #fff;
+    border: 1px solid #d6d9d9;
+    border-radius: 7px;
+    box-shadow: rgba(213,217,217,0.5) 0 2px 5px 0;
+    color: #0f1111;
+    cursor:pointer;
+    line-height: 29px;
+    text-align: center;
+    width: 100px;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    padding: 0 10px 0 11px;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .filter-button:hover{
+    background-color: #f7fafa;
+  }
+  
+  .filter-button:focus{
+    border-color:#008296;
+    box-shadow: rgba(213,217,217,0.5) 0 2px 5px 0;
+    outline: 0;
+  }
+
   #scrollToTopBtn {
     display: none;
     position: fixed;

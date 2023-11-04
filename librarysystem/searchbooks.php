@@ -58,7 +58,6 @@ if (isset($_POST['save_item_id'])) {
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="style/search_books_index.css">
-<link rel="stylesheet" type="text/css" href="style/suchengine.css">
 
 <head>
     <title>Search</title>
@@ -70,7 +69,7 @@ if (isset($_POST['save_item_id'])) {
 
 <body>
 
-    <div class="container">
+    <div class="flexbox">
         <div class="search-options">
             <form action="searchbooks.php" method="POST" class="search-bar">
                 <button type="submit" name="searchType" value="books">Search Books</button>

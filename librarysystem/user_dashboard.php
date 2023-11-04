@@ -21,13 +21,14 @@ if (isset($_SESSION["user_id"])) {
 <head>
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="style/profile.css">
+    <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for icons -->
 </head>
 <body>
     <?php include 'navbar.php' ?>
     <div class="profile-container">
         <div class="cover-photo">
-            <h2>  Bibilothek für Medizin Statistik </h2> 
+            <h2>  User Profile </h2> 
         </div>
         <div class="profile-header">
             <div class="profile-picture"></div>
@@ -37,18 +38,42 @@ if (isset($_SESSION["user_id"])) {
         <div class="profile-tabs">
             <ul>
                 <li><a href="#"><i class="fas fa-user"></i> About</a></li>
-                <li><a href="#"><i class="fas fa-book"></i> Lend Books</a></li>
             </ul>
         </div>
         <div class="profile-content">
-            <h3>About</h3>
-            <p>Add your about information here.</p>
-            <form action="update_profile.php" method="post">
-                <label for="new_name">Update Name:</label>
-                <input type="text" id="new_name" name="new_name" value="<?php echo $user['name']; ?>">
-                <button type="submit">Save</button>
-            </form>
+            <div class="non-hidden">
+            <table>
+                <tr>
+                    <th>Name:</th>
+                    <td><?php echo htmlspecialchars($user['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td><?php echo htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8'); ?></td>
+                </tr>
+                <tr>
+                    <th>Telefonnummer:</th>
+                    <td><?php echo htmlspecialchars($user['telephone'] ?? 'Nicht vorhanden', ENT_QUOTES, 'UTF-8'); ?></td>
+                </tr>
+            </table>
+            </div>
+            <div class="edit-section hidden">
+                <form action="update_profile.php" method="post">
+                    <div class="form-group">
+                        <label for="new_name">Update Name:</label>
+                        <input type="text" id="new_name" name="new_name" value="<?php echo htmlspecialchars($user['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_telephone">Update Telephone:</label>
+                        <input type="text" id="new_telephone" name="new_telephone" value="<?php echo htmlspecialchars($user['telephone'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                    </div>
+                    <button type="submit" class="profile-button">Save</button>
+                </form>
+            </div>
+            <button id="editButton" class="profile-button non-hidden">Edit</button>
         </div>
     </div>
+
+    <script src="./js/dashboard.js"></script>
 </body>
 </html>

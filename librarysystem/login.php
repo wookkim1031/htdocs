@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if($userRole == "admin") {
                 header("Location: ../librarysystem");
             } else {
-                header("Location: ../books");
+                header("Location: ../librarysystem");
             }
             
             exit;

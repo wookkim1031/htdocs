@@ -63,3 +63,13 @@ window.onload = function() {
     nonLoadingScreen.style.opacity = '1';
     nonLoadingScreen.style.pointerEvents = 'auto';
   });
+
+  /*reset button */
+function resetFiltersAndReload() {
+    window.location.href = 'http://localhost/librarysystem/books.php';
+}
+
+var resetButton = document.getElementById('resetFiltersButton');
+resetButton.addEventListener('click', function() {
+    resetFiltersAndReload();
+}); 

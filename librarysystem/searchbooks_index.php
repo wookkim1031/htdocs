@@ -21,11 +21,19 @@ if (isset($_POST['save'])) {
 </head>
 <body>
     
-    <div class="container">
-        <form action="search_results.php" method='POST' class="search-bar">
-                <input class  = "search-input" type="text" name="search" id="search" placeholder="z.B. Bücher, Magazines">
-                <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
-        </form>
+    <div class="flexbox">
+        <div class="search-box">
+            <div class="search-title"> Bibilotheken durchensuchen </div>
+            <div class="search-form">
+                <form action="search_results.php" method='POST' class="search-bar">
+                        <input class="search-input" type="text" name="search" id="search" placeholder="Bücher, Magazines">
+                        <button type="submit" name="save"><img src="../librarysystem/image/search.svg" alt="search"></button>
+                </form>
+            </div>
+            <br>
+                <a href="/librarysystem/books.php" class="underline">zur erweiterten Suche</a>
+            
+        </div>
     </div>
 
     <table>

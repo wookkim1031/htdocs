@@ -32,8 +32,10 @@ $count = $result->num_rows;
 $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM magazines ORDER BY alphabet ASC";
 $result_alphabets = $mysqli->query($sql_alphabets);
 
-$sql_locations = "SELECT * FROM magazines";
+$sql_locations = "SELECT DISTINCT standort FROM magazines";
 $result_location = $mysqli->query($sql_locations);
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -72,19 +74,24 @@ $result_location = $mysqli->query($sql_locations);
         <div class="filter-top">
             <h3>Sortiere nach</h3>
             <div class="filter-section">
-                <span class="show-filter" onclick="toggleFilter('standort')">Location Filter</span>
+                        <br>
+                <button class="show-filter" onclick="toggleFilter('standort')">Location Filter <img src="/librarysystem/image/angledown.svg" alt="arrow"></button>
                 <div class="standort-filter">
-                    <form action="" method="get" name="filterForm">
+                    <form action="" method="get" name="locationFilterForm" id="locationFilterForm">
+                        <label for="standort"> </label>
+                            <select name="standort" id="standort" class="filter-select">
+                        
+                        <option value="">Option</option>
                         <?php 
-                            $isLocationSelected = isset($_GET['standort']);
-                            while ($row_status = $result_location->fetch_assoc()) {
-                            $checked = ($isLocationSelected && $_GET['standort'] == $row_location['id']) ? 'checked' : '';
-                            ?>
-                            <label>
-                                <input type="radio" name="standort" value="<?php echo $row_location['id']; ?>" <?php echo $checked; ?> onclick="this.form.submit();">
-                                <?php echo $row_status['standort']; ?>
-                            </label>
-                        <?php } ?>
+                            while ($row_location = $result_location->fetch_assoc()) {
+                            $location = $row_location['standort'];
+                            $isLocationSelected = (isset($_GET['standort']) &&  $_GET['standort'] == $location) ? 'checked' : '';
+                            echo "<option value='" . $location . "' " . $isLocationSelected . ">" . $location . "</option>";
+                         } ?>
+                        </select>
+                        <br>
+                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                        <button type="submit" form="locationFilterForm" class="filter-button">Apply</button>
                     </form>
                 </div>
             </div>

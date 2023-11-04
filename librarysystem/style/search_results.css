@@ -3,10 +3,23 @@
     justify-content: space-between;
 }
 
+.sort-info {
+    font-size: 19px;
+    padding: 15px 0px 0px 15px;
+}
+
+.sort-info2 {
+    float:right;
+    font-size: 18px;
+    padding-right: 20px;
+}
+
 .column {
-    background-color: #f0f0f0;
+    border-top: 4px solid;
     padding: 20px;
     border-radius: 10px;
+    margin:5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .books-column {
@@ -29,19 +42,27 @@
 .magazines-column table td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+}
+
+.books-column table tbody tr {
+    margin-top: 10px;
+}
+
+.books-column table tr,
+.magazines-column table tr{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .books-column table th {
-    background-color: #ddd;
+    border-bottom: 2px solid;
 }
 
 .magazines-column table th {
-    background-color: #ddd;
+    border-bottom: 2px solid;
 }
 
-.books-column h2,
-.magazines-column h2 {
+.books-column h1,
+.magazines-column h1 {
     margin-bottom: 10px;
 }
 

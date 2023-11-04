@@ -1,23 +1,25 @@
 <?php
 session_start();
 
-if (isset($_SESSION["user_id"]) && isset($_POST["new_name"])) {
-    $mysqli = require __DIR__ . "/database.php";
+if (isset($_SESSION["user_id"])) {
+    if (isset($_POST["new_name"]) || isset($_POST["new_telephone"])) {
+        $mysqli = require __DIR__ . "/database.php";
+        
+        $user_id = $_SESSION["user_id"];
+        $new_name = $_POST["new_name"] ?? null; 
+        $new_telephone = $_POST["new_telephone"] ?? null; 
+
+        
+        $stmt = $mysqli->prepare("UPDATE users SET name = ?, telephone = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $new_name, $new_telephone, $user_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
     
-    $user_id = $_SESSION["user_id"]; // Store user ID in a variable
-    $new_name = $_POST["new_name"]; // Get the updated name from the form
-
-    // Update the user's name in the database
-    $stmt = $mysqli->prepare("UPDATE users SET name = ? WHERE id = ?");
-    $stmt->bind_param("si", $new_name, $user_id);
-    $stmt->execute();
-    $stmt->close();
-
-    // Update the $user variable with the new name
-    $user['name'] = $new_name;
+    header("Location: user_dashboard.php");
+} else {
+    header("Location: login.php"); 
+    exit();
 }
-
-// Redirect back to the profile page
-header("Location: profile.php");
-exit();
 ?>
