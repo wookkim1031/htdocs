@@ -1,6 +1,2 @@
-Library system für medizinische Statistik mit PHP.
+Library system with PHP (MySQL) und HTML und CSS
 
-Login
-SignUp
-Books.php
-Index.php
