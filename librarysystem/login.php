@@ -1,5 +1,4 @@
 <?php
-
 $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,6 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             WHERE email = '%s'",
             $mysqli->real_escape_string($_POST["email"])); //sql injection protection
     $result = $mysqli->query($sql);
+
+    session_start();
+    session_regenerate_id();
+
 
     $user = $result->fetch_assoc();
 
@@ -22,9 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $roleResult = $mysqli->query($roleSql);
             $userRole = $roleResult->fetch_assoc()["role_name"];
 
-            session_start();
-
-            session_regenerate_id();
             
             $_SESSION["user_id"] = $user["id"];
             if($userRole == "admin") {
@@ -61,9 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form method="post" class="login-form">
             <label for="uname"><b>Username</b></label>
-             <input type="email" name="email" id="email" value="<?= htmlspecialchars($_POST["email"] ?? "")   ?>" required> 
-             <label for="pword"><b>Password</b></label>
-            <input type="password" name="password" id= "password" placeholder="Password" required> 
+            <input type="email" name="email" id="email" value="<?= htmlspecialchars($_POST["email"] ?? "") ?>" required> 
+             <label for="password"><b>Password</b></label>
+             <input type="password" name="password" id="password" placeholder="Password" required>
                 <!-- error message -->
                 <?php if ($is_invalid) : ?>
                     <em>Invalid login</em>
