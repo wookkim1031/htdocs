@@ -87,47 +87,21 @@ if (isset($_POST['save_item_id'])) {
     </div>
 
     <div class="results-container">
-        <?php if ($searchType === 'books') : ?>
+        <?php if ($searchType === 'books' && !empty($books_details)) : ?>
             <div class="column books-column">
                 <h2>Books</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>title</th>
-                            <th>author</th>
-                            <th>year</th>
-                            <th>publisher</th>
-                            <th>status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (isset($_POST['save']) && !empty($_POST['search'])) : ?>
-                            <?php if (!$books_details) : ?>
-                                <tr>
-                                    <td colspan="5" class="no-data-found">No data found</td>
-                                </tr>
-                            <?php else : ?>
-                                <?php foreach ($books_details as $book) : ?>
-                                    <tr>
-                                        <td><?php echo $book['title']; ?></td>
-                                        <td><?php echo $book['author']; ?></td>
-                                        <td><?php echo $book['year']; ?></td>
-                                        <td><?php echo $book['publisher']; ?></td>
-                                        <td><?php echo $book['status']; ?></td>
-                                        <td>
-                                            <form action="search_results.php" method="POST">
-                                                <input type="hidden" name="save_item_id" value="<?php echo $book['id']; ?>">
-                                                <button type="submit" name="save">Save</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                <?php foreach ($books_details as $book) : ?>
+                    <form action="edit_book.php" method="POST" class="edit-book-form">
+                        <input type="hidden" name="book_id" value="<?php echo $book['id']; ?>">
+                        <input type="text" name="title" value="<?php echo htmlspecialchars($book['title']); ?>">
+                        <input type="text" name="author" value="<?php echo htmlspecialchars($book['author']); ?>">
+                        <input type="text" name="year" value="<?php echo htmlspecialchars($book['year']); ?>">
+                        <input type="text" name="publisher" value="<?php echo htmlspecialchars($book['publisher']); ?>">
+                        <button type="submit" name="update_book">Update</button>
+                    </form>
+                <?php endforeach; ?>
             </div>
-        <?php elseif ($searchType === 'magazines') : ?>
+
             <div class="column magazines-column">
                 <h2>Magazines</h2>
                 <table>

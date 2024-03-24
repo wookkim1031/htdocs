@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'navbar.php';
 
 if (isset($_SESSION["user_id"])) {
     $mysqli = require __DIR__ . "/database.php";
@@ -11,7 +12,9 @@ if (isset($_SESSION["user_id"])) {
     $stmt->execute();
     
     $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    if ($user = $result->fetch_assoc()) {
+        $_SESSION['role_id'] = $user['role_id'];
+    }
     $stmt->close();
 }
 ?>
@@ -25,10 +28,11 @@ if (isset($_SESSION["user_id"])) {
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for icons -->
 </head>
 <body>
-    <?php include 'navbar.php' ?>
+    <?php if(isset($user)) :?>
     <div class="profile-container">
         <div class="cover-photo">
             <h2>  User Profile </h2> 
+
         </div>
         <div class="profile-header">
             <div class="profile-picture"></div>
@@ -70,10 +74,22 @@ if (isset($_SESSION["user_id"])) {
                     <button type="submit" class="profile-button">Save</button>
                 </form>
             </div>
-            <button id="editButton" class="profile-button non-hidden">Edit</button>
+            <button id="editButton" class="profile-button non-hidden">Edit</button> <br><br>
+            <?php 
+                    if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 2) {
+                        echo '<a href="admin_searchbooks.php" class="admin_button">Edit Books and Magazines</a><br><br>';
+                        echo '<a href="admin_users.php" class="admin_button"> Mangae Users</a>';
+                    }
+            ?>
         </div>
     </div>
 
     <script src="./js/dashboard.js"></script>
+
+    <?php else: ?>
+
+        <?php include 'login.php' ?>
+    
+    <?php endif; ?>
 </body>
 </html>

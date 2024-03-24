@@ -5,12 +5,6 @@ $searchErr = '';
 $books_details = '';
 $magazines_details = '';
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    // Redirect the user to the login page or display an error message
-    header("Location: login.php"); // Replace with your login page URL
-    exit();
-}
 
 if (isset($_POST['save'])) {
     $search = !empty($_POST['search']) ? $_POST['search'] : '';
@@ -18,12 +12,16 @@ if (isset($_POST['save'])) {
     
     // Search in the "books" table
     $stmt = $mysqli->prepare("SELECT * FROM books LEFT JOIN status ON books.status = status.id WHERE title LIKE ? OR author LIKE ? OR year LIKE ? OR publisher LIKE ?");
-    $stmt->execute(["%$search%", "%$search%", "%$search%", "%$search%"]);
+    $searchTerm = "%$search%";
+    $stmt->bind_param("ssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+    $stmt->execute();
     $books_details = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     
     // Search in the "magazines" table
     $stmt = $mysqli->prepare("SELECT * FROM magazines WHERE title LIKE ? OR jahrgang LIKE ? OR volumes LIKE ? OR standort LIKE ?");
-    $stmt->execute(["%$search%", "%$search%", "%$search%", "%$search%"]);
+    $searchTerm = "%$search%";
+    $stmt->bind_param("ssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+    $stmt->execute(); 
     $magazines_details = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 

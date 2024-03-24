@@ -1,8 +1,23 @@
 <?php
+session_start();
 $mysqli = require __DIR__ . "/database.php";
 
 $min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
 $max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
+
+$booksPerPage = 20;
+$totalBooksQuery = "SELECT COUNT(*) AS total FROM books
+JOIN mediatypes ON books.type = mediatypes.id
+JOIN status ON status.id = books.status 
+JOIN location ON location.id = books.location";
+$totalBooksResult = $mysqli->query($totalBooksQuery);
+$totalBooksRow = $totalBooksResult->fetch_assoc();
+$totalBooks = $totalBooksRow['total'];
+
+$totalPages = ceil($totalBooks / $booksPerPage);
+
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($currentPage - 1 ) * $booksPerPage;
 
 if (isset($_GET['alphabet'])) {
     $alphabet = $_GET['alphabet'];
@@ -33,7 +48,7 @@ if (isset($_GET['alphabet'])) {
         $sql .= " AND mediatypes.id = " .$mediatypes;
     }
 
-    $sql .= " ORDER BY title ASC ";
+    $sql .= " ORDER BY title ASC LIMIT $booksPerPage OFFSET $offset";
 } else {
     $sql = "SELECT books.*, mediatypes.type AS type, status.status, location.name AS location, location.room AS room
         FROM books
@@ -61,7 +76,7 @@ if (isset($_GET['alphabet'])) {
         $sql .= " AND mediatypes.id = " .$mediatypes;
     }
 
-    $sql .= " ORDER BY title ASC";
+    $sql .= " ORDER BY title ASC LIMIT $booksPerPage OFFSET $offset";
 }
 
 $result = $mysqli->query($sql);
@@ -75,6 +90,7 @@ $result_status = $mysqli->query($sql_status);
 
 $sql_mediatypes = "SELECT * FROM mediatypes";
 $result_mediatypes = $mysqli->query($sql_mediatypes);
+include 'navbar.php';
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +105,6 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
     <link rel="stylesheet" type="text/css" href="style/footnotes.css">
 </head>
 <body>
-    <?php include 'navbar.php' ?>
     <div id="loading-screen">
             <div class="circle-loading"></div>
     </div>
@@ -321,15 +336,42 @@ $result_mediatypes = $mysqli->query($sql_mediatypes);
                     }
                     ?>
                 </div>
+                
                 </tbody>
                 </div>
-    </div>
-                
             </table>
-        
-        <script src="./js/books.js"></script>
+            </div>  
 
-        <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Top</button>
+                <div class="pagination-container">
+                    <?php
+                        $range = 8;
+                        $start = ((floor(($currentPage - 1) / $range)) * $range)  + 1;
+                        $end = $start + $range - 1;
+                        $end = ($totalPages < $end) ? $totalPages : $end;
+
+                        echo '<div class="pagination">'; 
+                        if ($start > 1) {
+                            echo '<a href="?page=' . ($start - 1) . '">&laquo; Previous</a>';
+                        }
+                        
+                        for ($page = $start; $page <= $end; $page++) {
+                            echo '<a href="?page=' . $page . '"';
+                            if ($page == $currentPage) {
+                                echo ' class="active"';
+                            }
+                            echo '>' . $page . '</a>';
+                        }
+                    
+                        if ($end < $totalPages) {
+                            echo '<a href="?page=' . ($end + 1) . '">Next &raquo;</a>';
+                        }
+                        echo '</div>';
+                        ?>
+                    
+                </div>
+        <script src="./js/books.js"></script>
+        <button onclick="scrollToBottom()" id="scrollToBottomBtn" title="Go to Bottom">Scroll to Bottom</button>
+        <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Scroll to Top</button>
         <div class="footnotes">
             <?php include 'footnotes.php' ?>
         </div>

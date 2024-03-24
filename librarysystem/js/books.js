@@ -24,7 +24,6 @@ function applyStatusFilter(statusId) {
     window.location.href = url.toString();
 }
 
-// Add an event listener to status buttons
 document.addEventListener('DOMContentLoaded', function() {
     const statusButtons = document.querySelectorAll('.status-button');
     statusButtons.forEach(function(button) {
@@ -35,21 +34,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-// JavaScript function to scroll to the top of the page
 function scrollToTop() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+    window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// Show/hide the scroll-to-top button based on the scroll position
+function scrollToBottom() {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+} 
+
 window.addEventListener("scroll", function() {
     var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    var scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
+    if (window.scrollY > 20) {
         scrollToTopBtn.style.display = "block";
     } else {
         scrollToTopBtn.style.display = "none";
     }
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+    if (window.scrollY < maxScroll - 20) {
+        scrollToBottomBtn.style.display = "block";
+    } else {
+        scrollToBottomBtn.style.display = "none";
+    }
+    
 });
+
 
 window.onload = function() {
     document.getElementById('loading-screen').style.display = 'none';
@@ -64,7 +77,6 @@ window.onload = function() {
     nonLoadingScreen.style.pointerEvents = 'auto';
   });
 
-  /*reset button */
 function resetFiltersAndReload() {
     window.location.href = 'http://localhost/librarysystem/books.php';
 }

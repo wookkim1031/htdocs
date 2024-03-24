@@ -50,7 +50,7 @@
     width: 150px;
   }
   
-  /* Books Details */
+
   .books-details {
     font-family: 'PT Serif', serif;
   }
@@ -72,7 +72,6 @@
     font-size: 16px;
   }
   
-  /* Popup */
   .popup {
     width: 900px;
     background: #fff;
@@ -158,7 +157,6 @@
     font-weight: 600;
   }
   
-  /* Alphabet navigation */
   .alphabet-navigation {
     margin-bottom: 20px;
     display: flex;
@@ -212,7 +210,6 @@
     cursor: pointer;
   }
   
-  /* Found books count */
   .found-books-count {
     font-size: 16px;
     margin-left: 50px;

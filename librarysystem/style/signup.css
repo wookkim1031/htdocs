@@ -4,13 +4,11 @@
     box-sizing: border-box;
 }
 
-/* Body styles */
 body {
     font-family: 'PT Serif', serif;
     background-color: #f1f1f1;
 }
 
-/* Container styles */
 .container {
     max-width: 700px;
     margin: 100px auto;
@@ -43,7 +41,6 @@ h2 img {
     margin-bottom: 20px;
 }
 
-  /* description form*/
   .description-box {
     padding: 10px;
     background-color: #f9f9f9;
@@ -56,8 +53,6 @@ h2 img {
     color: #333;
     text-align: center;
 }
-
-/*label*/
 
 .form-group label img {
     max-width: 15px;
@@ -106,42 +101,39 @@ button[type="submit"]:hover {
     font-size: 14px;
 }
 
-  /* Form footer section */
-  .form-footer {
+.form-footer {
     margin-top: 15px;
     text-align: center;
-  }
+}
   
-  .form-footer a {
+.form-footer a {
     margin: 0 5px;
     text-decoration: none;
     color: #333;
-  }
+}
   
-  .form-footer a:hover {
+.form-footer a:hover {
     text-decoration: underline;
-  }
-  
-  /* need help section */
+}
 
-  .contact-box {
+.contact-box {
     display: none;
     margin-top: 20px;
-    }
+}
 
-    .contact-box.show {
-        display: block;
-        background-color: #f1f1f1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.contact-box.show {
+    display: block;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-    .contact-box h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
+.contact-box h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
 
-    .contact-box p {
-        margin-bottom: 5px;
-    }
+.contact-box p {
+    margin-bottom: 5px;
+}

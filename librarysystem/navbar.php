@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,13 +19,22 @@
                 <ul class="links">
                     <li><a href="books.php">DATENBANK <br> BUCH</a></li>
                     <li><a href="magazines.php">DATENBANK <br> MAGAZINE</a></li>
-                    <li><a href="searchbooks.php">BUCH <br> SUCHENGINE</a></li>
                     <li><a href="https://www.ukaachen.de/kliniken-institute/institut-fuer-medizinische-statistik/institut/">INSTITUT <br> SEITE</a></li>
+                    <?php if($_SESSION['role_id'] == 2 ) :?>
+                    <li><a href="admin_searchbooks.php"> Edit <br> Books </li>
+                    <li><a href="admin_users.php"> Edit <br> Users </li>
+                    <?php endif; ?>
+
                 </ul>
 
                 <ul class="logout-button">
-                    <li class="account"><a href="user_dashboard.php"><img src="/librarysystem/image/user.png" alt="user-account">  ACCOUNT </a></li>
-                    <li class="logout"><a href="logout.php"><img src="/librarysystem/image/logout.png" alt="user-account"> LOGOUT</a></li>
+                    <?php if (isset($_SESSION['user_id'])) :?>
+                        <li class="account"><a href="user_dashboard.php"><img src="/librarysystem/image/user.png" alt="user-account">  ACCOUNT </a></li>
+                        <li class="logout"><a href="logout.php"><img src="/librarysystem/image/logout.png" alt="user-account"> LOGOUT</a></li>
+                        
+                    <?php else :?>
+                        <li class="login"><a href="login.php"><img src="/librarysystem/image/logout.png" alt="login"> Login</a></li>
+                    <?php endif; ?>
                 </ul>
                     <div class="toggle_btn">
                         <i class="fa-solid fa-bars"></i> 
@@ -32,13 +42,10 @@
             </div>
             </div>
 
-            <div class="dropdown_menu">
-            <li><a href="index.php">Home</a></li>
-                    <li><a href="login/login.php">LOGIN</a></li>
-                    <li><a href="books.php">DATENBANK BUCH</a></li>
-                    <li><a href="magazines.php">DATENBANK MAGAZINE</a></li>
-                    <li><a href="profile.php">PROFILE</a></li>
-                    <li><a href="logout.php">logout</a></li>
+            <div class="dropdown_menu"> 
+                <li><a href="books.php">DATENBANK <br> BUCH</a></li>
+                <li><a href="magazines.php">DATENBANK <br> MAGAZINE</a></li>
+                <li><a href="https://www.ukaachen.de/kliniken-institute/institut-fuer-medizinische-statistik/institut/">INSTITUT <br> SEITE</a></li>
             </div>
         </header>
 

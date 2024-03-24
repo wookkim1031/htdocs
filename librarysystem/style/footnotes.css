@@ -34,7 +34,6 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Contact information styles */
 .contact-info {
     display: flex;
     justify-content: space-between;
@@ -82,7 +81,6 @@ footer a:hover {
     margin-top: 10px;
 }
 
-/* Privacy policy link styles */
 footer a.privacy-policy {
     font-size: 12px;
 }

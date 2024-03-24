@@ -41,7 +41,6 @@ td img {
     color:rgb(124, 124, 124);
 }
 
-/*search bar*/
 .search_bar {
     width: 100%;
     background: rgb(7, 91, 15);
@@ -51,7 +50,6 @@ td img {
     padding: 3%;
 }
 
-/*Form bar*/
 ::placeholder{
     color: black;
 }

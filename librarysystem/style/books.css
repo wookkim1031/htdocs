@@ -80,7 +80,8 @@ td img {
 
 /* Popup */
 .popup {
-  width: 900px;
+  width: 80vw;
+  max-width: 900px;
   background: #fff;
   position: fixed;
   top: 50%;
@@ -95,18 +96,18 @@ td img {
 
 .open-popup {
   visibility: visible;
-  top: 50%;
   transform: translate(-50%, -50%) scale(1);
 }
 
 .popup img {
-  width: 100px;
+  width: 20vw;
+  max-width: 100px;
   margin-top: -50px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
 }
 
 .book-title-popup {
-  font-size: 38px;
+  font-size: calc(1.5em + 1vw);
   font-weight: 500;
   margin: 30px 0 10px;
   border-bottom: 1px solid rgb(0, 0, 0);
@@ -120,7 +121,7 @@ td img {
   color: #fff;
   border: 0;
   outline: none;
-  font-size: 18px;
+  font-size: calc(14px + 0.5vw);
   border-radius: 4px;
   cursor: pointer;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
@@ -411,10 +412,29 @@ td img {
   display: none;
 }
 
-#scrollToTopBtn {
+#scrollToBottomBtn {
   display: none;
   position: fixed;
   bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: #555;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#scrollToBottomBtn:hover {
+  background-color: #333;
+}
+
+#scrollToTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 60px;
   right: 20px;
   z-index: 99;
   padding: 10px;
@@ -481,4 +501,42 @@ td img {
 #non-loading-screen {
 
   pointer-events: none;
+}
+
+.pagination-container {
+  text-align:center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-right: 4px;
+  background-color: #f0f0f0;
+  color: #303;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover, .pagination a:focus{
+  background-color: #007bff;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.pargination a.active{
+  background-color: #007bff;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.pagination a.prev, .pagination a.next{
+  background-color: #ffffff;
+  font-weight:bold;
+}
+
+.pagination a.prev:hover, .pagination a.next:hover{
+  background-color: #dddddd;
 }

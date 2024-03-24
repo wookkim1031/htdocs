@@ -1,20 +1,7 @@
-<?php 
-
+<?php
 session_start();
-
-if (isset($_SESSION["user_id"])) { //check for the user_id
-    
-    $mysqli = require __DIR__ . "/database.php"; //get the databsae to get the connection
-
-    $sql = "SELECT * FROM users
-            WHERE  id = {$_SESSION["user_id"]}";
-    
-    $result = $mysqli->query($sql);
-
-    $user = $result->fetch_assoc();
-}
+include 'navbar.php'
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -24,8 +11,7 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
     <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
 </head>
 <body>
-    <?php if(isset($user)): ?>
-        <?php include 'navbar.php' ?>
+        
         <?php include 'searchbooks_index.php' ?>
         <div class="introduction">
             <h2>Bibilothek von Institut für Medizinische Statistik</h2>
@@ -44,10 +30,6 @@ if (isset($_SESSION["user_id"])) { //check for the user_id
         <div id="footnotes">
         <?php include 'footnotes.php' ?>
         </div>
-    <?php else: ?>
-        
-        <?php include 'login.php' ?>
-    
-    <?php endif; ?>
+
 </body>
 </html>
