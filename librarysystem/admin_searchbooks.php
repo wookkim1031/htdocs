@@ -20,8 +20,22 @@ $magazines_details = [];
 
 
 $booksPerPage = 40;
-$currentPage = isset($_GET['page']) ? (int)$_GET['page'] :1;
-$offset = ($currentPage - 1) * $booksPerPage;
+$totalBooksQuery = "SELECT COUNT(*) AS total FROM books
+JOIN mediatypes ON books.type = mediatypes.id
+JOIN status ON status.id = books.status 
+JOIN location ON location.id = books.location";
+$totalBooksResult = $mysqli->query($totalBooksQuery);
+$totalBooksRow = $totalBooksResult->fetch_assoc();
+$totalBooks = $totalBooksRow['total'];
+
+$totalPages = ceil($totalBooks / $booksPerPage);
+
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($currentPage - 1 ) * $booksPerPage;
+
+$status_query = "SELECT id, status FROM status";
+$status_result = $mysqli->query($status_query);
+$statuses = $status_result->fetch_all(MYSQLI_ASSOC);
 
 if ($searchType === 'books') {
         $stmt = $mysqli->prepare( "SELECT COUNT(*) AS total FROM books
@@ -40,7 +54,7 @@ if ($searchType === 'books') {
 
 if($stmt) {
     $stmt->execute();
-    $stmt->bind_result($totalRecords);
+    $stmt->bind_result($totalRecords); 
     $stmt->fetch();
     $stmt->close();
 
@@ -102,8 +116,6 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
         </form>
     </div>
 
-
-    <!--Book Edit Form --> 
     <div class="results-container">
         <?php if ($searchType === 'books' && !empty($books_details)) : ?>
             <div class="column books-column">
@@ -127,6 +139,11 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                         </div>
 
                         <div class="input-container">
+                            <label>Edition:</label>
+                            <span><?php echo htmlspecialchars($book['edition']); ?></span>
+                        </div>
+
+                        <div class="input-container">
                             <label>Publisher:</label>
                             <span><?php echo htmlspecialchars($book['publisher']); ?></span>
                         </div>
@@ -136,10 +153,15 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                             <span><?php echo htmlspecialchars($book['status_name']); ?></span>
                         </div>
 
+                        <div class="input-container">
+                            <label>isbn:</label>
+                            <span><?php echo htmlspecialchars($book['isbn']); ?></span>
+                        </div>
+
                         <button onclick="showEditForm(<?php echo $book['id']; ?>)">Edit</button>
                     </div>  
                     <div id="edit-form-<?php echo $book['id']; ?>" style="display:none;">
-                        <form action="edit_items.php" method="POST" class="edit-book-form">
+                        <form id="edit_books" action="edit_items.php" method="POST" class="edit-book-form">
                             <input type="hidden" name="book_id" value="<?php echo $book['id']; ?>">
 
                             <div class="input-container">
@@ -158,16 +180,32 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                             </div>
 
                             <div class="input-container">
+                                <label for="title-<?php echo $book['edition']; ?>">Edition:</label>
+                                <input type="text" name="edition" value="<?php echo htmlspecialchars($book['edition']); ?>">
+                            </div>
+
+                            <div class="input-container">
                                 <label for="title-<?php echo $book['id']; ?>">Publisher:</label>
                                 <input type="text" name="publisher" value="<?php echo htmlspecialchars($book['publisher']); ?>">
                             </div>
 
                             <div class="input-container">
-                                <label for="title-<?php echo $book['id']; ?>">Status:</label>
-                                <input type="text" name="status" value="<?php echo htmlspecialchars($book['status_name']); ?>">
+                                <label for="status-<?php echo $book['id']; ?>">Status:</label>
+                                <select id="status-<?php echo $book['id']; ?>" name="status">
+                                    <?php foreach($statuses as $status) {
+                                        $selected = ($status['id'] == $book['status']) ? 'selected' : '';
+                                        echo "<option value=\"" . htmlspecialchars($status['id']) . "\" $selected>" . htmlspecialchars($status['status']) . "</option>";
+                                    } ?>
+                                </select>
+                            </div>
+
+                            <div class="input-container">
+                                <label for="title-<?php echo $book['id']; ?>">isbn:</label>
+                                <input type="text" name="isbn" value="<?php echo htmlspecialchars($book['isbn']); ?>">
                             </div>
 
                             <button type="submit" name="update_book">Update</button>
+                            <button type="button" onclick="hideEditForm(<?php echo $book['id']; ?>)">Cancel</button>
                         </form>
                     </div>
                 <?php endforeach; ?>
@@ -202,6 +240,11 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                             <span><?php echo htmlspecialchars($magazine['standort']); ?></span>
                         </div>
 
+                        <div class="input-container">
+                            <label>Path:</label>
+                            <span><?php echo htmlspecialchars($magazine['image_path'])?></span>
+                        </div>
+
                         <button onclick="showEditForm(<?php echo $magazine['ID']; ?>)">Edit</button>
                     </div>  
             <div id="edit-form-<?php echo $magazine['ID']; ?>" style="display:none;">
@@ -226,7 +269,11 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                         <label>Standort:</label>
                         <input type="text" name="standort" value="<?php echo htmlspecialchars($magazine['standort']); ?>">
                     </div>
-                    
+
+                    <div class="input-container">
+                        <label>Path:</label>
+                        <input type="text" name="standort" value="<?php echo htmlspecialchars($magazine['image_path']); ?>"> 
+                    </div>
                     
                     <button type="submit" name="update_magazine">Update</button>
                 </form>
@@ -237,7 +284,6 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
         <p>No magazines found.</p>
     <?php endif; ?>
 
-    <script src="./js/books.js"></script>
             <button onclick="scrollToBottom()" id="scrollToBottomBtn" title="Go to Bottom">Scroll to Bottom</button>
             <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Scroll to Top</button>
 
@@ -269,18 +315,57 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
     </div>   
 </body>
 
-<script>
-    function showEditForm(bookId) {
-        var form = document.getElementById('edit-form-' + bookId);
-        var displayInfo = document.getElementById('book-' + bookId);
-        if (form.style.display === 'none') {
-            form.style.display = 'block';
-            displayInfo.style.display = 'none';
-        } else {
-            form.style.display = "none";
-            displayInfo.style.display='block';
+<?php if(isset($_GET['success'])): ?>
+    <div class="success-message">
+        <p>Erfolgreiche Änderung</p>
+        <ul>
+            <li class="info-item"><span class="label">Title:</span> <span class="value"><?php echo htmlspecialchars($_GET['title']); ?></span></li>
+            
+            <!-- Conditional display based on type -->
+            <?php if($_GET['type'] == 'book'): ?>
+                <li class="info-item"><span class="label">Author:</span> <span class="value"><?php echo htmlspecialchars($_GET['author']); ?></span></li>
+                <li class="info-item"><span class="label">Edition:</span> <span class="value"><?php echo htmlspecialchars($_GET['edition']); ?></span></li>
+                <li class="info-item"><span class="label">Year:</span> <span class="value"><?php echo htmlspecialchars($_GET['year']); ?></span></li>
+                <li class="info-item"><span class="label">Publisher:</span> <span class="value"><?php echo htmlspecialchars($_GET['publisher']); ?></span></li>
+                <li class="info-item"><span class="label">ISBN:</span> <span class="value"><?php echo htmlspecialchars($_GET['isbn']); ?></span></li>
+            <?php elseif($_GET['type'] == 'magazine'): ?>
+                <li class="info-item"><span class="label">Jahrgang:</span> <span class="value"><?php echo htmlspecialchars($_GET['jahrgang']); ?></span></li>
+                <li class="info-item"><span class="label">Volumes:</span> <span class="value"><?php echo htmlspecialchars($_GET['volumes']); ?></span></li>
+                <li class="info-item"><span class="label">Standort:</span> <span class="value"><?php echo htmlspecialchars($_GET['standort']); ?></span></li>
+            <?php endif; ?>
+        </ul>
+        <span class="close-btn">&times;</span>
+    </div>
+<?php elseif(isset($_GET['error'])): ?>
+    <div class="error-message">
+        <h4>Error</h4>
+        <p><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <span class="close-btn">&times;</span>
+    </div>
+<?php endif; ?>
+
+    <script>
+        function showEditForm(bookId) {
+            var form = document.getElementById('edit-form-' + bookId);
+            var displayInfo = document.getElementById('book-' + bookId);
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                displayInfo.style.display = 'none';
+            } else {
+                form.style.display = "none";
+                displayInfo.style.display='block';
+            }
         }
-    }
-</script>
+        function hideEditForm(bookId) {
+            var hideForm = document.getElementById('edit-form-' + bookId);
+            hideForm.style.display = 'none';
+
+            var displayHideInfo = document.getElementById('book-' + bookId);
+            if(displayHideInfo) {
+                displayHideInfo.style.display="block";
+            }
+        }
+    </script>
+    <script src="./js/books.js"></script>
 
 </html>

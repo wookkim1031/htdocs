@@ -34,14 +34,28 @@ tbody{
 
 tbody tr {
   display: block;
-  background: rgba(122, 122, 122, 0.1);
-  border: solid 1px;
+  background: rgba(163, 163, 163, 0.1);
+  border: 1px solid #858484; 
+  transition: border 0.1s ease;
+  transition: box-shadow 0.3s ease;
   padding: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+}
+
+tbody tr:hover{
+  box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.4);
+}
+
+tbody tr:hover .book-title{
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 tbody td {
   padding-left: 2rem;
 }
+
 
 td img {
   width: 150px;
@@ -78,53 +92,105 @@ td img {
   font-size: 16px;
 }
 
-/* Popup */
-.popup {
-  width: 80vw;
-  max-width: 900px;
-  background: #fff;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.1);
-  text-align: center;
-  padding: 0 60px 60px;
-  color: #333;
-  visibility: hidden;
-  transition: transform 0.3s;
+.books-details{
+  cursor: pointer;
+  padding-left: 2rem;
 }
 
+/* Popup */
+.book-container {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.book-cover, 
+.book-info {
+  margin-right: 40px;
+}
+
+.book-cover img{
+  width: 150px;
+  height: 200px;
+}
+
+
+
+.popup {
+  padding: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.bib-info{
+  padding-top: 15px;
+}
 .open-popup {
   visibility: visible;
-  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
 }
 
-.popup img {
-  width: 20vw;
-  max-width: 100px;
-  margin-top: -50px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+.popup-container{
+  display:grid;
+  grid-template-columns: max-content 1fr;
+  gap: 20px;
+  padding: 10px;
+  align-items: center;
 }
 
-.book-title-popup {
-  font-size: calc(1.5em + 1vw);
-  font-weight: 500;
-  margin: 30px 0 10px;
-  border-bottom: 1px solid rgb(0, 0, 0);
+.info-row {
+  display: contents;
 }
 
-.popup button {
+.info-title, .info-detail{
+  margin: 5px;
+}
+
+.info-title{
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.info-detail{
+  text-align: left;
+}
+.popup-container table{
   width: 100%;
-  margin-top: 50px;
-  padding: 10px 0;
-  background: #737373;
-  color: #fff;
-  border: 0;
-  outline: none;
-  font-size: calc(14px + 0.5vw);
-  border-radius: 4px;
+}
+
+.popup-container th, .popup-container td{
+  text-align: left;
+  padding: 8px;
+}
+
+.popup-container th{
+  background-color: #f2f2f2;
+}
+.popup button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  font-size: 30px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s; 
+}
+
+.popup button:hover {
+  background-color: rgba(0, 0, 0, 0.3); 
 }
 
 .btn {
@@ -147,27 +213,6 @@ td img {
 
 .footer-container {
   margin-top: 20px; 
-}
-
-
-.popup-container table {
-  display: flex;
-}
-
-.popup-container table tr {
-  display: grid;
-}
-
-.popup-side-title th {
-  padding: 1rem;
-}
-
-.popup-detail td {
-  padding: 1rem;
-}
-
-.popup-side-title div {
-  font-weight: 600;
 }
 
 /* Alphabet navigation */
@@ -208,7 +253,7 @@ td img {
   border: none;
   outline: none;
   border-bottom: 1px solid black;
-  transition: border-bottom .3s ease; /* Add transition here */
+  transition: border-bottom .3s ease;
 }
 
 .filter-input:focus {
@@ -224,7 +269,6 @@ td img {
   margin: 15px 0px;
   font-size:15px;
 }
-
 
 
 .filter-button {
@@ -312,6 +356,12 @@ td img {
   margin-top: 15px;
 }
 
+.year-label1 label input
+.year-label label input{
+  width: 170px;
+}
+
+
 .year-filter input {
   margin-top: 5px;
 }
@@ -360,7 +410,7 @@ td img {
   fill: #06f;
 }
 
-.show-filter:active {
+.show-filter:active {
   border-color: #06f;
   color: #06f;
   fill: #06f;
@@ -375,8 +425,6 @@ td img {
   opacity: 0.8;
 }
 
-
-/*status filter*/
 .status-filter {
   margin-top: 10px;
 }
@@ -539,4 +587,132 @@ td img {
 
 .pagination a.prev:hover, .pagination a.next:hover{
   background-color: #dddddd;
+}
+
+@media (max-width: 1240px) {
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .filter-section {
+    width: 52%;
+    margin-top: 10px;
+  }
+
+  .filter-input, 
+  .filter-select, 
+  .filter-button{
+    width: 100%;
+  }
+
+  .reset-button {
+    width: 140px;
+  }
+
+  .filter-button {
+    margin-top: 10px;
+  }
+}
+
+/* for handy screen */
+@media (max-width: 1000px) {
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px; 
+}
+
+.a-z {
+  margin-left: 0; 
+  margin-top: 10px;
+  text-align: center; 
+}
+
+.a-z h2 {
+  font-size: 24px; 
+}
+
+tbody {
+  width: 100%;
+  margin-left: 0;
+}
+
+tbody tr {
+  display: table-row; 
+  background: none; 
+  border: none; 
+  box-shadow: none; 
+  padding: 0; 
+  margin-bottom: 10px; 
+}
+
+tbody tr:hover {
+  box-shadow: none; 
+}
+
+tbody tr:hover .book-title {
+  color: initial; 
+  text-decoration: none; 
+  cursor: auto; 
+}
+
+tbody td {
+  padding-left: 0; 
+}
+
+td img {
+  width: 100%; 
+}
+
+.popup {
+  padding: 20px;
+}
+
+.popup-container {
+  grid-template-columns: 1fr; 
+  gap: 10px; 
+}
+
+.popup button {
+  top: 20px; 
+  right: 20px; 
+  font-size: 24px; 
+}
+
+.alphabet-navigation {
+  justify-content: space-around; 
+}
+
+.alphabet-navigation a {
+  margin-right: 5px;
+  padding: 3px 8px; 
+  font-size: 14px; 
+}
+
+.footer-container {
+  margin-top: 20px;
+}
+
+.pagination-container {
+  margin: 20px auto; 
+}
+
+.pagination a {
+  padding: 6px 12px; 
+  font-size: 14px; 
+}
 }

@@ -19,18 +19,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($user) {
 
         if(password_verify($_POST["password"], $user["password_hash"])) {
-            
-            //user Role
+
             $roleSql = sprintf("SELECT role_name FROM user_roles WHERE id = %d", $user["role_id"]);
             $roleResult = $mysqli->query($roleSql);
             $userRole = $roleResult->fetch_assoc()["role_name"];
-
             
             $_SESSION["user_id"] = $user["id"];
+            $_SESSION["role_id"] = $user["role_id"];
+            $_SESSION["role_name"] = $userRole;
+
             if($userRole == "admin") {
-                header("Location: ../librarysystem");
+                header("Location: ../librarysystem/index.php");
             } else {
-                header("Location: ../librarysystem");
+                header("Location: ../librarysystem/index.php");
             }
             
             exit;

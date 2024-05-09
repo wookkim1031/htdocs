@@ -1,6 +1,7 @@
 function openPopup(id) {
     var popup = document.getElementById('popup-' + id);
     popup.classList.add("open-popup");
+
 }
 
 function closePopup(id) {
@@ -45,6 +46,15 @@ function scrollToBottom() {
     });
 } 
 
+document.addEventListener("DOMContentLoaded", () => {
+    const closeButton = document.querySelector('.close-btn');
+    if(closeButton) {
+        closeButton.addEventListener('click', function() {
+            this.parentElement.style.display ='none';
+        });
+    }
+});
+
 window.addEventListener("scroll", function() {
     var scrollToTopBtn = document.getElementById("scrollToTopBtn");
     var scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
@@ -85,3 +95,9 @@ var resetButton = document.getElementById('resetFiltersButton');
 resetButton.addEventListener('click', function() {
     resetFiltersAndReload();
 }); 
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    if (window.location.search !== '') {
+        history.replaceState(null, '', window.location.pathname);
+    }
+});

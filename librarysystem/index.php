@@ -1,6 +1,9 @@
 <?php
+$mysqli = require __DIR__ . "/database.php";
 session_start();
 include 'navbar.php'
+
+
 ?>
 <!DOCTYPE html>
 <html>

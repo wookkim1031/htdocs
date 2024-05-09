@@ -37,10 +37,10 @@
 }
 
 .books-column table th,
-.magazines-column table th,
 .books-column table td,
+.magazines-column table th,
 .magazines-column table td {
-    padding: 10px;
+    padding: 5px;
     text-align: left;
 }
 
@@ -70,3 +70,207 @@
     font-style: italic;
     color: gray;
 }
+
+.popup {
+    padding: 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1000;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.book-cover, 
+.book-info {
+  margin-right: 40px;
+}
+
+.book-title {
+    font-size: 20px;
+    font-family: 'PT Serif', serif;
+}
+
+.book-publisher {
+    font-family: 'PT Serif', serif;
+}
+
+.book-author {
+    font-family: 'PT Serif', serif;
+}
+
+.popup-content {
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    transition: transform 0.5s;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #f00;
+    border:none;
+    border-radius: 50%;
+    font-size: 30px;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}
+
+.open-popup{
+    opacity: 1;
+    visibility: visible;
+}
+
+.open-Magpopup{
+    opacity: 1;
+    visibility: visible;
+}
+
+.book-details{
+    display:grid;
+    grid-template-columns: max-content 1fr;
+    gap: 20px;
+    padding: 10px;
+    align-items: center;
+}
+
+.info-row {
+    display: contents;
+}
+
+.info-title, .info-detail{
+    margin: 5px;
+}
+
+.info-title{
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.info-detail{
+    text-align: left;
+}
+
+.popup-container table{
+    width: 100%;
+}
+
+.popup-container th, .popup-container td{
+    text-align: left;
+    padding: 8px;
+}
+
+.popup-container th{
+    background-color: #f2f2f2;
+}
+
+.bib-info{
+    padding-top: 15px;
+}
+
+.book-cover img{
+    width: 150px;
+    height: 200px;
+}
+
+.book-cover-first img{
+    width: 40px;
+    height: 100px;
+}
+
+.book-list img,
+.magazine-list img{
+    width: 60px;
+    height: 80px;
+}
+
+.book-container {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+tbody tr {
+    background: rgba(163, 163, 163, 0.1);
+    border: 1px solid #858484; 
+    transition: border 0.1s ease;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+}
+
+tbody tr:hover{
+    box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.4);
+    background: rgba(255, 255, 255, 0.788);
+}
+
+tbody tr:hover .result-title{
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.loading {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 1800px) {
+    .books-column table td:nth-child(5),
+    .books-column table th:nth-child(5) {
+        display: none;
+    }
+}
+
+
+@media (max-width: 1300px) {
+    .books-column table td:nth-child(4),
+    .books-column table th:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    .books-column table td:nth-child(3),
+    .books-column table th:nth-child(3),
+    .magazines-column table td:nth-child(3),
+    .magazines-column table th:nth-child(3) {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    .books-column table td:nth-child(6),
+    .books-column table th:nth-child(6),
+    .magazines-column table td:nth-child(4),
+    .magazines-column table th:nth-child(4),
+    .magazines-column table td:nth-child(5),
+    .magazines-column table th:nth-child(5) {
+        display: none;
+    }
+}
+
+

@@ -5,19 +5,54 @@ $mysqli = require __DIR__ . "/database.php";
 $min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
 $max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
 
-$booksPerPage = 20;
+$booksPerPage = 10;
 $totalBooksQuery = "SELECT COUNT(*) AS total FROM books
 JOIN mediatypes ON books.type = mediatypes.id
 JOIN status ON status.id = books.status 
-JOIN location ON location.id = books.location";
+JOIN location ON location.id = books.location WHERE 1=1";
+$booksQueryBase = "SELECT books.*, mediatypes.type AS type, status.status, location.name AS location, location.room AS room
+FROM books
+JOIN mediatypes ON books.type = mediatypes.id
+JOIN status ON status.id = books.status 
+JOIN location ON location.id = books.location WHERE 1=1";
+
+$filters = '';
+if (!empty($_GET['alphabet'])) {
+    $alphabet = $mysqli->real_escape_string($_GET['alphabet']);
+    $filters .= " AND title LIKE '" . $alphabet . "%'";
+}
+if (!empty($_GET['location'])) {
+    $location = $mysqli->real_escape_string($_GET['location']);
+    $filters .= " AND location.id = " . $location;
+}
+if (!empty($min_year)) {
+    $filters .= " AND year >= " . $min_year;
+}
+if (!empty($max_year)) {
+    $filters .= " AND year <= " . $max_year;
+}
+if (!empty($_GET['status'])) {
+    $status = $_GET['status'];
+    $filters .= " AND status.id = " . $status;
+}
+if (!empty($_GET['mediatypes'])) {
+    $mediatypes = $_GET['mediatypes'];
+    $filters .= " AND mediatypes.id = " .$mediatypes;
+}
+
+
+$totalBooksQuery = $totalBooksQuery .$filters;
+$booksQuery = $booksQueryBase . $filters;
+
 $totalBooksResult = $mysqli->query($totalBooksQuery);
 $totalBooksRow = $totalBooksResult->fetch_assoc();
 $totalBooks = $totalBooksRow['total'];
-
 $totalPages = ceil($totalBooks / $booksPerPage);
-
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($currentPage - 1 ) * $booksPerPage;
+$booksQuery .= " ORDER BY title ASC LIMIT $booksPerPage OFFSET $offset";
+$result = $mysqli->query($booksQuery);
+$count = $result->num_rows;
 
 if (isset($_GET['alphabet'])) {
     $alphabet = $_GET['alphabet'];
@@ -90,6 +125,26 @@ $result_status = $mysqli->query($sql_status);
 
 $sql_mediatypes = "SELECT * FROM mediatypes";
 $result_mediatypes = $mysqli->query($sql_mediatypes);
+
+$coverImages = [];
+
+while($row = $result->fetch_assoc()){
+    if(!empty($row['isbn'])) {
+        $isbn = $row['isbn'];
+        $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
+
+        $response = @file_get_contents($url);
+        if($response !== FALSE) {
+            $data = json_decode($response, true);
+            if (!empty($data['items']) && isset($data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])) {
+                $coverImageUrl = $data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
+            
+                $coverImages[$isbn] = $coverImageUrl;
+            }
+        }
+    }
+}
+mysqli_data_seek($result, 0);
 include 'navbar.php';
 ?>
 
@@ -270,19 +325,31 @@ include 'navbar.php';
                     <?php 
                     while ($row = $result->fetch_assoc()) {
                         if (!empty($row['title'])) { ?> 
+                        
                             <tr>
-                                <td> <img src="/librarysystem/image/book-solid.svg" alt="magazine"></td>
                                 <td>
-                                    <div class="books-details">
+                                    <?php
+                                        if(array_key_exists($row['isbn'], $coverImages)) {
+                                            echo '<img src="' . htmlspecialchars($coverImages[$row['isbn']]) . '" alt="Cover Image" style="height: 200px; width: 150px;">';
+                                        } else {
+                                            echo '  <img src="/librarysystem/image/book-solid.svg" alt="Default Cover" style="height: 200px; width: 150px;">';
+                                        }
+                                        
+                                    ?>
+                                </td>
+                                <td>
+                                    <div class="books-details" onclick="openPopup(<?php echo $row['id'] ?>)">
                                         <?php if (($row['type']) !== "Unbekannt") { ?>
                                             <div class="book-type"> <?php echo $row['type']; ?> </div>
                                         <?php } ?>
                                         <div class="book-title"> <?php echo $row['title']; ?> </div>
-                                        <div class="book-publisher"> <?php echo $row['publisher']; ?> </div>
+                                        <?php if (($row['publisher']) !== "") {?>
+                                        <div class="book-publisher"> <?php echo "Publisher : " .$row['publisher']; ?> </div>
+                                        <?php } ?>
                                         <div class="book-author"> <?php echo $row['author']; ?> </div>
 
                                         <?php if (($row['year']) !== "0000") {?> 
-                                            <div> <?php echo $row['year']; ?> </div>
+                                            <div> <?php echo "Jahr : " .$row['year']; ?> </div>
                                         <?php } ?>
 
                                         <?php if (($row['room']) !== "Unbekannt") { ?> 
@@ -295,40 +362,64 @@ include 'navbar.php';
                                         <?php } else { ?>
                                             <div class="book-status-not"> Entliehen</div>
                                         <?php } ?>
-                                        
-
-                                        <button type="submit" class="btn" onclick="openPopup(<?php echo $row['id'] ?>)"> Hier Klicken</button>
-                                        
-                                        <div class="popup" id="popup-<?php echo $row['id']; ?>">
-                                            <img src="/librarysystem/image/book-solid.svg" alt="magazine">
-                                            <h2 class="book-title-popup"> <?php echo $row['title']; ?> </h2>
-                                            <div class="popup-container">
-                                                <table>
-                                                    <thead>
-                                                        <tr class="popup-side-title">
-                                                            <th>Author</th>
-                                                            <th>Publisher</th>
-                                                            <th>Edition</th>
-                                                            <th>Standort</th>
-                                                            <th>Room</th>
-                                                            <th>ISBN</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="popup-detail">
-                                                            <td> <?php echo $row['author']; ?> </td>
-                                                            <td> <?php echo $row['publisher']; ?> </td>
-                                                            <td> <?php echo $row['edition']; ?> </td>
-                                                            <td> <?php echo $row['location'] ?> </td>
-                                                            <td> <?php echo $row['room']; ?> </td>
-                                                            <td> <?php echo $row['isbn']; ?> </td>
-                                                        </tr>   
-                                                    </tbody>
-                                                </table>  
-                                            </div>                             
-                                            <button type="button" onclick="closePopup(<?php echo $row['id'] ?>)">OK</button>
-                                        </div>
                                     </div>
+                                    <div class="popup" id="popup-<?php echo $row['id']; ?>">
+                                            <h2 class="book-title-popup"> <?php echo $row['title']; ?> </h2>
+                                            <div class="book-container" >
+                                                <div class="book-cover">
+                                                    <?php
+                                                        if(array_key_exists($row['isbn'], $coverImages)) {
+                                                            echo '<img src="' . htmlspecialchars($coverImages[$row['isbn']]) . '" alt="Cover Image">';
+                                                        } else {
+                                                            echo ' <img src="/librarysystem/image/book-solid.svg" alt="Default Cover"">';
+                                                        }
+                                                        
+                                                    ?>
+                                                </div>
+                                                <div class="book-info">
+                                                    <p class="book-author"><?php echo $row['author']; ?></p>
+                                                    <p class="book-publisher"><?php echo $row['publisher']; ?></p>
+                                                    <p class="book-isbn"><?php echo $row['isbn']; ?></p>
+                                                </div>
+                                            </div>
+                                            <h3 class="bib-info">Bibilographic Information</h3>
+                                            <hr>
+                                            <div class="popup-container">
+                                                    <div class="info-row">
+                                                        <div class="info-title">Title:</div>
+                                                        <div class="info-detail"><?php echo $row['title']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">Author:</div>
+                                                        <div class="info-detail"><?php echo $row['author']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">Year:</div>
+                                                        <div class="info-detail"><?php echo $row['year']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">Publisher:</div>
+                                                        <div class="info-detail"><?php echo $row['publisher']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">Edition:</div>
+                                                        <div class="info-detail"><?php echo $row['edition']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">Location:</div>
+                                                        <div class="info-detail"><?php echo $row['location']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">Room:</div>
+                                                        <div class="info-detail"><?php echo $row['room']; ?></div>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <div class="info-title">ISBN:</div>
+                                                        <div class="info-detail"><?php echo $row['isbn']; ?></div>
+                                                    </div>
+                                            </div>                             
+                                            <button type="button" onclick="closePopup(<?php echo $row['id'] ?>)">&times;</button>
+                                        </div>
                                 </td>
                             </tr>
                 <?php

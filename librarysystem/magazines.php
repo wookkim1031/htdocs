@@ -1,10 +1,12 @@
 <?php
 $mysqli = require __DIR__ . "/database.php";
+session_start();
+include 'navbar.php';
 
 $min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
 $max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
 
-$sql = "SELECT *
+$sql = "SELECT *, image_path
         FROM magazines ";
 
 if (isset($_GET['alphabet'])) {
@@ -23,6 +25,7 @@ if (!empty($_GET['standort'])) {
     $standort = $_GET['standort'];
     $sql .= "AND standort = '" . $standort . "' ";
 }
+
 
 $sql .= "ORDER BY title ASC";
 
@@ -50,7 +53,6 @@ $result_location = $mysqli->query($sql_locations);
     <script src="./js/books.js"></script>
 </head>
 <body>
-    <?php include 'navbar.php' ?>
     <div class="a-z">
         <h2>A-Z Datenbanken</h2>
         <p>Suche das Buch in der Datenbank</p>
@@ -104,7 +106,13 @@ $result_location = $mysqli->query($sql_locations);
                 while ($row = $result->fetch_assoc()) {
                     ?>
                     <tr>
-                        <td><img src="/librarysystem/image/newspaper-solid.svg" alt="magazine"></td>
+                        <td>
+                            <?php if(!empty($row['image_path'])): ?>
+                                <img src="<?php echo htmlspecialchars($row['image_path']); ?>" alt="Magazine Image">
+                            <?php else: ?>
+                                <img src="/librarysystem/image/newspaper-solid.svg" alt="magazine">
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <div class="books-details">
                                 <div class="book-title"><?php echo $row['title']; ?></div>
