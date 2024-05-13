@@ -49,34 +49,6 @@ if (isset($_POST['save'])) {
     $magazines_details = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-//not working 
-if (isset($_POST['save_item_id'])) {
-    $item_id = $_POST['save_item_id'];
-    $user_id = $_SESSION['user_id']; 
-
-    $mysqli = require __DIR__ . "/database.php";
-
-    $stmt = $mysqli->prepare("SELECT id, title FROM books WHERE id = ?");
-    $stmt->bind_param("i", $item_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $book = $result->fetch_assoc();
-        $title = $book['title'];
-        $stmt = $mysqli->prepare("INSERT INTO saved_items (user_id, book_id, title) VALUES (?,?,?)");
-        $stmt->bind_param("iis", $user_id, $item_id, $title);
-        if($stmt->execute()) {
-            header("Location: saved_items.php?book_id=" . urlencode($book['id']));
-            exit();
-        } else {
-            echo "Error saving the book: " . $stmt->error;
-        }
-        $stmt->close();
-    } else {
-        echo "Book not found";
-    }
-}
-
 ?>
 
 
@@ -219,6 +191,10 @@ foreach ($magazines_details as $magazine) {
                 <div class="book-info">
                     <div class="magazine-title"><?php echo $magazine['title']; ?></div>
                 </div>
+                <form action="save_magazine.php" method="post">
+                    <input type="hidden" name="magazine_id" value="<?= $magazine['magazine_id'] ?>">
+                    <button type="submit" name="save_magazine">Save Magazine</button>
+                </form>
             </div>
             <h3 class="bib-info">Bibilographic Information</h3>
             <hr>

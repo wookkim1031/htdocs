@@ -80,6 +80,11 @@ body {
     text-align: center;
 }
 
+.saved-section{
+    justify-content: center;
+    text-align: center;
+}
+
 .profile-content table {
     width: 100%;
     border-spacing: 0 10px; 
@@ -174,3 +179,42 @@ body {
 .admin_button:hover{
     background: #8e8e8e;
 }
+
+/*saved books*/
+.saved-books {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.saved-books table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.saved-books th,
+.saved-books td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.saved-books th {
+    background-color: #f2f2f2;
+}
+
+.saved-books tr:hover {
+    background-color: #ddd;
+}
+
+.saved-books button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.saved-books button:hover {
+    background-color: #c82333;
+}
+

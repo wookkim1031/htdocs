@@ -76,7 +76,9 @@ if (isset($_SESSION['error_message'])) {
                     <td><?php echo htmlspecialchars($user['telephone'] ?? 'Nicht vorhanden', ENT_QUOTES, 'UTF-8'); ?></td>
                 </tr>
             </table>
-            <h3>Saved Books</h3>
+            <div class="non-hidden saved-books">
+            <h3>Saved Books/Magazines</h3>
+            <hr>
             <?php if(!empty($saved_books)): ?>
                 <table>
                     <thead>
@@ -105,8 +107,9 @@ if (isset($_SESSION['error_message'])) {
                     </tbody>
                 </table>
                 <?php else: ?>
-                    <p>No books saved.</p>
+                    <p class="saved-section">No Magazines/Books saved.</p>
                 <?php endif; ?>                    
+            </div>
             </div>
             <div class="edit-section hidden">
                 <form action="update_profile.php" method="post">
