@@ -19,18 +19,17 @@ if (isset($_SESSION["user_id"])) {
         $books_result = $books_stmt->get_result();
         $saved_books = $books_result->fetch_all(MYSQLI_ASSOC);
         $books_stmt->close();
+
+
+        $magazines_stmt = $mysqli->prepare("SELECT magazines.id, magazines.title, magazines.jahrgang, magazines.volumes, magazines.standort FROM saved_items JOIN magazines ON saved_items.magazine_id = magazines.id WHERE saved_items.user_id = ?");
+        $magazines_stmt->bind_param("i", $user_id);
+        $magazines_stmt->execute();
+        $magazines_result = $magazines_stmt->get_result();
+        $saved_magazines = $magazines_result->fetch_all(MYSQLI_ASSOC);
+        $magazines_stmt->close();
+
     }
     $stmt->close();
-}
-
-if (isset($_SESSION['success_message'])) {
-    echo "<p class='success'>" . $_SESSION['success_message'] . "</p>";
-    unset($_SESSION['success_message']); // Clear the message after displaying it
-}
-
-if (isset($_SESSION['error_message'])) {
-    echo "<p class='error'>" . $_SESSION['error_message'] . "</p>";
-    unset($_SESSION['error_message']); // Clear the message after displaying it
 }
 ?>
 
@@ -39,7 +38,7 @@ if (isset($_SESSION['error_message'])) {
 <html>
 <head>
     <title>Profile</title>
-    <link rel="stylesheet" type="text/css" href="style/profile.css">
+    <link rel="stylesheet" type="text/css" href="style/user_dashboard.css">
     <link rel="icon" href="/librarysystem/image/IMSA-LOGO.png">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for icons -->
 </head>
@@ -77,7 +76,8 @@ if (isset($_SESSION['error_message'])) {
                 </tr>
             </table>
             <div class="non-hidden saved-books">
-            <h3>Saved Books/Magazines</h3>
+            
+            <h3>Saved Books</h3>
             <hr>
             <?php if(!empty($saved_books)): ?>
                 <table>
@@ -107,8 +107,41 @@ if (isset($_SESSION['error_message'])) {
                     </tbody>
                 </table>
                 <?php else: ?>
-                    <p class="saved-section">No Magazines/Books saved.</p>
-                <?php endif; ?>                    
+                    <p class="saved-section">No Books saved.</p>
+                <?php endif; ?>   
+                
+                <h3>Saved Magazines</h3>
+                <hr>
+                <?php if(!empty($saved_magazines)): ?>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Jahrgang</th>
+                                <th>Volumes</th>
+                                <th>Standort</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($saved_magazines as $magazine): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($magazine['title']) ?></td>
+                                    <td><?= htmlspecialchars($magazine['jahrgang']) ?></td>
+                                    <td><?= htmlspecialchars($magazine['volumes']) ?></td>
+                                    <td><?= htmlspecialchars($magazine['standort']) ?></td>
+                                    <td>
+                                        <form action="remove_saved_magazine.php" method="post">
+                                            <input type="hidden" name="magazine_id" value="<?= $magazine['id'] ?>">
+                                            <button type="submit">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="saved-section">No Magazines saved.</p>
+                <?php endif; ?>
             </div>
             </div>
             <div class="edit-section hidden">

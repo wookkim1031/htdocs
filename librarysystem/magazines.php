@@ -6,7 +6,7 @@ include 'navbar.php';
 $min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
 $max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
 
-$sql = "SELECT *, image_path
+$sql = "SELECT *, image_path, magazines.id AS magazine_id
         FROM magazines ";
 
 if (isset($_GET['alphabet'])) {
@@ -119,6 +119,11 @@ $result_location = $mysqli->query($sql_locations);
                                 <div class="book-info"><?php echo $row['jahrgang']; ?></div>
                                 <div class="book-info"><?php echo $row['volumes']; ?></div>
                                 <div class="book-info"><?php echo $row['standort']; ?></div>
+                                <div>
+                                <form action="save_magazine.php" method="post">
+                                    <input type="hidden" name="magazine_id" value="<?php echo $row['magazine_id']; ?>">
+                                    <button class="save-button" type="submit" name="save_magazine">Save Magazine</button>
+                                </form></div>
                             </div>
                         </td>
                     </tr>

@@ -6,14 +6,14 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if (isset($_POST['book_id'])) {
+if (isset($_POST['magazine_id'])) {
     $user_id = $_SESSION['user_id'];
-    $book_id = $_POST['book_id'];
+    $magazine_id = $_POST['magazine_id'];
 
     $mysqli = require __DIR__ . "/database.php";
 
-    $stmt = $mysqli->prepare("DELETE FROM saved_items WHERE user_id = ? AND book_id = ?");
-    $stmt->bind_param("ii", $user_id, $book_id);
+    $stmt = $mysqli->prepare("DELETE FROM saved_items WHERE user_id = ? AND magazine_id = ?");
+    $stmt->bind_param("ii", $user_id, $magazine_id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {

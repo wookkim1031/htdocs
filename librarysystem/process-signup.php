@@ -1,10 +1,10 @@
 <?php
 
-$mysqli = require __DIR__ . "/database.php"; //to get the directory of the current file 
+$mysqli = require __DIR__ . "/database.php";  
 
 $error = null;
 
-if(empty($_POST["name"])) { // if name is empty
+if(empty($_POST["name"])) { 
     die("Name is required");
 }
 
@@ -12,7 +12,7 @@ if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
     die("Valid email is required");
 }
 
-$emailDomain = explode("@", $_POST["email"])[1]; // Extract the domain from the email address
+$emailDomain = explode("@", $_POST["email"])[1]; 
 
 if ($emailDomain !== "ukaachen.de") {
     $error = "Emails from ukaachen.de domain are only allowed";

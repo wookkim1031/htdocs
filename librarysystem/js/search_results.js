@@ -17,41 +17,30 @@ function closeMagazinePopup(magazineId) {
     magazinePopup.classList.remove("open-Magpopup");
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.search-bar').addEventListener('submit', function() {
         document.getElementById('loading').style.display = 'block';
     });
 
-    const books = document.querySelectorAll('.book-cover');
+    // Assuming loading is hidden by default, else hide it here
+    document.getElementById('loading').style.display = 'none';
 
-    books.forEach(book => {
-        book.addEventListener('click', function() {
-            const isbn = this.getAttribute('data-isbn');
-            if (!isbn) return;
-            fetchCoverImage(this, isbn);
-        });
+    // Update cover images
+    const bookCovers = document.querySelectorAll('.book-cover');
+    bookCovers.forEach(coverDiv => {
+        const isbn = coverDiv.getAttribute('data-isbn');
+        const imageTag = coverDiv.querySelector('img');  // Target the img tag specifically
+        if (isbn && imageTag) {
+            const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.items && data.items.length > 0 && data.items[0].volumeInfo.imageLinks && data.items[0].volumeInfo.imageLinks.thumbnail) {
+                        imageTag.src = data.items[0].volumeInfo.imageLinks.thumbnail;
+                    }
+                })
+                .catch(error => console.error('Error fetching cover image:', error));
+        }
     });
-});
 
-function fetchCoverImage(bookElement, isbn) {
-    const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.items && data.items.length > 0) {
-                const bookInfo = data.items[0].volumeInfo;
-                if (bookInfo.imageLinks && bookInfo.imageLinks.thumbnail) {
-                    updateBookCover(bookElement, bookInfo.imageLinks.thumbnail);
-                }
-            }
-        })
-        .catch(error => console.error('Error fetching cover image:', error));
-}
-
-function updateBookCover(bookElement, imageUrl) {
-    // Assuming your bookElement has an <img> tag inside it
-    const imgTag = bookElement.querySelector('img');
-    imgTag.src = imageUrl;
-}
+})

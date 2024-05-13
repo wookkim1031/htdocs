@@ -211,7 +211,9 @@ include 'navbar.php';
     <div class="found-books-count">
         <?php echo "Zeige Ergebnisse für " . $count . " sortiert nach Relevanz"; ?>
     </div>
-    <div class="filter"> 
+    <div class="filter-container">
+        <button class="filter-toggle-btn" id="filterToggleBtn">Toggle Filters</button>
+    <div class="filter" id="filterSection"> 
         <div class="filter-top">
             <h3>Sortiere nach</h3>
             <div class="filter-section">
@@ -317,7 +319,7 @@ include 'navbar.php';
                 </div>
             </div>
         </div>
-
+        </div>                    
         <table id="tb">
             <div class="container-wrapper">
                 <div class="container">
@@ -380,6 +382,10 @@ include 'navbar.php';
                                                     <p class="book-author"><?php echo $row['author']; ?></p>
                                                     <p class="book-publisher"><?php echo $row['publisher']; ?></p>
                                                     <p class="book-isbn"><?php echo $row['isbn']; ?></p>
+                                                    <p><form action="save_book.php" method="post">
+                                                        <input type="hidden" name="book_id" value="<?= $row['id'] ?>">
+                                                        <button class="save-button" type="submit" name="save_book">Save Book</button>
+                                                    </form></p>
                                                 </div>
                                             </div>
                                             <h3 class="bib-info">Bibilographic Information</h3>
@@ -418,7 +424,7 @@ include 'navbar.php';
                                                         <div class="info-detail"><?php echo $row['isbn']; ?></div>
                                                     </div>
                                             </div>                             
-                                            <button type="button" onclick="closePopup(<?php echo $row['id'] ?>)">&times;</button>
+                                            <button class="close-button" type="button" onclick="closePopup(<?php echo $row['id'] ?>)">&times;</button>
                                         </div>
                                 </td>
                             </tr>

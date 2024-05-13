@@ -232,6 +232,48 @@ tbody tr:hover .result-title{
     animation: spin 2s linear infinite;
 }
 
+.save-button {
+    margin-top: 10px;
+    background-color: #68b275;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #45c67d;
+}
+
+.pagination {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #007BFF;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.pagination a.active {
+    color: #fff;
+    background-color: #007BFF;
+    border-color: #007BFF;
+}
+
+.pagination a:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+    border-color: #0056b3;
+}
+
 
 @keyframes spin {
     0% { transform: rotate(0deg); }

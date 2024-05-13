@@ -340,3 +340,20 @@
     margin-top: 200px;
   }
   
+  .open-popup {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .save-button {
+    margin-top: 10px;
+    background-color: #68b275;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #45c67d;
+  }

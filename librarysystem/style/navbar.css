@@ -153,6 +153,20 @@ header {
     justify-content: center;
 }
 
+@media (max-width: 1300px) {
+    .title-navbar a{
+        font-size: 20px;
+    }
+
+    .navbar .links a {
+        font-size: 0.9rem;
+    }
+
+    .logout-button li a {
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 1000px) {
     .navbar .links, 
     .navbar .logout-button {
