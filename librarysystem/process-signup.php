@@ -1,5 +1,7 @@
 <?php
 
+$mysqli = require __DIR__ . "/database.php"; //to get the directory of the current file 
+
 $error = null;
 
 if(empty($_POST["name"])) { // if name is empty
@@ -35,7 +37,6 @@ if ($error) {
 
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-$mysqli = require __DIR__ . "/database.php"; //to get the directory of the current file 
 
 $defaultRoleId = 1;
 

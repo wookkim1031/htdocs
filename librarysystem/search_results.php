@@ -52,28 +52,26 @@ if (isset($_POST['save'])) {
 //not working 
 if (isset($_POST['save_item_id'])) {
     $item_id = $_POST['save_item_id'];
-    $user_id = $_SESSION['user_id']; // Get the user ID from the session
+    $user_id = $_SESSION['user_id']; 
 
-    // Retrieve the title from the 'books' table based on the 'item_id'
+    $mysqli = require __DIR__ . "/database.php";
+
     $stmt = $mysqli->prepare("SELECT id, title FROM books WHERE id = ?");
     $stmt->bind_param("i", $item_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    $book = $result->fetch_assoc();
-    $title = $book['title'];
-    
-
-    if($book) {
-            // Save the item with the given item_id and user_id to the database
-            //not working 
-            $stmt = $mysqli->prepare("INSERT INTO saved_items (user_id, book_id, title) VALUES (?, ?, ?)");
-            $stmt->bind_param("iis", $user_id, $item_id, $title);
-            $stmt->execute();
-            $stmt->close();
-            
-            // Redirect to the saved_items.php page after saving the item
+    if ($result->num_rows > 0) {
+        $book = $result->fetch_assoc();
+        $title = $book['title'];
+        $stmt = $mysqli->prepare("INSERT INTO saved_items (user_id, book_id, title) VALUES (?,?,?)");
+        $stmt->bind_param("iis", $user_id, $item_id, $title);
+        if($stmt->execute()) {
             header("Location: saved_items.php?book_id=" . urlencode($book['id']));
-    exit();
+            exit();
+        } else {
+            echo "Error saving the book: " . $stmt->error;
+        }
+        $stmt->close();
     } else {
         echo "Book not found";
     }
@@ -265,6 +263,10 @@ foreach ($books_details as $book) {
                     <div class="book-publisher"><?php echo $book['publisher']; ?></div>
                     <div class="book-isbn"><?php echo $book['isbn']; ?></div>
                 </div>
+                <form action="save_book.php" method="post">
+                    <input type="hidden" name="book_id" value="<?= $book['book_id'] ?>">
+                    <button type="submit" name="save_book">Save Book</button>
+                </form>
             </div>
             <h3 class="bib-info">Bibilographic Information</h3>
             <hr>
@@ -295,10 +297,6 @@ foreach ($books_details as $book) {
                 </div>
                 <div class="info-row">
                     <div class="info-title">Status:</div>
-                    <div class="info-detail"><?php echo $book['status']; ?></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-title">Edition:</div>
                     <div class="info-detail"><?php echo $book['status']; ?></div>
                 </div>
                 <div class="info-row">

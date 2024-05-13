@@ -8,6 +8,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 2) {
 
 $mysqli = require __DIR__ . "/database.php"; 
 
+$status_query = "SELECT id, status FROM status";
+$status_result = $mysqli->query($status_query);
+if ($status_result) {
+    $statuses = $status_result->fetch_all(MYSQLI_ASSOC);
+} else {
+    $statuses = [];
+    error_log('Failed to fetch statuses: ' . $mysqli->error);
+}
+
 $searchErr = '';
 $searchType = $_POST['searchType'] ?? ($_SESSION['searchType'] ?? 'books');
 $search = $_POST['search_books'] ?? ($_SESSION['search_books'] ?? '');
@@ -33,11 +42,9 @@ $totalPages = ceil($totalBooks / $booksPerPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($currentPage - 1 ) * $booksPerPage;
 
-$status_query = "SELECT id, status FROM status";
-$status_result = $mysqli->query($status_query);
-$statuses = $status_result->fetch_all(MYSQLI_ASSOC);
 
 if ($searchType === 'books') {
+    
         $stmt = $mysqli->prepare( "SELECT COUNT(*) AS total FROM books
         JOIN mediatypes ON books.type = mediatypes.id
         JOIN status ON status.id = books.status 
@@ -272,7 +279,7 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
 
                     <div class="input-container">
                         <label>Path:</label>
-                        <input type="text" name="standort" value="<?php echo htmlspecialchars($magazine['image_path']); ?>"> 
+                        <input type="text" name="image_path" value="<?php echo htmlspecialchars($magazine['image_path']); ?>"> 
                     </div>
                     
                     <button type="submit" name="update_magazine">Update</button>

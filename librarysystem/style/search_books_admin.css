@@ -210,92 +210,108 @@ h2 {
   cursor: pointer;
 }
 
-  .edit-book-form button[type="button"]:hover{
-    background-color: #3a3a3a;
-  }
+.edit-book-form button[type="button"]:hover{
+  background-color: #3a3a3a;
+}
+
+.input-container select {
+  width: 100%; 
+  padding: 8px; 
+  font-size: 16px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  background-color: white; 
+  color: #333; 
+  cursor: pointer;
+}
+
+.input-container select:hover,
+.input-container select:focus {
+  border-color: #888; 
+  outline: none;
+}
+
+p.no-data-found {
+  color: #999;
+  text-align: center;
+}
+
+.pagination-container {
+  text-align:center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-right: 4px;
+  background-color: #f0f0f0;
+  color: #303;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover, .pagination a:focus{
+  background-color: #007bff;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.pargination a.active{
+  background-color: #007bff;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.pagination a.prev, .pagination a.next{
+  background-color: #ffffff;
+  font-weight:bold;
+}
+
+.pagination a.prev:hover, .pagination a.next:hover{
+  background-color: #dddddd;
+}
+
+#scrollToBottomBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: #555;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+}
 
 
-  p.no-data-found {
-    color: #999;
-    text-align: center;
-  }
+#scrollToBottomBtn:hover {
+  background-color: #333;
+}
 
-  .pagination-container {
-    text-align:center;
-    margin: 20px 0;
-  }
-  
-  .pagination a {
-    display: inline-block;
-    padding: 8px 15px;
-    margin-right: 4px;
-    background-color: #f0f0f0;
-    color: #303;
-    border: 1px solid #ddd;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .pagination a:hover, .pagination a:focus{
-    background-color: #007bff;
-    color: #ffffff;
-    border-color: #007bff;
-  }
-  
-  .pargination a.active{
-    background-color: #007bff;
-    color: #ffffff;
-    border-color: #007bff;
-  }
-  
-  .pagination a.prev, .pagination a.next{
-    background-color: #ffffff;
-    font-weight:bold;
-  }
-  
-  .pagination a.prev:hover, .pagination a.next:hover{
-    background-color: #dddddd;
-  }
+#scrollToTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  z-index: 99;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: #555;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+}
 
-  #scrollToBottomBtn {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99;
-    padding: 10px;
-    border: none;
-    outline: none;
-    background-color: #555;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-
-  
-  #scrollToBottomBtn:hover {
-    background-color: #333;
-  }
-  
-  #scrollToTopBtn {
-    display: none;
-    position: fixed;
-    bottom: 60px;
-    right: 20px;
-    z-index: 99;
-    padding: 10px;
-    border: none;
-    outline: none;
-    background-color: #555;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-  
-  #scrollToTopBtn:hover {
-    background-color: #333;
-  }
+#scrollToTopBtn:hover {
+  background-color: #333;
+}
   
 .success-message, .error-message{
   position: fixed;
