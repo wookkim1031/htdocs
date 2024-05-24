@@ -77,7 +77,7 @@ if (isset($_SESSION["user_id"])) {
             </table>
             <div class="non-hidden saved-books">
             
-            <h3>Saved Books</h3>
+            <h3>Favorite Books</h3>
             <hr>
             <?php if(!empty($saved_books)): ?>
                 <table>
@@ -110,7 +110,7 @@ if (isset($_SESSION["user_id"])) {
                     <p class="saved-section">No Books saved.</p>
                 <?php endif; ?>   
                 
-                <h3>Saved Magazines</h3>
+                <h3>Favorite Magazines</h3>
                 <hr>
                 <?php if(!empty($saved_magazines)): ?>
                     <table>

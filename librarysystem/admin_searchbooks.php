@@ -17,6 +17,15 @@ if ($status_result) {
     error_log('Failed to fetch statuses: ' . $mysqli->error);
 }
 
+$location_query = "SELECT id, name, room FROM location";
+$location_result = $mysqli->query($location_query);
+if($location_result) {
+    $locations = $location_result->fetch_all(MYSQLI_ASSOC);
+} else {
+    $locations = [];
+    error_log('Failed to fetch locations: ' . $mysqli->error);
+}
+
 $searchErr = '';
 $searchType = $_POST['searchType'] ?? ($_SESSION['searchType'] ?? 'books');
 $search = $_POST['search_books'] ?? ($_SESSION['search_books'] ?? '');
@@ -141,6 +150,16 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                         </div>
 
                         <div class="input-container">
+                            <label>Location:</label>
+                            <span><?php echo htmlspecialchars($book['location_name']); ?></span>
+                        </div>
+
+                        <div class="input-container">
+                            <label>Room Location:</label>
+                            <span><?php echo htmlspecialchars($book['location_room']); ?></span>
+                        </div>
+
+                        <div class="input-container">
                             <label>Year:</label>
                             <span><?php echo htmlspecialchars($book['year']); ?></span>
                         </div>
@@ -179,6 +198,28 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                             <div class="input-container">
                                 <label for="title-<?php echo $book['id']; ?>">Author:</label>
                                 <input type="text" name="author" value="<?php echo htmlspecialchars($book['author']); ?>">
+                            </div>
+
+                            <div class="input-container">
+                                <label for="location-<?php echo $book['id']; ?>">Location:</label>
+                                <select id="location-<?php echo $book['id']; ?>" name="location">
+                                    <?php foreach ($locations as $location) {
+                                        $selected = ($location['id'] == $book['location']) ? 'selected' : '';
+                                        echo "<option value=\"" . htmlspecialchars($location['id']) . "\" $selected>" . htmlspecialchars($location['name']) . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="input-container">
+                                <label for="location-<?php echo $book['id']; ?>">Room:</label>
+                                <select id="location-<?php echo $book['id']; ?>" name="location">
+                                    <?php foreach ($locations as $location) {
+                                        $selected = ($location['id'] == $book['location']) ? 'selected' : '';
+                                        echo "<option value=\"" . htmlspecialchars($location['id']) . "\" $selected>" . htmlspecialchars($location['room']) . "</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
 
                             <div class="input-container">

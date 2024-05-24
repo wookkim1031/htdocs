@@ -215,11 +215,10 @@ h2 {
 }
 
 .input-container select {
-  width: 100%; 
+  width:  97%;
   padding: 8px; 
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #ccc; 
-  border-radius: 4px; 
   background-color: white; 
   color: #333; 
   cursor: pointer;

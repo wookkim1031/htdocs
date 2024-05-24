@@ -46,8 +46,8 @@
                 <li><a href="magazines.php">DATENBANK MAGAZINE</a></li>
                 <li><a href="https://www.ukaachen.de/kliniken-institute/institut-fuer-medizinische-statistik/institut/">INSTITUT SEITE</a></li>
                 <?php if (isset($_SESSION["role_id"]) && $_SESSION["role_id"] == 2) : ?>
-                        <li><a href="admin_searchbooks.php"> Edit Books-Magazine </a></li>
-                        <li><a href="admin_users.php"> Edit Users </a></li>
+                        <li><a href="admin_searchbooks.php"> EDIT BOOKS-MAGAZINE </a></li>
+                        <li><a href="admin_users.php"> Edit USERS </a></li>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['user_id'])) :?>
                         <li class="account"><a href="user_dashboard.php"><img src="/librarysystem/image/user.png" alt="user-account">  ACCOUNT </a></li>

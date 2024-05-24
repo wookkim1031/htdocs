@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeButton = document.querySelector('.close-btn');
     if(closeButton) {
         closeButton.addEventListener('click', function() {
+            window.history.replaceState({}, document.title, window.location.pathname);
             this.parentElement.style.display ='none';
         });
     }
@@ -101,3 +102,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
         history.replaceState(null, '', window.location.pathname);
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    var toggleBtn = document.getElementById('filterToggleBtn');
+    var closeBtn = document.getElementById('filterCloseBtn');
+    var filtersSection = document.getElementById('filters');
+
+    toggleBtn.addEventListener('click', function() {
+        filtersSection.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', function() {
+        filtersSection.style.display = 'none';
+    });
+});
+
+function toggleFilter(filterType) {
+    var filterElement = document.querySelector('.' + filterType + '-filter');
+    if (filterElement.style.display === 'block') {
+        filterElement.style.display = 'none';
+    } else {
+        filterElement.style.display = 'block';
+    }
+}

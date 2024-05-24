@@ -161,7 +161,7 @@ include 'navbar.php';
 </head>
 <body>
     <div id="loading-screen">
-            <div class="circle-loading"></div>
+        <div class="circle-loading"></div>
     </div>
     <div id="non-loading-screen">
     <div class="a-z">
@@ -212,113 +212,114 @@ include 'navbar.php';
         <?php echo "Zeige Ergebnisse für " . $count . " sortiert nach Relevanz"; ?>
     </div>
     <div class="filter-container">
-        <button class="filter-toggle-btn" id="filterToggleBtn">Toggle Filters</button>
-    <div class="filter" id="filterSection"> 
-        <div class="filter-top">
-            <h3>Sortiere nach</h3>
-            <div class="filter-section">
-                <div class="list-choice">
-                    <div class="list-choice-title">
-                        <button class="show-filter" id="check-button" onclick="toggleFilter('year')">Select Year <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
-                    </div>    
-                    <div class="year-filter">
-                    <form action="" method="get" name="yearFilterForm" id="yearFilterForm">
-                        <div class="year-label1">
-                            <label for="min_year">
-                                <input type="number" placeholder="Start Year" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
-                            </label>
+    <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilters()">Expand Filters</button>
+        <div class="filters" id="filters"> 
+            <button class="filter-close-btn" id="filterCloseBtn" onclick="closeFilters()">&times;</button>
+            <div class="filter-top">
+                <h3>Sortiere nach</h3>
+                <div class="filter-section">
+                    <div class="list-choice">
+                        <div class="list-choice-title">
+                            <button class="show-filter" id="check-button" onclick="toggleFilter('year')">Select Year <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
+                        </div>    
+                        <div class="year-filter">
+                        <form action="" method="get" name="yearFilterForm" id="yearFilterForm">
+                            <div class="year-label1">
+                                <label for="min_year">
+                                    <input type="number" placeholder="Start Year" id="min_year" name="min_year" class="filter-input" value="<?php echo $min_year; ?>">
+                                </label>
+                            </div>
+                            <br>
+                            <div class="year-label">
+                                <label for="max_year">
+                                    <input type="number" placeholder="End Year" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
+                                </label>
+                            </div>
+                            <br>
+                            <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                            <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                            <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
+                            <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
+                            <button type="submit" form="yearFilterForm" class="filter-button">Apply</button>
+                        </form>
                         </div>
-                        <br>
-                        <div class="year-label">
-                            <label for="max_year">
-                                <input type="number" placeholder="End Year" id="max_year" name="max_year" class="filter-input" value="<?php echo $max_year; ?>">
+                    </div>
+                    <div>
+                        <button class="show-filter" onclick="toggleFilter('status')">Select Status <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
+                        <div class="status-filter">
+                        <form action="" method="get" name="filterForm">
+                        <?php 
+                            $isStatusSelected = isset($_GET['status']);
+                            while ($row_status = $result_status->fetch_assoc()) {
+                            $checked = ($isStatusSelected && $_GET['status'] == $row_status['id']) ? 'checked' : '';
+                            ?>
+                            <label>
+                                <input type="radio" name="status" value="<?php echo $row_status['id']; ?>" <?php echo $checked; ?> onclick="this.form.submit();">
+                                <?php echo $row_status['status']; ?>
                             </label>
+                        <?php } ?>
+                            <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                            <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
+                            <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
+                            <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                            <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
+                        </form>
                         </div>
-                        <br>
-                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
-                        <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
-                        <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
-                        <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
-                        <button type="submit" form="yearFilterForm" class="filter-button">Apply</button>
-                    </form>
                     </div>
-                </div>
-                <div>
-                    <button class="show-filter" onclick="toggleFilter('status')">Select Status <img src="/librarysystem/image/angledown.svg" alt="arrow"> </button>
-                    <div class="status-filter">
-                    <form action="" method="get" name="filterForm">
-                    <?php 
-                        $isStatusSelected = isset($_GET['status']);
-                        while ($row_status = $result_status->fetch_assoc()) {
-                        $checked = ($isStatusSelected && $_GET['status'] == $row_status['id']) ? 'checked' : '';
-                        ?>
-                        <label>
-                            <input type="radio" name="status" value="<?php echo $row_status['id']; ?>" <?php echo $checked; ?> onclick="this.form.submit();">
-                            <?php echo $row_status['status']; ?>
-                        </label>
-                    <?php } ?>
-                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
-                        <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
-                        <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
-                        <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
-                        <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
-                    </form>
+                    <div>
+                        <button class="show-filter" onclick="toggleFilter('location')">Select Location <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
+                        <div class="location-filter">
+                        <form action="" method="get" id="locationFilterForm">
+                            <label for="location">
+                                <select name="location" id="location" class="filter-select">
+                            </label>
+                            <option value="">Option</option>
+                            <?php 
+                            while ($row_location = $result_locations->fetch_assoc()) {
+                                $selected = (isset($_GET['location']) && $_GET['location'] == $row_location['id']) ? "selected" : '';
+                                echo "<option value='" . $row_location['id'] . "' " . $selected . ">" . $row_location['name'] . "</option>";
+                            }
+                            ?>
+                            </select>
+                            <br>
+                            <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                            <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
+                            <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
+                            <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
+                            <button type="submit" form="locationFilterForm" class="filter-button">Filter</button>
+                        </form>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <button class="show-filter" onclick="toggleFilter('location')">Select Location <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
-                    <div class="location-filter">
-                    <form action="" method="get" id="locationFilterForm">
-                        <label for="location">
-                            <select name="location" id="location" class="filter-select">
-                        </label>
-                        <option value="">Option</option>
-                        <?php 
-                        while ($row_location = $result_locations->fetch_assoc()) {
-                            $selected = (isset($_GET['location']) && $_GET['location'] == $row_location['id']) ? "selected" : '';
-                            echo "<option value='" . $row_location['id'] . "' " . $selected . ">" . $row_location['name'] . "</option>";
-                        }
-                        ?>
-                        </select>
-                        <br>
-                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
-                        <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
-                        <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
-                        <input type="hidden" name="mediatypes" value="<?php echo isset($_GET['mediatypes']) ? $_GET['mediatypes'] : ''; ?>">
-                        <button type="submit" form="locationFilterForm" class="filter-button">Filter</button>
-                    </form>
+                    <div>
+                        <button class="show-filter" onclick="toggleFilter('mediatypes')">Select Media <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
+                        <div class="mediatypes-filter">
+                        <form action="" method="get" id="mediaFilterForm">
+                            <label for="mediatypes">
+                                <select name="mediatypes" id="mediatypes" class="filter-select">
+                            </label>
+                            <option value="">Option</option>
+                            <?php 
+                            while ($row_mediatypes = $result_mediatypes->fetch_assoc()) {
+                                $selected = (isset($_GET['mediatypes']) && $_GET['mediatypes'] == $row_mediatypes['id']) ? "selected" : '';
+                                echo "<option value='" . $row_mediatypes['id'] . "' " . $selected . ">" . $row_mediatypes['type'] . "</option>";
+                            }
+                            ?>
+                            </select>
+                            <br>
+                            <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                            <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
+                            <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
+                            <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
+                            <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
+                            <button type="submit" form="mediaFilterForm" class="filter-button">Filter</button>
+                        </form>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <button class="show-filter" onclick="toggleFilter('mediatypes')">Select Media <img src="/librarysystem/image/angledown.svg" alt="arrow1"> </button>
-                    <div class="mediatypes-filter">
-                    <form action="" method="get" id="mediaFilterForm">
-                        <label for="mediatypes">
-                            <select name="mediatypes" id="mediatypes" class="filter-select">
-                        </label>
-                        <option value="">Option</option>
-                        <?php 
-                        while ($row_mediatypes = $result_mediatypes->fetch_assoc()) {
-                            $selected = (isset($_GET['mediatypes']) && $_GET['mediatypes'] == $row_mediatypes['id']) ? "selected" : '';
-                            echo "<option value='" . $row_mediatypes['id'] . "' " . $selected . ">" . $row_mediatypes['type'] . "</option>";
-                        }
-                        ?>
-                        </select>
-                        <br>
-                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
-                        <input type="hidden" name="location" value="<?php echo isset($_GET['location']) ? $_GET['location'] : ''; ?>">
-                        <input type="hidden" name="status" value="<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>">
-                        <input type="hidden" name="min_year" value="<?php echo isset($_GET['min_year']) ? $_GET['min_year'] : ''; ?>">
-                        <input type="hidden" name="max_year" value="<?php echo isset($_GET['max_year']) ? $_GET['max_year'] : ''; ?>">
-                        <button type="submit" form="mediaFilterForm" class="filter-button">Filter</button>
-                    </form>
+                    <div>
+                        <button class="reset-button" type="button" id="resetFiltersButton">Reset Selections</button>
                     </div>
-                </div>
-                <div>
-                    <button class="reset-button" type="button" id="resetFiltersButton">Reset Selections</button>
                 </div>
             </div>
-        </div>
         </div>                    
         <table id="tb">
             <div class="container-wrapper">
@@ -463,12 +464,30 @@ include 'navbar.php';
                             echo '<a href="?page=' . ($end + 1) . '">Next &raquo;</a>';
                         }
                         echo '</div>';
-                        ?>
-                    
+                    ?>
                 </div>
         <script src="./js/books.js"></script>
+        <script>
+            document.getElementById('filterToggleBtn').addEventListener('click', function() {
+                var filtersSection = document.getElementById('filters');
+                if (filtersSection.style.display === 'block' || filtersSection.style.display === '') {
+                    filtersSection.style.display = 'none';
+                } else {
+                    filtersSection.style.display = 'block';
+                }
+            });
+
+            function toggleFilter(filterType) {
+                var filterElement = document.querySelector('.' + filterType + '-filter');
+                if (filterElement.style.display === 'block') {
+                    filterElement.style.display = 'none';
+                } else {
+                    filterElement.style.display = 'block';
+                }
+            }
+        </script>
         <button onclick="scrollToBottom()" id="scrollToBottomBtn" title="Go to Bottom">Scroll to Bottom</button>
-        <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Scroll to Top</button>
+        <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to Top">Scroll to Top</button>
         <div class="footnotes">
             <?php include 'footnotes.php' ?>
         </div>
