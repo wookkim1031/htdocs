@@ -1,44 +1,60 @@
 <?php
-$mysqli = require __DIR__ . "/database.php";
 session_start();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'navbar.php';
+
+$mysqli = require __DIR__ . "/database.php";
 
 $min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';
 $max_year = isset($_GET['max_year']) ? $_GET['max_year'] : '';
 
-$sql = "SELECT *, image_path, magazines.id AS magazine_id
-        FROM magazines ";
+$sql = "SELECT *, image_path, magazines.id AS magazine_id FROM magazines";
+$conditions = [];
 
 if (isset($_GET['alphabet'])) {
     $alphabet = $_GET['alphabet'];
-    $sql .= "WHERE title LIKE '" . $alphabet . "%' ";
+    $conditions[] = "title LIKE '" . $alphabet . "%'";
 }
 
 if (!empty($min_year)) {
-    $sql .= "AND jahrgang >= " . $min_year . " ";
+    $conditions[] = "jahrgang >= " . $min_year;
 }
 if (!empty($max_year)) {
-    $sql .= "AND jahrgang <= " . $max_year . " ";
+    $conditions[] = "jahrgang <= " . $max_year;
 }
 
 if (!empty($_GET['standort'])) {
     $standort = $_GET['standort'];
-    $sql .= "AND standort = '" . $standort . "' ";
+    $conditions[] = "standort = '" . $standort . "'";
 }
 
+if (count($conditions) > 0) {
+    $sql .= " WHERE " . implode(' AND ', $conditions);
+}
 
-$sql .= "ORDER BY title ASC";
+$sql .= " ORDER BY title ASC";
 
 $result = $mysqli->query($sql);
+if (!$result) {
+    die("Query failed: " . $mysqli->error);
+}
 $count = $result->num_rows;
 
 $sql_alphabets = "SELECT DISTINCT LEFT(title, 1) AS alphabet FROM magazines ORDER BY alphabet ASC";
 $result_alphabets = $mysqli->query($sql_alphabets);
+if (!$result_alphabets) {
+    die("Query failed: " . $mysqli->error);
+}
 
 $sql_locations = "SELECT DISTINCT standort FROM magazines";
 $result_location = $mysqli->query($sql_locations);
-
-
+if (!$result_location) {
+    die("Query failed: " . $mysqli->error);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,7 +92,7 @@ $result_location = $mysqli->query($sql_locations);
         <div class="filter-top">
             <h3>Sortiere nach</h3>
             <div class="filter-section">
-                        <br>
+                <br>
                 <button class="show-filter" onclick="toggleFilter('standort')">Location Filter <img src="/librarysystem/image/angledown.svg" alt="arrow"></button>
                 <div class="standort-filter">
                     <form action="" method="get" name="locationFilterForm" id="locationFilterForm">
@@ -87,7 +103,7 @@ $result_location = $mysqli->query($sql_locations);
                         <?php 
                             while ($row_location = $result_location->fetch_assoc()) {
                             $location = $row_location['standort'];
-                            $isLocationSelected = (isset($_GET['standort']) &&  $_GET['standort'] == $location) ? 'checked' : '';
+                            $isLocationSelected = (isset($_GET['standort']) &&  $_GET['standort'] == $location) ? 'selected' : '';
                             echo "<option value='" . $location . "' " . $isLocationSelected . ">" . $location . "</option>";
                          } ?>
                         </select>
@@ -97,6 +113,7 @@ $result_location = $mysqli->query($sql_locations);
                     </form>
                 </div>
             </div>
+        </div>
     </div>
 
     <table>
@@ -115,13 +132,13 @@ $result_location = $mysqli->query($sql_locations);
                         </td>
                         <td>
                             <div class="books-details">
-                                <div class="book-title"><?php echo $row['title']; ?></div>
-                                <div class="book-info"><?php echo $row['jahrgang']; ?></div>
-                                <div class="book-info"><?php echo $row['volumes']; ?></div>
-                                <div class="book-info"><?php echo $row['standort']; ?></div>
+                                <div class="book-title"><?php echo htmlspecialchars($row['title']); ?></div>
+                                <div class="book-info"><?php echo htmlspecialchars($row['jahrgang']); ?></div>
+                                <div class="book-info"><?php echo htmlspecialchars($row['volumes']); ?></div>
+                                <div class="book-info"><?php echo htmlspecialchars($row['standort']); ?></div>
                                 <div>
                                 <form action="save_magazine.php" method="post">
-                                    <input type="hidden" name="magazine_id" value="<?php echo $row['magazine_id']; ?>">
+                                    <input type="hidden" name="magazine_id" value="<?php echo htmlspecialchars($row['magazine_id']); ?>">
                                     <button class="save-button" type="submit" name="save_magazine">Save Magazine</button>
                                 </form></div>
                             </div>
@@ -132,7 +149,6 @@ $result_location = $mysqli->query($sql_locations);
                 ?>
             </tbody>
         </div>
-    </div>
     </table>
 
     <script src="./js/books.js"></script>

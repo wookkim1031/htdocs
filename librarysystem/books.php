@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit();
+}
+
 $mysqli = require __DIR__ . "/database.php";
 
 $min_year = isset($_GET['min_year']) ? $_GET['min_year'] : '';

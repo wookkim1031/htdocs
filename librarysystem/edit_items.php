@@ -21,17 +21,35 @@ if(isset($_POST['update_book'])) {
     $status = $_POST['status'];
     $isbn = $_POST['isbn'];
 
-    $stmt = $mysqli->prepare("UPDATE books SET title = ?, author = ?, edition = ?, location = ?, year = ?, status = ?, isbn = ?, publisher = ? WHERE id = ?");
+    //Fetch location_room name
+    $location_stmt = $mysqli->prepare("SELECT room FROM location WHERE id = ?");
+    $location_stmt->bind_param("i", $location);
+    $location_stmt->execute();
+    $location_stmt->bind_result($location_room);
+    $location_stmt->fetch();
+    $location_stmt->close();
+
+     // Fetch the status name
+     $status_stmt = $mysqli->prepare("SELECT status FROM status WHERE id = ?");
+     $status_stmt->bind_param("i", $status);
+     $status_stmt->execute();
+     $status_stmt->bind_result($status_name);
+     $status_stmt->fetch();
+     $status_stmt->close();
+
+    $stmt = $mysqli->prepare("UPDATE books SET title = ?, author = ?, location = ?, edition = ?, year = ?, status = ?, isbn = ?, publisher = ? WHERE id = ?");
     if ($stmt === false) {
-        header("Location: admin_searchbooks.php?error=SQL Error.");
+        $error = $mysqli->error;
+        header("Location: admin_searchbooks.php?error=SQL Error: " . urlencode($error));
         exit;
     }
 
-    $stmt->bind_param("ssssssssi", $title, $author, $edition, $location, $year, $status, $isbn, $publisher, $book_id);
+
+    $stmt->bind_param("sssissssi", $title, $author, $location, $edition, $year, $status, $isbn, $publisher, $book_id);
     $stmt->execute();
 
     if($stmt->affected_rows > 0) {
-        header("Location: admin_searchbooks.php?success=true&type=book&title=".urlencode($title)."&author=".urlencode($author)."&edition=".urlencode($edition)."&location=".urlencode($location)."&year=".$year."&status=".urlencode($status)."&publisher=".urlencode($publisher)."&isbn=".$isbn);
+        header("Location: admin_searchbooks.php?success=true&type=book&title=".urlencode($title)."&author=".urlencode($author)."&edition=".urlencode($edition)."&location=".urlencode($location)."&location_room=".urlencode($location_room)."&year=".$year."&status=".urlencode($status_name)."&publisher=".urlencode($publisher)."&isbn=".$isbn);
     } else {
         header("Location: admin_searchbooks.php?error=Keine Änderungen vorgenommen oder Fehler aufgetreten.");
     }

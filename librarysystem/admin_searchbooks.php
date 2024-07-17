@@ -372,9 +372,14 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
             <!-- Conditional display based on type -->
             <?php if($_GET['type'] == 'book'): ?>
                 <li class="info-item"><span class="label">Author:</span> <span class="value"><?php echo htmlspecialchars($_GET['author']); ?></span></li>
-                <li class="info-item"><span class="label">Edition:</span> <span class="value"><?php echo htmlspecialchars($_GET['edition']); ?></span></li>
+                <li class="info-item"><span class="label">Location:</span> <span class="value"><?php echo htmlspecialchars($book['location_name']); ?></span></li>
+                <?php if (isset($_GET['location_room'])): ?>
+                    <li class="info-item"><span class="label">Room:</span> <span class="value"><?php echo htmlspecialchars($_GET['location_room']); ?></span></li>
+                <?php endif; ?>
                 <li class="info-item"><span class="label">Year:</span> <span class="value"><?php echo htmlspecialchars($_GET['year']); ?></span></li>
+                <li class="info-item"><span class="label">Edition:</span> <span class="value"><?php echo htmlspecialchars($_GET['edition']); ?></span></li>
                 <li class="info-item"><span class="label">Publisher:</span> <span class="value"><?php echo htmlspecialchars($_GET['publisher']); ?></span></li>
+                <li class="info-item"><span class="label">Status:</span> <span class="value"><?php echo htmlspecialchars($_GET['status']); ?></span></li>
                 <li class="info-item"><span class="label">ISBN:</span> <span class="value"><?php echo htmlspecialchars($_GET['isbn']); ?></span></li>
             <?php elseif($_GET['type'] == 'magazine'): ?>
                 <li class="info-item"><span class="label">Jahrgang:</span> <span class="value"><?php echo htmlspecialchars($_GET['jahrgang']); ?></span></li>

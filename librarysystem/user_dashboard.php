@@ -22,6 +22,9 @@ if (isset($_SESSION["user_id"])) {
 
 
         $magazines_stmt = $mysqli->prepare("SELECT magazines.id, magazines.title, magazines.jahrgang, magazines.volumes, magazines.standort FROM saved_items JOIN magazines ON saved_items.magazine_id = magazines.id WHERE saved_items.user_id = ?");
+        if (!$magazines_stmt) {
+            die("Prepare statement failed: " . $mysqli->error);
+        }
         $magazines_stmt->bind_param("i", $user_id);
         $magazines_stmt->execute();
         $magazines_result = $magazines_stmt->get_result();

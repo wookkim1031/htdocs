@@ -25,6 +25,10 @@
     margin: auto;
 }
 
+.form {
+    margin-top: 30px;
+}
+
 .form-field {
     position: relative;
     margin-bottom: 20px;
@@ -47,7 +51,7 @@
 .form-field input[type="password"]:focus,
 .form-field select:focus {
     outline: none;
-    border-bottom: 2px solid #6658D3;
+    border-bottom: 2px solid #007bff;
 }
 
 .form-field label,
@@ -65,18 +69,18 @@
 .form-field select:focus ~ .select-label {
     top: -20px;
     font-size: 14px;
-    color: #6658D3;
+    color: #007bff;
 }
 
 .form-field input:valid ~ label,
 .form-field select:valid ~ .select-label {
     top: -20px;
     font-size: 14px;
-    color: #6658D3;
+    color: #007bff;
 }
 
 button {
-    background-color: #6658D3;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -86,7 +90,7 @@ button {
 }
 
 button:hover {
-    background-color: #5648C9;
+    background-color: #007bff;
 }
 
 .add-user-btn{

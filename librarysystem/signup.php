@@ -1,7 +1,10 @@
 <?php
-    if (isset($_GET['error'])) {
-        $error = $_GET['error'];
-    }
+session_start();
+
+if (isset($_SESSION['signup_errors'])) {
+    $errors = $_SESSION['signup_errors'];
+    unset($_SESSION['signup_errors']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +23,12 @@
         <div class="description-box">
             <p>This is the Anmeldung for Medizin Statistik library. In order to login, you need to provide a ukaachen.de email.</p>
         </div>
-
-        <?php if (isset($error)): ?>
-            <p class="error-message"><?php echo $error; ?></p>
+        <?php if (isset($errors)): ?>
+            <div class="error-messages">
+                <?php foreach ($errors as $error): ?>
+                    <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
+                <?php endforeach; ?>
+            </div>
         <?php endif; ?>
         
         <form action="process-signup.php" method="post" novalidate>
@@ -31,11 +37,11 @@
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="email"><img src="/librarysystem/image/envelope-regular.svg" alt="email"> EMAIL</label>
+                <label for="email"><img src="/librarysystem/image/envelope-regular.svg" alt="email"> EMAIL (Only ukaachen email) </label>
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="password"><img src="/librarysystem/image/key-solid.svg" alt="key"> PASSWORD</label>
+                <label for="password"><img src="/librarysystem/image/key-solid.svg" alt="key"> PASSWORD (character and number)</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">

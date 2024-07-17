@@ -1,37 +1,39 @@
 <?php
+session_start();
 
 $mysqli = require __DIR__ . "/database.php";  
 
-$error = null;
+$errors = [];
 
 if(empty($_POST["name"])) { 
-    die("Name is required");
+    $errors[] = "Name is required";
 }
 
 if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-    die("Valid email is required");
+    $errors[] = "Valid email is required";
 }
 
 $emailDomain = explode("@", $_POST["email"])[1]; 
 
 if ($emailDomain !== "ukaachen.de") {
-    $error = "Emails from ukaachen.de domain are only allowed";
+    $errors[] = "Emails from ukaachen.de domain are only allowed";
 }
 
 if(! preg_match("/[a-z]/i", $_POST["password"])) {
-    die("Password must contain at least one letter");
+    $errors[] = "Password must contain at least one letter";
 }
 
 if(! preg_match("/[0-9]/", $_POST["password"])) {
-    die("Password must contain at least one letter");
+    $errors[] = "Password must contain at least one number";
 }
 
 if ($_POST["password"] !== $_POST["password_confirmation"]) {
-    die("Passwords must match");
+    $errors[] = "Passwords must match";
 }
 
-if ($error) {
-    header("Location: signup.php?error=" . urlencode($error));
+if (!empty($errors)) {
+    $_SESSION['signup_errors'] = $errors;
+    header("Location: signup.php");
     exit;
 }
 
