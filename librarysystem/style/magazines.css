@@ -357,3 +357,61 @@
   .save-button:hover {
     background-color: #45c67d;
   }
+
+  .filter-toggle-btn {
+    display: none;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+  }
+  
+  /* toggle close Button Filter */
+  .filter-close-btn {
+    display: none;
+    background-color: #ffffff;
+    color: black;
+    font: bold;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  @media (max-width: 1000px) {
+    .filter-close-btn {
+      display: block; 
+    }
+    
+    .filters{
+      display:none;
+      position:fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height:100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 1000;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .filter-toggle-btn {
+      display: block;
+    }
+    
+    .filters.active{
+      display:block;
+    }
+
+    .a-z h2 {
+      font-size: 24px;
+    }
+  }  

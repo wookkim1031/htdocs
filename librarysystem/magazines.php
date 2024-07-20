@@ -88,29 +88,33 @@ if (!$result_location) {
     <div class="found-books-count">
         <?php echo "Zeige Ergebnisse für " . $count . " sortiert nach Relevanz"; ?>
     </div>
-    <div class="filter">
-        <div class="filter-top">
-            <h3>Sortiere nach</h3>
-            <div class="filter-section">
-                <br>
-                <button class="show-filter" onclick="toggleFilter('standort')">Location Filter <img src="/librarysystem/image/angledown.svg" alt="arrow"></button>
-                <div class="standort-filter">
-                    <form action="" method="get" name="locationFilterForm" id="locationFilterForm">
-                        <label for="standort"> </label>
-                            <select name="standort" id="standort" class="filter-select">
-                        
-                        <option value="">Option</option>
-                        <?php 
-                            while ($row_location = $result_location->fetch_assoc()) {
-                            $location = $row_location['standort'];
-                            $isLocationSelected = (isset($_GET['standort']) &&  $_GET['standort'] == $location) ? 'selected' : '';
-                            echo "<option value='" . $location . "' " . $isLocationSelected . ">" . $location . "</option>";
-                         } ?>
-                        </select>
-                        <br>
-                        <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
-                        <button type="submit" form="locationFilterForm" class="filter-button">Apply</button>
-                    </form>
+    <div class="filter-container">
+    <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilters()">Expand Filters</button>
+        <div class="filter">
+            <button class="filter-close-btn" id="filterCloseBtn" onclick="closeFilters()">&times;</button>
+            <div class="filter-top">
+                <h3>Sortiere nach</h3>
+                <div class="filter-section">
+                    <br>
+                    <button class="show-filter" onclick="toggleFilter('standort')">Location Filter <img src="/librarysystem/image/angledown.svg" alt="arrow"></button>
+                    <div class="standort-filter">
+                        <form action="" method="get" name="locationFilterForm" id="locationFilterForm">
+                            <label for="standort"> </label>
+                                <select name="standort" id="standort" class="filter-select">
+                            
+                            <option value="">Option</option>
+                            <?php 
+                                while ($row_location = $result_location->fetch_assoc()) {
+                                $location = $row_location['standort'];
+                                $isLocationSelected = (isset($_GET['standort']) &&  $_GET['standort'] == $location) ? 'selected' : '';
+                                echo "<option value='" . $location . "' " . $isLocationSelected . ">" . $location . "</option>";
+                            } ?>
+                            </select>
+                            <br>
+                            <input type="hidden" name="alphabet" value="<?php echo isset($_GET['alphabet']) ? $_GET['alphabet'] : ''; ?>">
+                            <button type="submit" form="locationFilterForm" class="filter-button">Apply</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
