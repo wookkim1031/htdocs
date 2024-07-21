@@ -27,7 +27,6 @@ if(isset($_POST['add_status'])) {
     }
 }
 
-
 // Handle deleting status
 if (isset($_POST['delete_status'])) {
     $status_id = $_POST['status_id'];
@@ -72,6 +71,36 @@ if (isset($_POST['delete_location'])) {
     $stmt->close();
 }
 
+// Handle adding media type
+if (isset($_POST['add_mediatype'])) {
+    $type = $_POST['mediatype'];
+    if (!empty($type)) {
+        $stmt = $mysqli->prepare("INSERT INTO mediatypes (type) VALUES (?)");
+        $stmt->bind_param("s", $type);
+        if ($stmt->execute()) {
+            $messages[] = "Media Type added successfully.";
+        } else {
+            $errors[] = "Failed to add media type: " . $mysqli->error;
+        }
+        $stmt->close();
+    } else {
+        $errors[] = "Media Type cannot be empty.";
+    }
+}
+
+// Handle deleting media type
+if (isset($_POST['delete_mediatype'])) {
+    $mediatype_id = $_POST['mediatype_id'];
+    $stmt = $mysqli->prepare("DELETE FROM mediatypes WHERE id = ?");
+    $stmt->bind_param("i", $mediatype_id);
+    if ($stmt->execute()) {
+        $messages[] = "Media Type deleted successfully.";
+    } else {
+        $errors[] = "Failed to delete media type: " . $mysqli->error;
+    }
+    $stmt->close();
+}
+
 // Fetch all statuses
 $statuses = [];
 $status_result = $mysqli->query("SELECT id, status FROM status");
@@ -84,6 +113,13 @@ $locations = [];
 $location_result = $mysqli->query("SELECT id, name, room FROM location");
 if ($location_result) {
     $locations = $location_result->fetch_all(MYSQLI_ASSOC);
+}
+
+// Fetch all media types
+$mediatypes = [];
+$mediatype_result = $mysqli->query("SELECT id, type FROM mediatypes");
+if ($mediatype_result) {
+    $mediatypes = $mediatype_result->fetch_all(MYSQLI_ASSOC);
 }
 ?>
 
@@ -102,72 +138,92 @@ if ($location_result) {
     <?php include 'navbar.php'; ?>
 
     <div class="container">
-    <h1>Datenbank Management</h1>
+        <h1>Datenbank Management</h1>
 
-    <?php if (!empty($errors)): ?>
-        <div class="errors">
-            <?php foreach ($errors as $error): ?>
-                <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (!empty($messages)): ?>
-        <div class="messages">
-            <?php foreach ($messages as $message): ?>
-                <p class="message"><?php echo htmlspecialchars($message); ?></p>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="flex-container">
-        <div class="status-container">
-            <h2>Manage Status</h2>
-            <form action="admin_manage.php" method="post">
-                <label for="status">Add Status:</label>
-                <input type="text" id="status" name="status">
-                <button type="submit" name="add_status">Add</button>
-            </form>
-
-            <h3>Existing Statuses</h3>
-            <ul>
-                <?php foreach ($statuses as $status): ?>
-                    <li>
-                        <?php echo htmlspecialchars($status['status']); ?>
-                        <form action="admin_manage.php" method="post" style="display:inline;">
-                            <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
-                            <button type="submit" name="delete_status">Delete</button>
-                        </form>
-                    </li>
+        <?php if (!empty($errors)): ?>
+            <div class="errors">
+                <?php foreach ($errors as $error): ?>
+                    <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
                 <?php endforeach; ?>
-            </ul>
-        </div>
+            </div>
+        <?php endif; ?>
 
-        <div class="location-container">
-            <h2>Manage Locations</h2>
-            <form action="admin_manage.php" method="post">
-                <label for="name">Location Name:</label>
-                <input type="text" id="name" name="name">
-                <label for="room">Room:</label>
-                <input type="text" id="room" name="room">
-                <button type="submit" name="add_location">Add</button>
-            </form>
-
-            <h3>Location Name, Location Room</h3>
-            <ul>
-                <?php foreach ($locations as $location): ?>
-                    <li>
-                        <?php echo htmlspecialchars($location['name']) . " - Room: " . htmlspecialchars($location['room']); ?>
-                        <form action="admin_manage.php" method="post" style="display:inline;">
-                            <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
-                            <button type="submit" name="delete_location">Delete</button>
-                        </form>
-                    </li>
+        <?php if (!empty($messages)): ?>
+            <div class="messages">
+                <?php foreach ($messages as $message): ?>
+                    <p class="message"><?php echo htmlspecialchars($message); ?></p>
                 <?php endforeach; ?>
-            </ul>
+            </div>
+        <?php endif; ?>
+
+        <div class="flex-container">
+            <div class="status-container">
+                <h2>Manage Status</h2>
+                <form action="admin_manage.php" method="post">
+                    <label for="status">Add Status:</label>
+                    <input type="text" id="status" name="status">
+                    <button type="submit" name="add_status">Add</button>
+                </form>
+
+                <h3>Existing Statuses</h3>
+                <ul>
+                    <?php foreach ($statuses as $status): ?>
+                        <li>
+                            <?php echo htmlspecialchars($status['status']); ?>
+                            <form action="admin_manage.php" method="post" style="display:inline;">
+                                <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
+                                <button type="submit" name="delete_status">Delete</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <br> <hr> <br>
+                <h2>Manage Media Types for Magazine</h2>
+                <form action="admin_manage.php" method="post">
+                    <label for="mediatype">Add Media Type:</label>
+                    <input type="text" id="mediatype" name="mediatype">
+                    <button type="submit" name="add_mediatype">Add</button>
+                </form>
+
+                <h3>Existing Media Types</h3>
+                <ul>
+                    <?php foreach ($mediatypes as $mediatype): ?>
+                        <li>
+                            <?php echo htmlspecialchars($mediatype['type']); ?>
+                            <form action="admin_manage.php" method="post" style="display:inline;">
+                                <input type="hidden" name="mediatype_id" value="<?php echo $mediatype['id']; ?>">
+                                <button type="submit" name="delete_mediatype">Delete</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
+            <div class="location-container">
+                <h2>Manage Locations</h2>
+                <form action="admin_manage.php" method="post">
+                    <label for="name">Location Name:</label>
+                    <input type="text" id="name" name="name">
+                    <label for="room">Room:</label>
+                    <input type="text" id="room" name="room">
+                    <button type="submit" name="add_location">Add</button>
+                </form>
+
+                <h3>Existing Location Name, Location Room for books</h3>
+                <ul>
+                    <?php foreach ($locations as $location): ?>
+                        <li>
+                            <?php echo htmlspecialchars($location['name']) . " - Room: " . htmlspecialchars($location['room']); ?>
+                            <form action="admin_manage.php" method="post" style="display:inline;">
+                                <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
+                                <button type="submit" name="delete_location">Delete</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>

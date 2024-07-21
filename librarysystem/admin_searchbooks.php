@@ -289,7 +289,7 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                         </div>
 
                         <div class="input-container">
-                            <label>Path:</label>
+                            <label>Image Path:</label>
                             <span><?php echo htmlspecialchars($magazine['image_path'])?></span>
                         </div>
 
@@ -319,7 +319,7 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                     </div>
 
                     <div class="input-container">
-                        <label>Path:</label>
+                        <label>Image Path:</label>
                         <input type="text" name="image_path" value="<?php echo htmlspecialchars($magazine['image_path']); ?>"> 
                     </div>
                     
