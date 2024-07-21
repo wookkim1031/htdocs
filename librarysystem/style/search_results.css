@@ -110,17 +110,22 @@
     transition: transform 0.5s;
 }
 
-.close-btn {
+.popup-content .close-btn {
     position: absolute;
     top: 10px;
-    right: 20px;
-    color: #f00;
-    border:none;
+    right: 10px;
+    color: rgb(0, 0, 0);
+    border: none;
     border-radius: 50%;
     font-size: 30px;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup-content .close-btn:hover{
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .open-popup{
@@ -255,7 +260,7 @@ tbody tr:hover .result-title{
     margin: 0 5px;
     padding: 8px 16px;
     text-decoration: none;
-    color: #007BFF;
+    color: #000000;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
     border-radius: 5px;
@@ -264,12 +269,12 @@ tbody tr:hover .result-title{
 
 .pagination a.active {
     color: #fff;
-    background-color: #007BFF;
-    border-color: #007BFF;
+    background-color: #000000;
+    border-color: #000000;
 }
 
 .pagination a:hover {
-    background-color: #0056b3;
+    background-color: #000000;
     color: #ffffff;
     border-color: #0056b3;
 }
@@ -315,4 +320,28 @@ tbody tr:hover .result-title{
     }
 }
 
+@media (max-width: 600px) {
+    .sort-info2 {
+        float: none;
+        text-align: center;
+        padding: 10px 10px;
+        display: block;
+        white-space: normal;
+    }
+    .results-container {
+        flex-wrap: wrap;
+    }
+    .books-column,
+    .magazines-column {
+        width: 100%;
+    }
+    .pagination {
+        text-align: center;
+        padding: 20px;
+    }
+    .pagination a {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
 
+}

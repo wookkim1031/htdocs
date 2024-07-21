@@ -62,7 +62,7 @@ if(isset($_POST['save'])) {
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Edit/Delete</th>
+            <th> </th>
         </tr>
     </thead>
     <tbody>

@@ -1,87 +1,105 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2, h3 {
-    text-align: center;
-    color: #333;
-}
-
-form {
-    margin: 20px 0;
+/* Container for flex layout */
+.flex-container {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-label {
+/* Styling for status and location sections */
+.status-container, .location-container {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.status-container h2, .location-container h2,
+.status-container h3, .location-container h3 {
+    margin-bottom: 10px;
+}
+
+.status-container form, .location-container form {
+    margin-bottom: 20px;
+}
+
+.status-container form label, .location-container form label {
+    display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-input[type="text"] {
-    padding: 10px;
+.status-container form input[type="text"], .location-container form input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
-button {
-    padding: 10px 15px;
+.status-container form button, .location-container form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 4px;
-    background-color: #4CAF50;
-    color: #fff;
     cursor: pointer;
-    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #45a049;
+.status-container form button:hover, .location-container form button:hover {
+    background-color: #0056b3;
 }
 
+/* Styling for messages and errors */
 .errors, .messages {
-    margin: 20px 0;
-    padding: 10px;
-    border-radius: 4px;
+    margin-bottom: 20px;
 }
 
-.errors {
+.errors .error-message, .messages .message {
     background-color: #f8d7da;
     color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
-.messages {
+.messages .message {
     background-color: #d4edda;
     color: #155724;
+    border-color: #c3e6cb;
 }
 
-.error-message, .message {
-    margin: 0;
-}
-
-ul {
+/* Styling for lists of statuses and locations */
+.status-container ul, .location-container ul {
     list-style-type: none;
     padding: 0;
 }
 
-ul li {
-    margin: 10px 0;
+.status-container ul li, .location-container ul li {
+    background-color: #fff;
     padding: 10px;
-    background-color: #f1f1f1;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.status-container ul li form, .location-container ul li form {
+    margin: 0;
+}
+
+.status-container ul li button, .location-container ul li button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.status-container ul li button:hover, .location-container ul li button:hover {
+    background-color: #c82333;
 }

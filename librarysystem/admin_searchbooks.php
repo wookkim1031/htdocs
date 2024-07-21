@@ -387,17 +387,17 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                 <li class="info-item"><span class="label">Standort:</span> <span class="value"><?php echo htmlspecialchars($_GET['standort']); ?></span></li>
             <?php endif; ?>
         </ul>
-        <span class="close-btn">&times;</span>
+        <span class="admin-close-btn">&times;</span>
     </div>
 <?php elseif(isset($_GET['error'])): ?>
     <div class="error-message">
         <h4>Error</h4>
         <p><?php echo htmlspecialchars($_GET['error']); ?></p>
-        <span class="close-btn">&times;</span>
+        <span class="admin-close-btn">&times;</span>
     </div>
 <?php endif; ?>
 
-    <script>
+<script>
         function showEditForm(bookId) {
             var form = document.getElementById('edit-form-' + bookId);
             var displayInfo = document.getElementById('book-' + bookId);
@@ -418,7 +418,18 @@ if (isset($_POST['save']) || !isset($_POST['save'])) {
                 displayHideInfo.style.display="block";
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add event listeners to admin close buttons
+            document.querySelectorAll('.admin-close-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Hide the success or error message when the close button is clicked
+                    this.parentElement.style.display = 'none';
+                });
+            });
+        });
     </script>
+
     <script src="./js/books.js"></script>
 
 </html>

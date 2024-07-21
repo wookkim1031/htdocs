@@ -102,66 +102,72 @@ if ($location_result) {
     <?php include 'navbar.php'; ?>
 
     <div class="container">
-        <h1>Admin Management</h1>
+    <h1>Datenbank Management</h1>
 
-        <?php if (!empty($errors)): ?>
-            <div class="errors">
-                <?php foreach ($errors as $error): ?>
-                    <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (!empty($messages)): ?>
-            <div class="messages">
-                <?php foreach ($messages as $message): ?>
-                    <p class="message"><?php echo htmlspecialchars($message); ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
-        <h2>Manage Status</h2>
-        <form action="admin_manage.php" method="post">
-            <label for="status">Add Status:</label>
-            <input type="text" id="status" name="status">
-            <button type="submit" name="add_status">Add</button>
-        </form>
-
-        <h3>Existing Statuses</h3>
-        <ul>
-            <?php foreach ($statuses as $status): ?>
-                <li>
-                    <?php echo htmlspecialchars($status['status']); ?>
-                    <form action="admin_manage.php" method="post" style="display:inline;">
-                        <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
-                        <button type="submit" name="delete_status">Delete</button>
-                    </form>
-                </li>
+    <?php if (!empty($errors)): ?>
+        <div class="errors">
+            <?php foreach ($errors as $error): ?>
+                <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
             <?php endforeach; ?>
-        </ul>
+        </div>
+    <?php endif; ?>
 
-        <h2>Manage Locations</h2>
-        <form action="admin_manage.php" method="post">
-            <label for="name">Location Name:</label>
-            <input type="text" id="name" name="name">
-            <label for="room">Room:</label>
-            <input type="text" id="room" name="room">
-            <button type="submit" name="add_location">Add</button>
-        </form>
-
-        <h3>Existing Locations</h3>
-        <ul>
-            <?php foreach ($locations as $location): ?>
-                <li>
-                    <?php echo htmlspecialchars($location['name']) . " - Room: " . htmlspecialchars($location['room']); ?>
-                    <form action="admin_manage.php" method="post" style="display:inline;">
-                        <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
-                        <button type="submit" name="delete_location">Delete</button>
-                    </form>
-                </li>
+    <?php if (!empty($messages)): ?>
+        <div class="messages">
+            <?php foreach ($messages as $message): ?>
+                <p class="message"><?php echo htmlspecialchars($message); ?></p>
             <?php endforeach; ?>
-        </ul>
+        </div>
+    <?php endif; ?>
+
+    <div class="flex-container">
+        <div class="status-container">
+            <h2>Manage Status</h2>
+            <form action="admin_manage.php" method="post">
+                <label for="status">Add Status:</label>
+                <input type="text" id="status" name="status">
+                <button type="submit" name="add_status">Add</button>
+            </form>
+
+            <h3>Existing Statuses</h3>
+            <ul>
+                <?php foreach ($statuses as $status): ?>
+                    <li>
+                        <?php echo htmlspecialchars($status['status']); ?>
+                        <form action="admin_manage.php" method="post" style="display:inline;">
+                            <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
+                            <button type="submit" name="delete_status">Delete</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="location-container">
+            <h2>Manage Locations</h2>
+            <form action="admin_manage.php" method="post">
+                <label for="name">Location Name:</label>
+                <input type="text" id="name" name="name">
+                <label for="room">Room:</label>
+                <input type="text" id="room" name="room">
+                <button type="submit" name="add_location">Add</button>
+            </form>
+
+            <h3>Location Name, Location Room</h3>
+            <ul>
+                <?php foreach ($locations as $location): ?>
+                    <li>
+                        <?php echo htmlspecialchars($location['name']) . " - Room: " . htmlspecialchars($location['room']); ?>
+                        <form action="admin_manage.php" method="post" style="display:inline;">
+                            <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
+                            <button type="submit" name="delete_location">Delete</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     </div>
+</div>
+
 </body>
 </html>
-?>
