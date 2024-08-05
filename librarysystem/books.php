@@ -285,7 +285,45 @@ include 'navbar.php';
                         </div>
                     </div>
                     <div class="reset">
+                        <div>
                             <button class="reset-button" type="button" id="resetFiltersButton">Reset Selections</button>
+                        </div> 
+                        <div>   
+                                <form action="export.php" method="get">
+                                    <input type="hidden" name="type" value="books">
+                                    <input type="hidden" name="format" value="pdf">
+                                    <input type="hidden" name="range" value="all">
+                                    <button type="submit">Export All Books to PDF</button>
+                                </form>
+                        </div>
+                        <div>
+                                <form action="export.php" method="get">
+                                    <input type="hidden" name="type" value="books">
+                                    <input type="hidden" name="format" value="excel">
+                                    <input type="hidden" name="range" value="all">
+                                    <button type="submit">Export All Books to Excel</button>
+                                </form>
+                        </div>        
+                        <div>
+                                <form action="export.php" method="get">
+                                    <input type="hidden" name="type" value="books">
+                                    <input type="hidden" name="format" value="pdf">
+                                    <input type="hidden" name="range" value="current">
+                                    <input type="hidden" name="offset" value="<?php echo $offset; ?>">
+                                    <input type="hidden" name="limit" value="<?php echo $booksPerPage; ?>">
+                                    <button type="submit">Export Current Page to PDF</button>
+                                </form>
+                        </div>        
+                        <div>
+                                <form action="export.php" method="get">
+                                    <input type="hidden" name="type" value="books">
+                                    <input type="hidden" name="format" value="excel">
+                                    <input type="hidden" name="range" value="current">
+                                    <input type="hidden" name="offset" value="<?php echo $offset; ?>">
+                                    <input type="hidden" name="limit" value="<?php echo $booksPerPage; ?>">
+                                    <button type="submit">Export Current Page to Excel</button>
+                                </form>
+                        </div> 
                     </div>
                 </div>
             </div>

@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <form method="post" class="login-form">
-            <label for="uname"><b>Username</b></label>
+            <label for="uname"><b>Email</b></label>
             <input type="email" name="email" id="email" value="<?= htmlspecialchars($_POST["email"] ?? "") ?>" required> 
              <label for="password"><b>Password</b></label>
              <input type="password" name="password" id="password" placeholder="Password" required>
